@@ -1,0 +1,36 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Crop image">
+            <div class="dialog__head">
+                <span class="dialog__title">Crop image</span>
+                <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+            </div>
+
+            <div class="ratios">
+                <template for:each={ratioOptions} for:item="r">
+                    <button key={r.value} type="button" class={r.cssClass} data-ratio={r.value} onclick={handleRatio}>{r.label}</button>
+                </template>
+            </div>
+
+            <div class="stage">
+                <div class="wrap">
+                    <img class="cropper__img" src={imageUrl} onload={handleImgLoad} alt="" draggable="false" />
+                    <template lwc:if={loaded}>
+                        <div class="crop" style={cropStyle} onpointerdown={startMove}>
+                            <span class="crop__handle" onpointerdown={startResize}></span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <template lwc:if={error}>
+                <p class="err">{error}</p>
+            </template>
+
+            <div class="foot">
+                <button type="button" class="btn btn_ghost" onclick={close} disabled={busy}>Cancel</button>
+                <button type="button" class="btn btn_primary" onclick={apply} disabled={applyDisabled}>{applyLabel}</button>
+            </div>
+        </div>
+    </div>
+</template>

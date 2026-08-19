@@ -1,0 +1,33 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Edit question">
+            <div class="dialog__head">
+                <span class="dialog__title">Edit question</span>
+                <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+            </div>
+            <div class="dialog__body">
+                <label class="field">
+                    <span class="field__label">Question</span>
+                    <input
+                        type="text"
+                        class="field__input"
+                        value={draftQuestion}
+                        oninput={handleQuestionInput}
+                    />
+                </label>
+                <label class="field">
+                    <span class="field__label">Answer</span>
+                    <textarea
+                        class="field__input field__textarea"
+                        rows="6"
+                        oninput={handleAnswerInput}
+                    >{draftAnswer}</textarea>
+                </label>
+            </div>
+            <div class="dialog__foot">
+                <button type="button" class="btn" onclick={close}>Cancel</button>
+                <button type="button" class="btn btn_primary" onclick={handleSave}>Save</button>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,55 @@
+<template>
+  <div class="fc">
+    <!-- Occupies the SCALED footprint so the page scrolls correctly; the
+         canvas inside keeps its true authoring size and is transformed. -->
+    <div class="fc__fit" style={fitStyle}>
+      <div
+        class="fc__canvas"
+        style={canvasStyle}
+        onpointerdown={handleCanvasDown}
+        onblockgrab={handleBlockGrab}
+        onblockmeasure={handleBlockMeasure}
+        oncontentchange={handleContentChange}
+      >
+        <template for:each={renderBlocks} for:item="b">
+          <c-block-frame
+            key={b.key}
+            data-block-id={b.key}
+            block={b.block}
+            frame={b.frame}
+            mode={mode}
+            selected={b.selected}
+            globals={globals}
+            nav-menu={navMenu}
+            site-id={siteId}
+          ></c-block-frame>
+        </template>
+
+        <template for:each={guideLines} for:item="g">
+          <div key={g.key} class="fc__guide" style={g.style}></div>
+        </template>
+
+        <template lwc:if={marquee}>
+          <div class="fc__marquee" style={marqueeStyle}></div>
+        </template>
+
+        <template lwc:if={showEmptyState}>
+          <div class="fc__empty">
+            <p class="fc__empty-title">Your canvas is empty.</p>
+            <p class="fc__empty-body">
+              Drag a section or an element from the palette, or start with a
+              layout.
+            </p>
+            <button
+              type="button"
+              class="fc__empty-btn"
+              onclick={handleAddFirst}
+            >
+              Open the palette
+            </button>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>

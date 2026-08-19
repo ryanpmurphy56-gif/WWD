@@ -1,0 +1,142 @@
+.dashboard {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.welcome-bar { margin-bottom: 30px; }
+.welcome-text { font-size: 26px; font-weight: 800; color: #1a1a2e; margin: 0 0 4px; }
+.welcome-sub  { color: #666; font-size: 15px; margin: 0; }
+
+/* ── Stats ── */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #e8e8e8;
+    text-align: center;
+}
+
+.stat-icon  { font-size: 22px; margin-bottom: 8px; }
+.stat-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 6px; font-weight: 600; }
+.stat-value { font-size: 22px; font-weight: 800; color: #1a1a2e; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.stat-sub   { font-size: 13px; color: #666; margin: 4px 0 0; }
+
+.status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot-active   { background: #16a34a; }
+.dot-inactive { background: #9ca3af; }
+
+/* ── Punch ── */
+.punch-section {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #e8e8e8;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.punch-hint { font-size: 14px; color: #666; margin: 0 0 16px; }
+
+.punch-btn {
+    width: 220px;
+    padding: 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+}
+
+.punch-in  { background: #16a34a; color: white; }
+.punch-in:hover  { background: #15803d; }
+.punch-out { background: #dc2626; color: white; }
+.punch-out:hover { background: #b91c1c; }
+
+.punched-in-info { margin-bottom: 16px; }
+.punched-label   { font-size: 14px; color: #16a34a; font-weight: 700; margin: 0 0 4px; }
+.punched-time    { font-size: 20px; font-weight: 800; color: #1a1a2e; margin: 0 0 16px; }
+
+.no-shift-state  { padding: 20px 0; }
+.no-shift-icon   { font-size: 36px; margin-bottom: 12px; }
+.no-shift-title  { font-size: 16px; font-weight: 700; color: #1a1a2e; margin: 0 0 6px; }
+.no-shift-sub    { font-size: 14px; color: #888; margin: 0; }
+
+/* ── Upcoming ── */
+.upcoming-section {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #e8e8e8;
+    margin-bottom: 24px;
+}
+
+.section-title { font-size: 16px; font-weight: 700; color: #1a1a2e; margin: 0 0 16px; }
+
+.upcoming-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.upcoming-card:last-child { border-bottom: none; }
+
+.upcoming-date-pill {
+    background: #ede9fe;
+    color: #4f46e5;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.upcoming-middle  { flex: 1; }
+.upcoming-time    { font-size: 14px; font-weight: 700; color: #1a1a2e; margin: 0 0 2px; }
+.upcoming-role    { font-size: 13px; color: #888; margin: 0; }
+
+.empty-upcoming { text-align: center; padding: 20px; color: #888; font-size: 14px; }
+
+/* ── Status badges ── */
+.status-badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+.status-scheduled   { background: #fef3c7; color: #92400e; }
+.status-in-progress { background: #d1fae5; color: #065f46; }
+.status-completed   { background: #e0e7ff; color: #3730a3; }
+.status-cancelled   { background: #fee2e2; color: #991b1b; }
+
+/* ── Notifications ── */
+.notifications {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #e8e8e8;
+}
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.note-icon { font-size: 18px; }
+.note-text { flex: 1; color: #333; }
+.note-time { font-size: 12px; color: #888; }

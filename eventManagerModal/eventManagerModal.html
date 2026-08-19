@@ -1,0 +1,96 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Manage events">
+            <template lwc:if={isEditing}>
+                <div class="dialog__head">
+                    <span class="dialog__title">{formTitle}</span>
+                    <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+                </div>
+                <div class="dialog__body">
+                    <template lwc:if={errorText}>
+                        <p class="dialog__error">{errorText}</p>
+                    </template>
+                    <div class="field">
+                        <label class="field__label">Title</label>
+                        <input class="field__input" type="text" value={draft.title} onchange={handleTitleChange} />
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Date &amp; time</label>
+                        <input class="field__input" type="datetime-local" value={eventDateLocal} onchange={handleEventDateChange} />
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Location</label>
+                        <input class="field__input" type="text" value={draft.location} onchange={handleLocationChange} />
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Image</label>
+                        <c-image-uploader
+                            site-id={siteId}
+                            image-url={draft.imageUrl}
+                            label="Upload image"
+                            onuploaded={handleImageUploaded}
+                            onremove={handleImageRemove}
+                        ></c-image-uploader>
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Description</label>
+                        <textarea class="field__input" rows="5" onchange={handleDescriptionChange}>{draft.description}</textarea>
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Registration link</label>
+                        <input class="field__input" type="text" placeholder="https://..." value={draft.registrationUrl} onchange={handleRegistrationUrlChange} />
+                        <p class="field__note">Opens in a new tab when a visitor clicks "Register".</p>
+                    </div>
+                    <div class="field field_row">
+                        <label class="field__check">
+                            <input type="checkbox" checked={draft.isActive} onchange={handleActiveChange} />
+                            Active (visible in the Events section)
+                        </label>
+                    </div>
+                </div>
+                <div class="dialog__foot">
+                    <button type="button" class="btn" onclick={handleCancelEdit}>Cancel</button>
+                    <button type="button" class="btn btn_primary" disabled={saveDisabled} onclick={handleSaveDraft}>{saveLabel}</button>
+                </div>
+            </template>
+
+            <template lwc:else>
+                <div class="dialog__head">
+                    <span class="dialog__title">Events</span>
+                    <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+                </div>
+                <div class="dialog__body">
+                    <template lwc:if={loading}>
+                        <p class="dialog__lead">Loading…</p>
+                    </template>
+                    <template lwc:elseif={errorText}>
+                        <p class="dialog__error">{errorText}</p>
+                    </template>
+                    <template lwc:elseif={hasEvents}>
+                        <ul class="posts">
+                            <template for:each={events} for:item="e">
+                                <li key={e.id} class="post">
+                                    <div class="post__info">
+                                        <span class="post__title">{e.title}</span>
+                                        <span class="post__status">{e.statusLabel}</span>
+                                    </div>
+                                    <div class="post__actions">
+                                        <button type="button" class="btn" data-id={e.id} onclick={handleEditEvent}>Edit</button>
+                                        <button type="button" class="btn btn_danger" data-id={e.id} onclick={handleDeleteEvent}>Delete</button>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                    <template lwc:else>
+                        <p class="dialog__lead">No events yet.</p>
+                    </template>
+                </div>
+                <div class="dialog__foot">
+                    <button type="button" class="btn" onclick={close}>Close</button>
+                    <button type="button" class="btn btn_primary" onclick={handleNewEvent}>+ New event</button>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

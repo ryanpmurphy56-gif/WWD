@@ -1,0 +1,88 @@
+<template>
+    <footer class="footer">
+        <div class="footer-inner">
+
+            <div class="footer-col footer-brand">
+                <img src={logoUrl} alt="Point &amp; Pour" class="footer-logo" onerror={handleLogoError}/>
+                <p class="footer-tagline">Your local liquor specialists.<br/>Member pricing on hundreds of products.</p>
+                <div class="rsa-badge">
+                    <span class="rsa-icon">🍺</span>
+                    <span>Responsible Service of Alcohol</span>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Visit Us</h4>
+                <ul class="footer-list">
+                    <li class="address-line">📍 123 Main Street, Melbourne VIC 3000</li>
+                    <li class="address-line">📞 (03) 9000 0000</li>
+                    <li class="address-line">✉️ hello@pointnpour.com.au</li>
+                </ul>
+                <h4 class="footer-heading" style="margin-top: 20px;">Opening Hours</h4>
+                <ul class="footer-list hours-list">
+                    <li><span class="day">Mon – Thu</span><span class="time">9:00am – 9:00pm</span></li>
+                    <li><span class="day">Friday</span><span class="time">9:00am – 10:00pm</span></li>
+                    <li><span class="day">Saturday</span><span class="time">9:00am – 10:00pm</span></li>
+                    <li><span class="day">Sunday</span><span class="time">10:00am – 8:00pm</span></li>
+                    <li><span class="day">Public Holidays</span><span class="time">10:00am – 6:00pm</span></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Shop</h4>
+                <ul class="footer-list">
+                    <li><button class="footer-link" onclick={handleNav} data-url="/beer">Beer</button></li>
+                    <li><button class="footer-link" onclick={handleNav} data-url="/wine">Wine</button></li>
+                    <li><button class="footer-link" onclick={handleNav} data-url="/spirits">Spirits</button></li>
+                    <li><button class="footer-link" onclick={handleNav} data-url="/rtd">RTD</button></li>
+                    <li><button class="footer-link" onclick={handleNav} data-url="/offers">Offers</button></li>
+                </ul>
+                <h4 class="footer-heading" style="margin-top: 20px;">Account</h4>
+                <ul class="footer-list">
+                    <li><button class="footer-link" onclick={handleNav} data-url="/login">Sign In / Register</button></li>
+                    <li><button class="footer-link" onclick={handleGuestGated} data-url="/profile">My Profile</button></li>
+                    <li><button class="footer-link" onclick={handleNav} data-url="/cart">My Cart</button></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Legal &amp; Compliance</h4>
+                <ul class="footer-list">
+                    <li><button class="footer-link" onclick={handleNav} data-url="/about">About Us</button></li>
+                    <li><button class="footer-link" onclick={handleNav} data-url="/privacy">Privacy Policy</button></li>
+                    <li><button class="footer-link" onclick={handleNav} data-url="/terms">Terms of Use</button></li>
+                </ul>
+                <div class="licence-box">
+                    <p class="licence-label">Liquor Licence</p>
+                    <p class="licence-number">Licence No: 36XXXXXXX</p>
+                    <p class="licence-type">Packaged Liquor Licence</p>
+                    <a href="https://www.vcglr.vic.gov.au"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="regulator-link">Victorian Commission for Gambling &amp; Liquor Regulation ↗</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-legal-bar">
+            <div class="legal-bar-inner">
+                <p class="legal-text">
+                    <strong>⚠️ Liquor Act 1992 (Vic)</strong> — It is against the law to sell or supply alcohol to, or to obtain alcohol on behalf of, a person under the age of 18 years.
+                </p>
+                <p class="legal-text">
+                    Drink responsibly. For information about responsible drinking visit
+                    <a href="https://www.drinkwise.org.au" target="_blank" rel="noopener noreferrer" class="legal-link">DrinkWise Australia</a>.
+                    If you or someone you know has a problem with alcohol, call the
+                    <a href="https://www.health.vic.gov.au/alcohol-and-drugs/alcohol-and-drug-counselling-online-and-telephone" target="_blank" rel="noopener noreferrer" class="legal-link">Alcohol and Drug Foundation Helpline: 1300 858 584</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© {currentYear} Point &amp; Pour. All rights reserved. ABN: XX XXX XXX XXX</p>
+            <p class="under18">🔞 Under 18? <a href="https://www.google.com" class="legal-link">Exit site</a></p>
+        </div>
+
+    </footer>
+</template>

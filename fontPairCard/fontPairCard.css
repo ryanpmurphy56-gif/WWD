@@ -1,0 +1,42 @@
+.card {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+}
+.card:hover {
+    border-color: #d1d5db;
+}
+.card_on {
+    border-color: #ff5b04;
+    box-shadow: 0 0 0 1px #ff5b04;
+}
+.card__ag {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #111827;
+    width: 2rem;
+    text-align: center;
+}
+.card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+.card__label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #111827;
+}
+.card__body {
+    font-size: 0.76rem;
+    color: #6b7280;
+}

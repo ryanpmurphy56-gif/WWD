@@ -1,0 +1,30 @@
+.focal {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: crosshair;
+    line-height: 0;
+}
+.focal__img {
+    width: 100%;
+    display: block;
+}
+.focal__dot {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: #ff5b04;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+.focal__hint {
+    margin: 0.4rem 0 0;
+    font-size: 0.72rem;
+    color: #6b7280;
+    line-height: 1.4;
+}

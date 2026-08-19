@@ -1,0 +1,113 @@
+<template>
+    <div class="manager-wrap">
+
+        <!-- Header -->
+        <div class="manager-header">
+            <h2 class="page-title">Manager Portal</h2>
+            <p class="page-sub">Manage shifts, approve time off, and oversee your team.</p>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="manager-tabs">
+            <button class={tabShiftsClass} data-tab="shifts" onclick={handleTab}>Shift Management</button>
+            <button class={tabTimeOffClass} data-tab="timeoff" onclick={handleTab}>Time Off Approvals</button>
+        </div>
+
+        <!-- ── Shift Management Panel ── -->
+        <template if:true={isShifts}>
+
+            <!-- Create Shift Form -->
+            <div class="panel">
+                <h3 class="panel-title">Create New Shift</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Employee</label>
+                        <select class="form-input" data-field="employeeId" onchange={handleInput}>
+                            <option value="">-- Select Employee --</option>
+                            <template for:each={employees} for:item="emp">
+                                <option key={emp.Id} value={emp.Id}>{emp.Name}</option>
+                            </template>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select class="form-input" data-field="role" onchange={handleInput}>
+                            <option value="">-- Select Role --</option>
+                            <option value="Bartender">Bartender</option>
+                            <option value="Floor Staff">Floor Staff</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Kitchen">Kitchen</option>
+                            <option value="Driver">Driver</option>
+                            <option value="Stocker">Stocker</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Time</label>
+                        <input type="datetime-local" class="form-input"
+                               data-field="startTime" onchange={handleInput}/>
+                    </div>
+                    <div class="form-group">
+                        <label>End Time</label>
+                        <input type="datetime-local" class="form-input"
+                               data-field="endTime" onchange={handleInput}/>
+                    </div>
+                </div>
+                <button class="create-btn" onclick={handleCreateShift}>+ Create Shift</button>
+            </div>
+
+            <!-- Shift List -->
+            <div class="panel" style="margin-top: 20px;">
+                <div class="panel-title-row">
+                    <h3 class="panel-title">Upcoming Shifts</h3>
+                    <span class="shift-count">{shiftCount} shifts</span>
+                </div>
+
+                <template if:true={isShiftsLoading}>
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading shifts...</p>
+                    </div>
+                </template>
+
+                <template if:false={isShiftsLoading}>
+                    <template if:true={hasShifts}>
+                        <div class="shift-table">
+                            <div class="table-header">
+                                <span>Employee</span>
+                                <span>Role</span>
+                                <span>Date</span>
+                                <span>Time</span>
+                                <span>Status</span>
+                                <span></span>
+                            </div>
+                            <template for:each={upcomingShifts} for:item="shift">
+                                <div key={shift.Id} class="table-row">
+                                    <span class="td-name">{shift.Staff_Member__r.Name}</span>
+                                    <span>{shift.Role__c}</span>
+                                    <span>{shift._dateFormatted}</span>
+                                    <span>{shift._startTime} – {shift._endTime}</span>
+                                    <span class={shift._statusClass}>{shift.Status__c}</span>
+                                    <button class="delete-btn"
+                                            data-id={shift.Id}
+                                            onclick={handleDeleteShift}>✕</button>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={hasShifts}>
+                        <div class="empty-state">No upcoming shifts found.</div>
+                    </template>
+                </template>
+            </div>
+
+        </template>
+
+        <!-- ── Time Off Approvals Panel ── -->
+        <template if:true={isTimeOff}>
+            <div class="panel">
+                <p class="coming-soon">🔧 Time off approvals coming soon.</p>
+            </div>
+        </template>
+
+    </div>
+</template>

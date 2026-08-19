@@ -1,0 +1,62 @@
+<template>
+    <div class="shifts-container">
+        <div class="view-toggle">
+            <button class="toggle-btn" data-view="list" onclick={handleViewToggle}>List View</button>
+            <button class="toggle-btn" data-view="calendar" onclick={handleViewToggle}>Calendar View</button>
+        </div>
+
+        <template if:true={isListView}>
+            <div class="shifts-list">
+                <template if:true={hasShifts}>
+                    <template for:each={shifts} for:item="shift">
+                        <div key={shift.Id} class="shift-card">
+                            <div class="shift-date-block">
+                                <span class="shift-day">{shift._dayOfWeek}</span>
+                                <span class="shift-date">{shift._dateFormatted}</span>
+                            </div>
+                            <div class="shift-info">
+                                <p class="shift-time">{shift._startTime} — {shift._endTime}</p>
+                                <p class="shift-role">{shift.Role__c}</p>
+                            </div>
+                            <div class="shift-hours">
+                                <span class="hours-badge">{shift.Shift_Duration_Hours__c}h</span>
+                            </div>
+                            <div class="shift-status">
+                                <span class={shift._statusClass}>{shift.Status__c}</span>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <template if:false={hasShifts}>
+                    <div class="empty-state">No shifts found.</div>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={isCalendarView}>
+            <div class="calendar-grid">
+                <div class="cal-header">
+                    <button onclick={prevWeek}>◀</button>
+                    <span class="cal-title">{calendarTitle}</span>
+                    <button onclick={nextWeek}>▶</button>
+                </div>
+                <div class="cal-days">
+                    <template for:each={calendarDays} for:item="day">
+                        <div key={day.label} class="cal-day">
+                            <div class="cal-day-header">
+                                <span class="cal-day-name">{day.dayName}</span>
+                                <span class="cal-day-num">{day.dayNum}</span>
+                            </div>
+                            <template for:each={day.shifts} for:item="shift">
+                                <div key={shift.Id} class="cal-shift-pill">
+                                    <span>{shift._startTime}</span>
+                                    <span>{shift.Role__c}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

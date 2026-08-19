@@ -1,0 +1,132 @@
+<template>
+    <div class="schedule-wrap">
+
+        <!-- ── Toolbar ── -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <h2 class="page-title">Team Roster</h2>
+                <span class="week-range">{weekRangeLabel}</span>
+            </div>
+            <div class="toolbar-right">
+                <button class="nav-btn" onclick={prevWeek}>&#8249;</button>
+                <button class="today-btn" onclick={goToToday}>Today</button>
+                <button class="nav-btn" onclick={nextWeek}>&#8250;</button>
+            </div>
+        </div>
+
+        <!-- ── Legend ── -->
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-dot dot-scheduled"></span> Scheduled
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot dot-in-progress"></span> In Progress
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot dot-completed"></span> Completed
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot dot-cancelled"></span> Cancelled
+            </div>
+        </div>
+
+        <!-- ── Loading ── -->
+        <template if:true={isLoading}>
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading roster...</p>
+            </div>
+        </template>
+
+        <!-- ── Calendar Grid ── -->
+        <template if:false={isLoading}>
+            <div class="cal-outer">
+
+                <!-- Header Row -->
+                <div class="cal-header-row">
+                    <div class="corner-cell">
+                        <span class="corner-label">Employee</span>
+                    </div>
+                    <template for:each={weekDays} for:item="day">
+                        <div key={day.iso} class={day.headerClass}>
+                            <span class="day-name">{day.dayName}</span>
+                            <span class="day-num">{day.dayNum}</span>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Employee Rows -->
+                <template if:true={hasRows}>
+                    <template for:each={rosterRows} for:item="row">
+                        <div key={row.employeeId} class="employee-row">
+
+                            <div class="employee-cell">
+                                <img class="emp-avatar" src={row.photoUrl} alt={row.name} />
+                                <div>
+                                    <div class="emp-name">{row.name}</div>
+                                    <div class="emp-title">{row.title}</div>
+                                </div>
+                            </div>
+
+                            <template for:each={row.days} for:item="daycell">
+                                <div key={daycell.iso} class={daycell.cellClass}>
+                                    <template for:each={daycell.shifts} for:item="shift">
+                                        <div key={shift.Id}
+                                             class={shift._pillClass}
+                                             data-id={shift.Id}
+                                             onclick={handleShiftClick}>
+                                            <span class="pill-time">{shift._startTime} – {shift._endTime}</span>
+                                            <span class="pill-role">{shift.Role__c}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+
+                        </div>
+                    </template>
+                </template>
+
+                <!-- Empty State -->
+                <template if:false={hasRows}>
+                    <div class="empty-state">No employees found.</div>
+                </template>
+
+            </div>
+        </template>
+
+        <!-- ── Shift Detail Popover ── -->
+        <template if:true={selectedShift}>
+            <div class="popover-overlay" onclick={closePopover}>
+                <div class="popover" onclick={stopPropagation}>
+                    <button class="popover-close" onclick={closePopover}>✕</button>
+                    <h3 class="popover-title">Shift Details</h3>
+                    <div class="popover-row">
+                        <span class="popover-label">Employee</span>
+                        <span>{selectedShift.Staff_Member__r.Name}</span>
+                    </div>
+                    <div class="popover-row">
+                        <span class="popover-label">Role</span>
+                        <span>{selectedShift.Role__c}</span>
+                    </div>
+                    <div class="popover-row">
+                        <span class="popover-label">Date</span>
+                        <span>{selectedShift._fullDate}</span>
+                    </div>
+                    <div class="popover-row">
+                        <span class="popover-label">Time</span>
+                        <span>{selectedShift._startTime} – {selectedShift._endTime}</span>
+                    </div>
+                    <div class="popover-row">
+                        <span class="popover-label">Duration</span>
+                        <span>{selectedShift.Shift_Duration_Hours__c}h</span>
+                    </div>
+                    <div class="popover-row">
+                        <span class="popover-label">Status</span>
+                        <span>{selectedShift.Status__c}</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </div>
+</template>

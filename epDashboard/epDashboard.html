@@ -1,0 +1,100 @@
+<template>
+    <div class="dashboard">
+
+        <!-- Welcome -->
+        <div class="welcome-bar">
+            <h1 class="welcome-text">Good {timeOfDay}, {userName} 👋</h1>
+            <p class="welcome-sub">Here's your overview for today.</p>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">⏱</div>
+                <p class="stat-label">Hours This Week</p>
+                <p class="stat-value">{hoursThisWeek}h</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <p class="stat-label">Next Shift</p>
+                <p class="stat-value">{nextShiftDate}</p>
+                <p class="stat-sub">{nextShiftTime}</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">{statusIcon}</div>
+                <p class="stat-label">Status</p>
+                <p class="stat-value">
+                    <span class={statusDotClass}></span>
+                    {currentStatus}
+                </p>
+            </div>
+        </div>
+
+        <!-- Punch Section -->
+        <div class="punch-section">
+            <template if:false={isPunchedIn}>
+                <template if:true={hasScheduledShift}>
+                    <p class="punch-hint">You have a shift today — ready to clock in?</p>
+                    <button class="punch-btn punch-in" onclick={handlePunchIn}>
+                        ⏱ PUNCH IN
+                    </button>
+                </template>
+                <template if:false={hasScheduledShift}>
+                    <div class="no-shift-state">
+                        <div class="no-shift-icon">📆</div>
+                        <p class="no-shift-title">You have no shifts scheduled today</p>
+                        <p class="no-shift-sub">Enjoy your time off!</p>
+                    </div>
+                </template>
+            </template>
+            <template if:true={isPunchedIn}>
+                <div class="punched-in-info">
+                    <p class="punched-label">✅ Currently Clocked In</p>
+                    <p class="punched-time">Since {punchInTime}</p>
+                </div>
+                <button class="punch-btn punch-out" onclick={handlePunchOut}>
+                    ⏹ PUNCH OUT
+                </button>
+            </template>
+        </div>
+
+        <!-- Upcoming Shifts -->
+        <div class="upcoming-section">
+            <h3 class="section-title">📋 Upcoming Schedule</h3>
+            <template if:true={hasUpcomingShifts}>
+                <div class="upcoming-list">
+                    <template for:each={upcomingShifts} for:item="shift">
+                        <div key={shift.Id} class="upcoming-card">
+                            <div class="upcoming-date-pill">{shift._datePill}</div>
+                            <div class="upcoming-middle">
+                                <p class="upcoming-time">{shift._startTime} – {shift._endTime}</p>
+                                <p class="upcoming-role">⊙ {shift.Role__c}</p>
+                            </div>
+                            <span class={shift._statusClass}>{shift.Status__c}</span>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template if:false={hasUpcomingShifts}>
+                <div class="empty-upcoming">
+                    <p>No upcoming shifts scheduled.</p>
+                </div>
+            </template>
+        </div>
+
+        <!-- Notifications -->
+        <template if:true={hasNotifications}>
+            <div class="notifications">
+                <h3 class="section-title">🔔 Notifications</h3>
+                <template for:each={notifications} for:item="note">
+                    <div key={note.id} class="notification-item">
+                        <span class="note-icon">{note.icon}</span>
+                        <span class="note-text">{note.message}</span>
+                        <span class="note-time">{note.time}</span>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+    </div>
+</template>

@@ -1,0 +1,71 @@
+.ep-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1a1a2e;
+    color: white;
+    padding: 0 30px;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.portal-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #a78bfa;
+}
+
+.header-nav {
+    display: flex;
+    gap: 4px;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    width: auto;
+}
+
+.nav-btn:hover {
+    background: rgba(167,139,250,0.15);
+    color: white;
+}
+
+.manager-btn {
+    color: #a78bfa;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid #a78bfa;
+}
+
+.user-name {
+    font-size: 14px;
+    color: #ccc;
+}
+
+.nav-btn.active {
+    background: rgba(167,139,250,0.2);
+    color: white;
+    border-bottom: 2px solid #a78bfa;
+}

@@ -1,0 +1,368 @@
+/* ── Container ─────────────────────────────────────────── */
+.schedule-wrap {
+    padding: 24px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Toolbar ────────────────────────────────────────────── */
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0;
+}
+
+.week-range {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn {
+    background: #1a1a2e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+
+.nav-btn:hover { background: #2d2d4e; }
+
+.today-btn {
+    background: #f4f5f7;
+    color: #1a1a2e;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0 14px;
+    height: 34px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    width: auto;
+}
+
+.today-btn:hover { background: #e8e8ee; }
+
+/* ── Legend ─────────────────────────────────────────────── */
+.legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #555;
+    font-weight: 600;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.dot-scheduled   { background: #4f46e5; }
+.dot-in-progress { background: #16a34a; }
+.dot-completed   { background: #6b7280; }
+.dot-cancelled   { background: #dc2626; }
+
+/* ── Calendar Grid ──────────────────────────────────────── */
+.cal-outer {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e0e0e8;
+    overflow: hidden;
+}
+
+/* Header row: empty corner + 7 day headers */
+.cal-header-row {
+    display: grid;
+    grid-template-columns: 180px repeat(7, 1fr);
+    background: #1a1a2e;
+    border-bottom: 2px solid #2d2d4e;
+}
+
+.corner-cell {
+    padding: 12px 16px;
+    border-right: 1px solid #2d2d4e;
+    display: flex;
+    align-items: center;
+}
+
+.corner-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.day-header {
+    padding: 12px 8px;
+    text-align: center;
+    border-right: 1px solid #2d2d4e;
+}
+
+.day-header:last-child { border-right: none; }
+
+.day-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #a78bfa;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.day-num {
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    display: block;
+    line-height: 1;
+}
+
+.day-header.today .day-num {
+    color: #a78bfa;
+}
+
+.day-header.today .day-name {
+    color: white;
+}
+
+/* Employee rows */
+.employee-row {
+    display: grid;
+    grid-template-columns: 180px repeat(7, 1fr);
+    border-bottom: 1px solid #f0f0f5;
+    min-height: 64px;
+}
+
+.employee-row:last-child { border-bottom: none; }
+
+.employee-row:hover { background: #fafafa; }
+
+.employee-cell {
+    padding: 10px 14px;
+    border-right: 1px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fafafa;
+}
+
+.emp-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e8;
+    flex-shrink: 0;
+    background: #e0e0e8;
+    object-fit: cover;
+}
+
+.emp-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a2e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.emp-title {
+    font-size: 11px;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Day cells within employee rows */
+.day-cell {
+    padding: 6px;
+    border-right: 1px solid #eeeeee;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 64px;
+}
+
+.day-cell:last-child { border-right: none; }
+
+.day-cell.today-col {
+    background: #f5f3ff;
+}
+
+/* Shift pills inside day cells */
+.shift-pill {
+    background: #4f46e5;
+    color: white;
+    border-radius: 5px;
+    padding: 4px 7px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    line-height: 1.3;
+    border-left: 3px solid rgba(0,0,0,0.2);
+}
+
+.shift-pill:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+.shift-pill.status-in-progress {
+    background: #16a34a;
+}
+
+.shift-pill.status-completed {
+    background: #6b7280;
+}
+
+.shift-pill.status-cancelled {
+    background: #dc2626;
+    opacity: 0.7;
+    text-decoration: line-through;
+}
+
+.pill-time {
+    display: block;
+    font-size: 10px;
+    opacity: 0.85;
+    font-weight: 500;
+}
+
+.pill-role {
+    display: block;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Empty row message */
+.no-shifts-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: 2 / 9;
+    color: #ccc;
+    font-size: 12px;
+    font-style: italic;
+    padding: 8px;
+}
+
+/* ── Loading / Empty States ─────────────────────────────── */
+.loading-state, .empty-state {
+    text-align: center;
+    padding: 60px;
+    color: #888;
+    font-size: 15px;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid #e0e0e8;
+    border-top-color: #4f46e5;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-bottom: 12px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Shift Detail Popover ───────────────────────────────── */
+.popover-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popover {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    min-width: 300px;
+    max-width: 380px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    position: relative;
+}
+
+.popover-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #888;
+    cursor: pointer;
+    width: auto;
+    padding: 4px 8px;
+}
+
+.popover-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0 0 16px;
+}
+
+.popover-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f0;
+    color: #444;
+}
+
+.popover-row:last-child { border-bottom: none; }
+
+.popover-label { color: #888; font-weight: 600; }

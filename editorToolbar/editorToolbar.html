@@ -1,0 +1,33 @@
+<template>
+  <header class="bar">
+    <div class="bar__group bar__group_left">
+      <button type="button" class="bar__logo" title="Back to home" onclick={handleLogoClick}>W</button>
+      <span class="bar__site" title={siteName}>{siteName}</span>
+    </div>
+
+    <div class="bar__group bar__group_center">
+      <select class="tool-select" aria-label="Device preview" onchange={handleDevice}>
+        <template for:each={devices} for:item="d">
+          <option key={d.name} value={d.name} selected={d.selected}>{d.label}</option>
+        </template>
+      </select>
+      <div class="tools" role="toolbar" aria-label="Zoom">
+        <button type="button" class="tool" title="Zoom out" disabled={zoomOutDisabled} onclick={handleZoomOut}>−</button>
+        <button type="button" class="tool tool_zoom" title="Reset zoom to 100%" onclick={handleZoomReset}>{zoomLabel}</button>
+        <button type="button" class="tool" title="Zoom in" disabled={zoomInDisabled} onclick={handleZoomIn}>+</button>
+      </div>
+    </div>
+
+    <div class="bar__group bar__group_right">
+      <span class="bar__status">{statusText}</span>
+      <button type="button" class="btn" disabled={undoDisabled} onclick={handleUndo} title="Undo">↶</button>
+      <button type="button" class="btn" disabled={redoDisabled} onclick={handleRedo} title="Redo">↷</button>
+      <button type="button" class="btn btn_ghost" onclick={toggleMode}>{modeButtonLabel}</button>
+      <button type="button" class="btn" onclick={handleFullscreen} title={fullscreenTitle}>{fullscreenIcon}</button>
+      <button type="button" class="btn btn_human" onclick={handleRequestHuman}>Request a human</button>
+      <button type="button" class="btn btn_primary" disabled={saveDisabled} onclick={handleSave}>{saveLabel}</button>
+      <span class="bar__publish-status" title={publishStatusLabel}>{publishStatusLabel}</span>
+      <button type="button" class="btn btn_publish" disabled={publishDisabled} onclick={handleSubmitForReview}>{publishLabel}</button>
+    </div>
+  </header>
+</template>

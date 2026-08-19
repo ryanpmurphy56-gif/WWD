@@ -1,0 +1,15 @@
+<template>
+    <div class="ep">
+        <div class="ep__head">Element Panel</div>
+        <ul class="ep__list">
+            <template for:each={kinds} for:item="k">
+                <li key={k.kind}>
+                    <button type="button" class="ep__item" data-kind={k.kind} onclick={handlePick}>
+                        <span class="ep__icon">{k.thumb}</span>
+                        <span class="ep__label">{k.label}</span>
+                    </button>
+                </li>
+            </template>
+        </ul>
+    </div>
+</template>

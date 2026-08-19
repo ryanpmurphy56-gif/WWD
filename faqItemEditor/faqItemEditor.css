@@ -1,0 +1,111 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 10, 0.55);
+    padding: 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.dialog {
+    width: 50vw;
+    height: 50vh;
+    min-width: 360px;
+    min-height: 320px;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+.dialog__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid #eef0f2;
+}
+.dialog__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #111827;
+}
+.dialog__close {
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 6px;
+}
+.dialog__close:hover {
+    background: #f3f4f6;
+}
+
+.dialog__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.2rem;
+    overflow-y: auto;
+}
+
+.field { margin-bottom: 0.9rem; }
+.field:last-child { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; margin-bottom: 0; }
+.field__label { display: block; font-size: 0.76rem; font-weight: 600; color: #374151; margin-bottom: 0.3rem; }
+.field__input {
+    width: 100%;
+    box-sizing: border-box;
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    color: #111827;
+}
+.field__input:focus {
+    outline: none;
+    border-color: #ff5b04;
+    box-shadow: 0 0 0 2px rgba(255, 91, 4, 0.15);
+}
+.field__textarea {
+    flex: 1 1 auto;
+    min-height: 0;
+    resize: vertical;
+}
+
+.dialog__foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.9rem 1.2rem;
+    border-top: 1px solid #eef0f2;
+}
+
+.btn {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #111827;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.86rem;
+    cursor: pointer;
+}
+.btn:hover { background: #f3f4f6; }
+.btn_primary {
+    background: #ff5b04;
+    border-color: #ff5b04;
+    color: #fff;
+    font-weight: 600;
+}
+.btn_primary:hover { background: #e85200; }

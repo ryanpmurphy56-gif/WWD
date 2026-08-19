@@ -1,0 +1,89 @@
+.fc {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: #f1f3f6;
+}
+
+/*
+ * Holds the SCALED footprint of the canvas. A CSS transform doesn't affect
+ * layout, so without this wrapper the page would reserve the full 1440px for
+ * something drawn at 900 and scroll wrongly.
+ */
+.fc__fit {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+/*
+ * The canvas is laid out at its full authoring width (1440/768/375) and then
+ * scaled down to fit. Every stored coordinate is in THESE pixels, never screen
+ * pixels — freeCanvas._scale() converts between the two by measuring the live
+ * rect, so it stays correct under both this fit scale and the zoom control.
+ */
+.fc__canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: var(--ws-surface, #ffffff);
+  overflow: hidden;
+}
+
+.fc__guide {
+  position: absolute;
+  background: #ff2d95;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.fc__marquee {
+  position: absolute;
+  border: 1px solid #ff5b04;
+  background: rgba(255, 91, 4, 0.08);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.fc__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  color: #6b7280;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  pointer-events: none;
+}
+.fc__empty-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #374151;
+}
+.fc__empty-body {
+  margin: 0;
+  font-size: 0.88rem;
+  max-width: 34ch;
+}
+.fc__empty-btn {
+  margin-top: 0.6rem;
+  pointer-events: auto;
+  border: 1px solid #ff5b04;
+  background: #ff5b04;
+  color: #fff;
+  font:
+    600 0.85rem/1 system-ui,
+    sans-serif;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.fc__empty-btn:hover {
+  background: #e85200;
+}

@@ -1,0 +1,219 @@
+:host {
+    --header-bg: #4c1d95; /* Match your deep purple logo */
+    --accent: #a78bfa;    /* Point & Pour Purple */
+}
+
+.header-container {
+    background-color: var(--header-bg);
+    color: white;
+    padding: 10px 5%;
+}
+
+/* TOP RIGHT UTILITY */
+.utility-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-bottom: 5px;
+}
+
+.utility-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* MAIN MIDDLE HEADER */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex: 1; /* Takes up left side */
+}
+
+.logo-img {
+    height: 200px;
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-text {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: white;
+    white-space: nowrap;
+}
+
+.search-box {
+    display: flex;
+    flex: 2; /* Takes middle space */
+    max-width: 600px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px 0 0 4px;
+    border: none;
+    outline: none;
+    color: #333;
+    background-color: #ffffff;
+}
+
+.search-btn {
+    background: var(--accent);
+    border: none;
+    padding: 0 15px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+.header-spacer {
+    flex: 1; /* Balance the left brand section to keep search centered */
+}
+
+/* HORIZONTAL NAVIGATION */
+.nav-menu {
+    border-top: 1px solid #2d0b5a;
+    margin-top: 10px;
+}
+
+.nav-list {
+    display: flex; /* THIS MAKES IT HORIZONTAL */
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    position: relative;
+    padding: 15px 25px;
+}
+
+.nav-link {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.cart-badge {
+    background-color: #ff4444; /* Bright red */
+    color: white;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 5px;
+    position: relative;
+    top: -2px;
+}
+
+/* DROPDOWN LOGIC */
+.dropdown {
+    display: none; 
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+    z-index: 1000;
+    padding: 10px 0;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Hover over nav-item shows the dropdown */
+.nav-item:hover .dropdown {
+    display: block;
+}
+
+.dropdown li {
+    list-style: none;
+}
+
+.dropdown button {
+    width: 100%;
+    text-align: left;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    color: #120129;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.dropdown button:hover {
+    background: #f0f0f0;
+    color: var(--accent);
+}
+
+/* MEGA MENU (Wine) */
+.mega-menu {
+    width: 400px;
+}
+
+.nav-item:hover .mega-menu {
+    display: flex; /* Use flex for side-by-side columns */
+    gap: 20px;
+    padding: 20px;
+}
+
+.menu-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.col-title {
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #eee;
+}
+.logo-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.logo-btn:hover { opacity: 0.85; }
+.logo-btn:focus { outline: none; box-shadow: none; }
+.logo-btn:active { background: none; }
+.logo-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+}
+
+.logo-btn:hover { opacity: 0.85; }

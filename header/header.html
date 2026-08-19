@@ -1,0 +1,67 @@
+<template>
+    <div class="header-container">
+        <div class="utility-bar">
+            <template if:true={isLoggedIn}>
+                <button class="utility-btn" onclick={handleShowMemberCard}>Membership Card</button>
+            </template>
+            <template if:false={isLoggedIn}>
+                <button class="utility-btn" onclick={handleLogin}>Login</button>
+            </template>
+            <button class="utility-btn cart-utility-btn" onclick={handleViewCart}>
+                🛒 {cartLabel}
+                <template if:true={cartBadgeVisible}>
+                    <span class="cart-badge">{cartItemsCount}</span>
+                </template>
+            </button>
+        </div>
+
+        <div class="main-header">
+            <div class="brand">
+                <button class="logo-btn" onclick={handleLogoClick}>
+                    <img src={logoUrl}
+                         alt="Point and Pour"
+                         class="logo-img"
+                         onerror={handleLogoError}/>
+                    <span class="brand-text">POINT &amp; POUR</span>
+                </button>
+            </div>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    lwc:ref="searchInput"
+                    placeholder="Search products, brands or phrases..."
+                    class="search-input"
+                    onkeyup={handleSearchKeyUp}
+                />
+                <button class="search-btn" onclick={handleSearchSubmit}>🔍</button>
+            </div>
+
+            <div class="header-spacer"></div>
+        </div>
+
+        <nav class="nav-menu">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <button class="nav-link" data-page="Beer__c" onclick={handleFamilyChange}>Beer</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-page="Wine__c" onclick={handleFamilyChange}>Wines</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-page="Spirit__c" onclick={handleFamilyChange}>Spirits</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-page="RTD__c" onclick={handleFamilyChange}>RTD</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-page="Offers__c" onclick={handleFamilyChange}>Offers</button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <template if:true={isModalOpen}>
+        <c-membership-modal onclose={closeModal}></c-membership-modal>
+    </template>
+</template>

@@ -1,0 +1,28 @@
+<template>
+    <div class="portal-wrapper">
+        <c-ep-header active-tab={activeTab} onnavigate={handleNavigate}></c-ep-header>
+        <div class="portal-content">
+
+            <template if:true={isDashboard}>
+                <c-ep-dashboard></c-ep-dashboard>
+            </template>
+
+            <template if:true={isShifts}>
+                <c-ep-my-shifts></c-ep-my-shifts>
+            </template>
+
+            <template if:true={isSchedule}>
+                <c-ep-schedule></c-ep-schedule>
+            </template>
+
+            <template if:true={isTimeOff}>
+                <c-ep-time-off></c-ep-time-off>
+            </template>
+
+            <template if:true={isManager}>
+                <c-ep-manager></c-ep-manager>
+            </template>
+
+        </div>
+    </div>
+</template>

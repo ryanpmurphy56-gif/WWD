@@ -1,0 +1,158 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: rgba(10, 10, 10, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+.dialog {
+    width: min(560px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    padding: 1rem 1.1rem 1.1rem;
+}
+.dialog__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.7rem;
+}
+.dialog__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111827;
+}
+.dialog__close {
+    border: none;
+    background: none;
+    font-size: 0.95rem;
+    color: #6b7280;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.ratios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.8rem;
+}
+.ratio {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    cursor: pointer;
+}
+.ratio_on {
+    border-color: #ff5b04;
+    background: #ff5b04;
+    color: #fff;
+}
+
+.stage {
+    text-align: center;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 0.8rem;
+}
+/* Sizes to the image so the crop overlay's percentages map straight onto it. */
+.wrap {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+    max-width: 100%;
+    touch-action: none;
+}
+.cropper__img {
+    display: block;
+    max-width: 100%;
+    max-height: 58vh;
+    width: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.crop {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1.5px solid #fff;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    cursor: move;
+    touch-action: none;
+}
+/* Rule-of-thirds guides */
+.crop::before,
+.crop::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.crop::before {
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    border-right: 1px solid rgba(255, 255, 255, 0.4);
+    left: 33.33%;
+    right: 33.33%;
+}
+.crop::after {
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    top: 33.33%;
+    bottom: 33.33%;
+}
+.crop__handle {
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ff5b04;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+    cursor: nwse-resize;
+    touch-action: none;
+}
+
+.err {
+    margin: 0.7rem 0 0;
+    color: #dc2626;
+    font-size: 0.8rem;
+}
+
+.foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+}
+.btn {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+.btn_primary {
+    border-color: #ff5b04;
+    background: #ff5b04;
+    color: #fff;
+}

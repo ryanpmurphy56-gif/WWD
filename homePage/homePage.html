@@ -1,0 +1,23 @@
+<template>
+    <div class="home-container">
+        <div class="section-wrapper">
+            <h2 class="section-title">ON SALE</h2>
+            <div class="horizontal-scroller">
+                <template if:true={hasSaleItems}>
+                    <template for:each={saleItems} for:item="item">
+                        <div key={item.Id} class="product-card" data-id={item.Id} onclick={handleNavigate}>
+                            <template if:true={item.Product_Image_Field__c}>
+                                <img src={item.Product_Image_Field__c} alt={item.Name}/>
+                            </template>
+                            <template if:false={item.Product_Image_Field__c}>
+                                <img src="https://via.placeholder.com/200x200?text=No+Image" alt="No image"/>
+                            </template>
+                            <p class="item-name">{item.Name}</p>
+                            <p class="item-price sale">{item.formattedPrice}</p>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

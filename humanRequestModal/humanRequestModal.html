@@ -1,0 +1,45 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label={title}>
+            <template lwc:if={submitted}>
+                <div class="done">
+                    <div class="done__mark">✓</div>
+                    <h2 class="done__title">Request sent</h2>
+                    <p class="done__body">
+                        Thanks — a human has it from here. We’ve captured a snapshot of your site so we can
+                        see exactly what you’re looking at.
+                    </p>
+                    <button type="button" class="btn btn_primary" onclick={close}>Back to editing</button>
+                </div>
+            </template>
+
+            <template lwc:else>
+                <div class="dialog__head">
+                    <span class="dialog__title">{title}</span>
+                    <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+                </div>
+                <div class="dialog__body">
+                    <p class="dialog__lead">{lead}</p>
+                    <textarea
+                        class="dialog__note"
+                        rows="5"
+                        placeholder={placeholder}
+                        onchange={handleNote}
+                    ></textarea>
+                    <template lwc:if={errorText}>
+                        <p class="dialog__error">{errorText}</p>
+                    </template>
+                </div>
+                <div class="dialog__foot">
+                    <button type="button" class="btn" onclick={close}>Cancel</button>
+                    <button
+                        type="button"
+                        class="btn btn_primary"
+                        disabled={submitDisabled}
+                        onclick={handleSubmit}
+                    >{submitLabel}</button>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

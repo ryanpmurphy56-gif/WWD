@@ -1,0 +1,220 @@
+.manager-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.manager-header { margin-bottom: 24px; }
+
+.page-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0 0 4px;
+}
+
+.page-sub { font-size: 14px; color: #666; margin: 0; }
+
+/* ── Tabs ── */
+.manager-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.15s;
+    width: auto;
+}
+
+.tab-btn:hover { color: #1a1a2e; }
+
+.tab-btn.active {
+    color: #4f46e5;
+    border-bottom-color: #4f46e5;
+}
+
+/* ── Panel ── */
+.panel {
+    background: white;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #e8e8e8;
+}
+
+.panel-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.panel-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0 0 20px;
+}
+
+.shift-count {
+    font-size: 13px;
+    color: #888;
+    font-weight: 600;
+}
+
+/* ── Create Form ── */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    background: white;
+}
+
+.form-input:focus { border-color: #4f46e5; }
+
+.create-btn {
+    background: #1a1a2e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    width: auto;
+}
+
+.create-btn:hover { background: #2d2d4e; }
+
+/* ── Shift Table ── */
+.table-header {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1fr 40px;
+    padding: 8px 12px;
+    background: #f4f5f7;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1fr 40px;
+    padding: 12px;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    color: #333;
+    transition: background 0.1s;
+}
+
+.table-row:hover { background: #fafafa; }
+.table-row:last-child { border-bottom: none; }
+
+.td-name { font-weight: 700; color: #1a1a2e; }
+
+.delete-btn {
+    background: #fee2e2;
+    color: #dc2626;
+    border: none;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-btn:hover { background: #fca5a5; }
+
+/* ── Status Badges ── */
+.status-badge {
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.status-scheduled   { background: #fef3c7; color: #92400e; }
+.status-in-progress { background: #d1fae5; color: #065f46; }
+.status-completed   { background: #e0e7ff; color: #3730a3; }
+.status-cancelled   { background: #fee2e2; color: #991b1b; }
+
+/* ── Loading / Empty ── */
+.loading-state {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e0e0e8;
+    border-top-color: #4f46e5;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-bottom: 8px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+    font-size: 14px;
+}
+
+.coming-soon {
+    text-align: center;
+    color: #888;
+    font-size: 15px;
+    margin: 20px 0;
+}

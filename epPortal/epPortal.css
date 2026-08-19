@@ -1,0 +1,9 @@
+.portal-wrapper {
+    min-height: 100vh;
+    background: #f4f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.portal-content {
+    padding: 30px;
+}
