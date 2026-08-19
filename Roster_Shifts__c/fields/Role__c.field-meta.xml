@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role__c</fullName>
+    <label>Role</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Floor</fullName>
+                <default>true</default>
+                <label>Floor</label>
+            </value>
+            <value>
+                <fullName>Floor Manager</fullName>
+                <default>false</default>
+                <label>Floor Manager</label>
+            </value>
+            <value>
+                <fullName>Shift Manager</fullName>
+                <default>false</default>
+                <label>Shift Manager</label>
+            </value>
+            <value>
+                <fullName>Register</fullName>
+                <default>false</default>
+                <label>Register</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

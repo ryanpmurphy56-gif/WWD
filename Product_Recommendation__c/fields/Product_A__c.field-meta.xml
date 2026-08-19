@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_A__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The lower-sorted product in the co-occurrence pair (sorted by Id to ensure a unique, direction-agnostic key).</description>
+    <label>Product A</label>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Recommendations (as Product A)</relationshipLabel>
+    <relationshipName>Recommendations_As_A</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

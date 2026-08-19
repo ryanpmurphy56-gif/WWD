@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Employee_User__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The staff member (User) who requested the time off. Replaces Employee__c, which points at the unused standard Employee object and can never hold a User id.</description>
+    <label>Employee (User)</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Time Off Requests</relationshipLabel>
+    <relationshipName>Time_Off_Requests_User</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

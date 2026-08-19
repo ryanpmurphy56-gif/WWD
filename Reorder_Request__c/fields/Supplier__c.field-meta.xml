@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Supplier__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Snapshot of the product&apos;s supplier when the reorder was queued; drives which order sheet it lands on.</description>
+    <label>Supplier</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Reorder Requests</relationshipLabel>
+    <relationshipName>Supplier_Reorder_Requests</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
