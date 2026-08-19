@@ -1,0 +1,130 @@
+.ws-step-n {
+    color: var(--orange);
+    margin-bottom: 14px;
+}
+
+.ws-step-h {
+    font-family: var(--font-body);
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: -.035em;
+    line-height: 1.05;
+    color: var(--ink);
+    margin: 0;
+}
+
+.ws-hint {
+    margin-top: 12px;
+    font-size: 16px;
+    color: var(--ink-60);
+}
+
+.ws-grid {
+    display: grid;
+    gap: 12px;
+    margin-top: 34px;
+}
+
+.ws-g3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.ws-g2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.ws-opt {
+    border: 1.5px solid var(--rule);
+    border-radius: var(--radius-md);
+    padding: 20px 18px;
+    cursor: pointer;
+    background: var(--paper);
+    text-align: left;
+    font-family: var(--font-body);
+    transition: all .14s;
+}
+
+.ws-opt:hover {
+    border-color: var(--ink);
+}
+
+.ws-t {
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: -.02em;
+    display: block;
+    color: var(--ink);
+}
+
+.ws-d {
+    font-size: 13px;
+    color: var(--ink-60);
+    margin-top: 5px;
+    display: block;
+    line-height: 1.45;
+}
+
+.ws-opt_sel {
+    border-color: var(--orange);
+    background: var(--orange-dim);
+}
+
+.ws-opt_sel .ws-t {
+    color: var(--orange);
+}
+
+.ws-swatch {
+    border: 1.5px solid var(--rule);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--paper);
+    transition: all .14s;
+    padding: 0;
+    font-family: var(--font-body);
+}
+
+.ws-swatch:hover {
+    border-color: var(--ink);
+}
+
+.ws-swatch_sel {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px var(--orange-dim);
+}
+
+.ws-art {
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: -.03em;
+}
+
+.ws-cap {
+    padding: 12px 14px;
+    border-top: 1.5px solid var(--rule);
+    text-align: left;
+    display: block;
+}
+
+.ws-cap b {
+    font-size: 14px;
+    display: block;
+    letter-spacing: -.02em;
+    color: var(--ink);
+}
+
+.ws-cap small {
+    font-size: 12px;
+    color: var(--ink-60);
+}
+
+@media (max-width: 1000px) {
+    .ws-g3,
+    .ws-g2 {
+        grid-template-columns: 1fr;
+    }
+}

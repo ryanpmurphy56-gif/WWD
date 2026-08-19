@@ -1,0 +1,44 @@
+.ws-trust {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 24px 0;
+    background: var(--wash);
+}
+
+.ws-trust-in {
+    max-width: var(--shell);
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: 38px;
+    flex-wrap: wrap;
+}
+
+.ws-trust-in .mono {
+    color: var(--ink-30);
+    flex-shrink: 0;
+}
+
+.ws-trust-in ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.ws-trust-in li {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -.02em;
+    color: #9A9A9A;
+}
+
+@media (max-width: 1000px) {
+    .ws-trust-in {
+        padding: 0 var(--space-lg);
+    }
+}

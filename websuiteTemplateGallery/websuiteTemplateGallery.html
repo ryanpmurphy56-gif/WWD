@@ -1,0 +1,43 @@
+<template>
+    <section class="ws-sect">
+        <div class="shell">
+            <div class="ws-sec-head">
+                <div class="mono eyebrow">{eyebrow}</div>
+                <h2 class="ws-sec">{heading}</h2>
+                <p class="ws-sec-lead">{lead}</p>
+            </div>
+
+            <div class="ws-filters">
+                <template for:each={categories} for:item="cat">
+                    <button key={cat.name} class={cat.cssClass} type="button" data-cat={cat.name} onclick={handleFilter}>{cat.name}</button>
+                </template>
+            </div>
+
+            <div class="ws-tpl-grid">
+                <template for:each={visibleTemplates} for:item="tpl">
+                    <div key={tpl.name} class="ws-tpl">
+                        <div class="ws-thumb" style={tpl.thumbStyle}>
+                            {tpl.name}
+                            <div class="ws-live"><span>View live demo →</span></div>
+                        </div>
+                        <div class="ws-meta">
+                            <div>
+                                <b>{tpl.name}</b>
+                                <small>{tpl.featureList}</small>
+                            </div>
+                            <span class="mono ws-meta-cat">{tpl.category}</span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <template if:false={hasTemplates}>
+                <p class="ws-empty">Nothing here yet — but tell us what you need and we’ll build it.</p>
+            </template>
+
+            <div class="ws-gallery-foot">
+                <button class="btn btn-ink" type="button">{footCtaLabel}</button>
+                <span class="ws-foot-note">{footNote}</span>
+            </div>
+        </div>
+    </section>
+</template>

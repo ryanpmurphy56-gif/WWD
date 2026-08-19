@@ -1,0 +1,204 @@
+.ws-wall {
+    /* 40% less scroll than the original 520vh — the double helix keeps the
+       viewport full, so the walk-through no longer needs the extra length. */
+    height: 312vh;
+    background: #0A0A0A;
+    position: relative;
+}
+
+.ws-wall-viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    perspective: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ws-wall-scene {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.ws-card3 {
+    position: absolute;
+    width: 300px;
+    height: 186px;
+    margin: -93px 0 0 -150px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #141414;
+    border: 1px solid #232323;
+}
+
+.ws-shot {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    text-align: center;
+    font-family: var(--font-body);
+    font-weight: 900;
+    letter-spacing: -.03em;
+    line-height: 1.05;
+}
+
+.ws-shot_logo {
+    padding: 22px;
+}
+
+.ws-logo-img {
+    max-width: 82%;
+    max-height: 74%;
+    object-fit: contain;
+}
+
+/* Hero feature card — the company ticked "Hero" in the Command Center gets a
+   larger tile at the mouth of the wall, so most of the frame is dedicated to it. */
+.ws-card3_hero {
+    width: 460px;
+    height: 288px;
+    margin: -144px 0 0 -230px;
+    z-index: 2;
+    border: 1px solid var(--orange);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .55);
+}
+
+.ws-card3_hero .ws-cat {
+    font-size: 10px;
+    padding: 4px 11px;
+}
+
+.ws-cat {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    background: var(--orange);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    z-index: 1;
+}
+
+.ws-ghost {
+    background: #111;
+    border: 1px dashed #262626;
+}
+
+.ws-cat_ghost {
+    background: #1F1F1F;
+    color: #4A4A4A;
+}
+
+.ws-sk {
+    padding: 18px;
+    width: 100%;
+}
+
+.ws-sk i {
+    display: block;
+    background: #1C1C1C;
+    border-radius: 3px;
+    margin-bottom: 9px;
+}
+
+.ws-sk i:nth-child(1) { height: 34px; width: 62%; }
+.ws-sk i:nth-child(2) { height: 8px; width: 88%; }
+.ws-sk i:nth-child(3) { height: 8px; width: 70%; }
+.ws-sk i:nth-child(4) { height: 40px; width: 100%; margin-top: 14px; }
+
+.ws-wall-core {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    color: #fff;
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+.ws-core-eyebrow {
+    color: #5C5C5C;
+    margin-bottom: 20px;
+}
+
+.ws-core-mark {
+    font-family: var(--font-body);
+    font-size: clamp(38px, 5.6vw, 76px);
+    font-weight: 900;
+    letter-spacing: -.045em;
+    line-height: .92;
+}
+
+.ws-core-mark em {
+    font-style: normal;
+    color: var(--orange);
+    display: block;
+}
+
+.ws-core-sub {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #7A7A7A;
+    font-family: var(--font-body);
+}
+
+.ws-wall-vig {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+    background: radial-gradient(ellipse 62% 62% at 50% 50%,
+        rgba(10, 10, 10, .94) 22%, rgba(10, 10, 10, .55) 48%, rgba(10, 10, 10, 0) 78%);
+}
+
+.ws-wall-scroll {
+    position: absolute;
+    bottom: 34px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #4A4A4A;
+    z-index: 6;
+}
+
+/* ---- flat fallback ---- */
+.ws-wall-flat {
+    background: #0A0A0A;
+    padding: 90px 24px;
+}
+
+.ws-flat-core {
+    text-align: center;
+    color: #fff;
+}
+
+.ws-flat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.ws-card3_flat {
+    position: static;
+    margin: 0;
+}
+
+.ws-card3_flatHero {
+    flex: 1 1 100%;
+    height: 300px;
+    border: 1px solid var(--orange);
+}

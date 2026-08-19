@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Websuite Template Gallery</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" default="Templates" label="Eyebrow"/>
+            <property name="heading" type="String" default="Start from something that already works." label="Heading"/>
+            <property name="lead" type="String" default="Every template here is built from a site we've actually shipped. Not a mood board — a business that's out there right now, getting enquiries." label="Lead paragraph"/>
+            <property name="footCtaLabel" type="String" default="See all 24 templates" label="Footer CTA label"/>
+            <property name="footNote" type="String" default="Every template is free on every plan. Switch whenever you like." label="Footer note"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

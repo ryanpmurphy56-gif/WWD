@@ -1,0 +1,53 @@
+.ws-sect {
+    padding: var(--space-3xl) 0;
+    background: var(--wash);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+}
+
+.ws-sec-head {
+    margin-bottom: 46px;
+}
+
+.ws-sec {
+    font-family: var(--font-body);
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 900;
+    letter-spacing: -.04em;
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 0;
+}
+
+.ws-re-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.ws-re {
+    border-left: 3px solid var(--orange);
+    padding: 4px 0 4px 18px;
+}
+
+.ws-re h4 {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: -.025em;
+    color: var(--ink);
+    margin: 0;
+}
+
+.ws-re p {
+    margin-top: 7px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-60);
+}
+
+@media (max-width: 1000px) {
+    .ws-re-grid {
+        grid-template-columns: 1fr;
+    }
+}

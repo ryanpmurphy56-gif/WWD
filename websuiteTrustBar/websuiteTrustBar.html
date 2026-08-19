@@ -1,0 +1,12 @@
+<template>
+    <div class="ws-trust">
+        <div class="ws-trust-in">
+            <span class="mono">{label}</span>
+            <ul>
+                <template for:each={clientList} for:item="client">
+                    <li key={client}>{client}</li>
+                </template>
+            </ul>
+        </div>
+    </div>
+</template>

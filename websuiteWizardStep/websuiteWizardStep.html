@@ -1,0 +1,32 @@
+<template>
+    <div class="mono ws-step-n">{stepLabel}</div>
+    <h2 class="ws-step-h">{stepTitle}</h2>
+    <p class="ws-hint">{hint}</p>
+
+    <template if:false={isSwatch}>
+        <div class={gridClass}>
+            <template for:each={decoratedOptions} for:item="opt">
+                <button key={opt.value} class={opt.cssClass} type="button" data-value={opt.value} onclick={handleSelect}>
+                    <span class="ws-t">{opt.title}</span>
+                    <template if:true={opt.desc}>
+                        <span class="ws-d">{opt.desc}</span>
+                    </template>
+                </button>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={isSwatch}>
+        <div class={gridClass}>
+            <template for:each={decoratedOptions} for:item="opt">
+                <button key={opt.value} class={opt.cssClass} type="button" data-value={opt.value} onclick={handleSelect}>
+                    <span class="ws-art" style={opt.artStyle}>{opt.title}</span>
+                    <span class="ws-cap">
+                        <b>{opt.title}</b>
+                        <small>{opt.desc}</small>
+                    </span>
+                </button>
+            </template>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,153 @@
+<template>
+    <template if:true={isOpen}>
+        <section class="ws-wizard">
+            <button class="ws-close mono" type="button" onclick={handleClose}>✕ Close</button>
+
+            <div class="ws-stage">
+                <div class="ws-steps">
+                    <template for:each={ticks} for:item="tick">
+                        <div key={tick.key} class={tick.cssClass}></div>
+                    </template>
+                </div>
+
+                <template if:true={isStep0}>
+                    <div class="ws-step-anim">
+                        <c-websuite-wizard-step
+                            step-label="01 / What it's for"
+                            step-title="What are you building?"
+                            hint="This sets the structure. You can change it later."
+                            mode="single" columns="3"
+                            options={purposeOptions} selected={data.purpose}
+                            onoptionselect={handlePurpose}></c-websuite-wizard-step>
+                        <div class="ws-foot">
+                            <button class="btn btn-ink" type="button" onclick={handleNext} disabled={purposeMissing}>Continue</button>
+                            <button class="ws-back" type="button" onclick={startBlank}>Skip — start with a blank canvas</button>
+                        </div>
+                    </div>
+                </template>
+
+                <template if:true={isStep1}>
+                    <div class="ws-step-anim">
+                        <c-websuite-wizard-step
+                            step-label="02 / The job"
+                            step-title="What should it actually do?"
+                            hint="Pick as many as apply. This decides what goes above the fold."
+                            mode="multi" columns="2"
+                            options={goalOptions} selected={data.goal}
+                            onoptionselect={handleGoal}></c-websuite-wizard-step>
+                        <div class="ws-foot">
+                            <button class="btn btn-ink" type="button" onclick={handleNext} disabled={goalMissing}>Continue</button>
+                            <button class="ws-back" type="button" onclick={handlePrev}>Back</button>
+                        </div>
+                    </div>
+                </template>
+
+                <template if:true={isStep2}>
+                    <div class="ws-step-anim">
+                        <c-websuite-wizard-step
+                            step-label="03 / Structure"
+                            step-title="Which pages do you need?"
+                            hint="We've pre-ticked the ones most businesses like yours use."
+                            mode="multi" columns="3"
+                            options={pageOptions} selected={data.pages}
+                            onoptionselect={handlePages}></c-websuite-wizard-step>
+                        <div class="ws-foot">
+                            <button class="btn btn-ink" type="button" onclick={handleNext} disabled={pagesMissing}>Continue</button>
+                            <button class="ws-back" type="button" onclick={handlePrev}>Back</button>
+                        </div>
+                    </div>
+                </template>
+
+                <template if:true={isStep3}>
+                    <div class="ws-step-anim">
+                        <c-websuite-wizard-step
+                            step-label="04 / Look"
+                            step-title="Pick a direction."
+                            hint="Not final. It's the starting point our designers work from."
+                            mode="swatch" columns="3"
+                            options={styleOptions} selected={data.style}
+                            onoptionselect={handleStyle}></c-websuite-wizard-step>
+                        <div class="ws-foot">
+                            <button class="btn btn-ink" type="button" onclick={handleNext} disabled={styleMissing}>Continue</button>
+                            <button class="ws-back" type="button" onclick={handlePrev}>Back</button>
+                        </div>
+                    </div>
+                </template>
+
+                <template if:true={isStep4}>
+                    <div class="ws-step-anim">
+                        <div class="mono ws-step-n">05 / You</div>
+                        <h2 class="ws-step-h">Tell us who you are.</h2>
+                        <p class="ws-hint">This becomes your real copy — not placeholder text.</p>
+                        <label class="ws-fld">
+                            <span class="mono">Business name</span>
+                            <input type="text" class="ws-wz" data-field="name" placeholder="Ladd + Associates" autocomplete="off" value={data.name} oninput={handleInput} />
+                        </label>
+                        <label class="ws-fld">
+                            <span class="mono">Where you are</span>
+                            <input type="text" class="ws-wz" data-field="loc" placeholder="Bendigo, Victoria" autocomplete="off" value={data.loc} oninput={handleInput} />
+                        </label>
+                        <label class="ws-fld">
+                            <span class="mono">What you do, in one line</span>
+                            <input type="text" class="ws-wz" data-field="about" placeholder="Complex systems, made simple." autocomplete="off" value={data.about} oninput={handleInput} />
+                        </label>
+                        <div class="ws-foot">
+                            <button class="btn btn-ink" type="button" onclick={handleBuild}>Build my site&nbsp;→</button>
+                            <button class="ws-back" type="button" onclick={handlePrev}>Back</button>
+                        </div>
+                    </div>
+                </template>
+
+                <template if:true={isStep5}>
+                    <div class="ws-step-anim">
+                        <div class="mono ws-step-n">06 / Yours</div>
+                        <h2 class="ws-step-h">{doneHeading}</h2>
+                        <p class="ws-hint">Built from your answers. Real layout, real copy, real pages. Now choose how it gets finished.</p>
+
+                        <div class="ws-preview">
+                            <div class="ws-pv-bar"><i></i><i></i><i></i><span class="ws-pv-url">{previewUrl}</span></div>
+                            <div class="ws-pv-body">
+                                <div class="ws-pvh">{previewHeading}</div>
+                                <div class="ws-pvs">{previewSub}</div>
+                                <div class="ws-pv-blocks"><div></div><div></div><div></div></div>
+                            </div>
+                        </div>
+
+                        <div class="ws-paths">
+                            <div class="ws-path">
+                                <div class="mono ws-path-tag">Do it yourself</div>
+                                <h3>Take the keys</h3>
+                                <p>Full editor. Every tool — layout, type, colour, images, SEO, forms, store. No code, no ceiling.</p>
+                                <div class="ws-price">From $29/mo</div>
+                                <button class="btn btn-ghost" type="button" onclick={openEditor}>Open the editor</button>
+                            </div>
+                            <div class="ws-path ws-path_hero">
+                                <div class="mono ws-path-tag ws-path-tag_hero">Most people pick this</div>
+                                <h3>We finish it</h3>
+                                <p>Send us your logo and photos. We make it properly good and put it live this week. Then you edit it whenever you like.</p>
+                                <div class="ws-price">$990 setup + $49/mo</div>
+                                <button class="btn btn-orange" type="button">Get it built</button>
+                            </div>
+                            <div class="ws-path">
+                                <div class="mono ws-path-tag">Bring in a designer</div>
+                                <h3>Go custom</h3>
+                                <p>Nothing off the shelf. A designer builds it around your brand from scratch, and you still get the same portal.</p>
+                                <div class="ws-price">Quoted</div>
+                                <button class="btn btn-ghost" type="button">Talk to us</button>
+                            </div>
+                        </div>
+
+                        <div class="ws-note"><b>The bit nobody else does.</b> Whichever path you pick, you get the same portal — and a <b>Request</b> button. Stuck at 11pm? Ask us. We'll do it. Squarespace hands you a builder and walks away; we don't.</div>
+                    </div>
+                </template>
+            </div>
+
+            <aside class="ws-rail">
+                <h4>Your brief</h4>
+                <p>This is what we're building from. It fills in as you go.</p>
+                <c-websuite-brief-card title="Draft" brief={data} variant="rail"></c-websuite-brief-card>
+                <p class="ws-rail-note">{railFootnote}</p>
+            </aside>
+        </section>
+    </template>
+</template>

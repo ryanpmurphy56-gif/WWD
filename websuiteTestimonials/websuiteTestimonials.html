@@ -1,0 +1,24 @@
+<template>
+    <section class="ws-sect">
+        <div class="shell">
+            <div class="ws-sec-head">
+                <div class="mono eyebrow">{eyebrow}</div>
+                <h2 class="ws-sec">{heading}</h2>
+            </div>
+            <div class="ws-quotes">
+                <template for:each={quotes} for:item="q">
+                    <div key={q.initials} class="ws-q">
+                        <blockquote>{q.text}</blockquote>
+                        <div class="ws-who">
+                            <div class="ws-av">{q.initials}</div>
+                            <div>
+                                <b>{q.name}</b>
+                                <small>{q.role}</small>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

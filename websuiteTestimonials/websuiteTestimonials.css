@@ -1,0 +1,81 @@
+.ws-sect {
+    padding: var(--space-3xl) 0;
+}
+
+.ws-sec-head {
+    margin-bottom: 46px;
+}
+
+.ws-sec {
+    font-family: var(--font-body);
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 900;
+    letter-spacing: -.04em;
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 0;
+}
+
+.ws-quotes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.ws-q {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    background: var(--paper);
+}
+
+.ws-q blockquote {
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.42;
+    color: var(--ink);
+    margin: 0;
+}
+
+.ws-who {
+    margin-top: 20px;
+    display: flex;
+    gap: 11px;
+    align-items: center;
+}
+
+.ws-av {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--orange-dim);
+    color: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 900;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.ws-who b {
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    display: block;
+    letter-spacing: -.01em;
+    color: var(--ink);
+}
+
+.ws-who small {
+    font-size: 12px;
+    color: var(--ink-30);
+}
+
+@media (max-width: 1000px) {
+    .ws-quotes {
+        grid-template-columns: 1fr;
+    }
+}

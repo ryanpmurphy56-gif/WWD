@@ -1,0 +1,71 @@
+<template>
+    <template if:false={isFlat}>
+        <section class="ws-wall" lwc:ref="wall">
+            <div class="ws-wall-viewport">
+                <div class="ws-wall-scene" lwc:ref="scene">
+                    <template for:each={cards} for:item="card">
+                        <template if:true={card.isReal}>
+                            <div key={card.key} class={card.cardClass} style={card.transform}>
+                                <span class="ws-cat">{card.cat}</span>
+                                <template if:true={card.hasLogo}>
+                                    <div class="ws-shot ws-shot_logo" style={card.shotStyle}>
+                                        <img src={card.logoUrl} alt={card.name} class="ws-logo-img" />
+                                    </div>
+                                </template>
+                                <template if:false={card.hasLogo}>
+                                    <div class="ws-shot" style={card.shotStyle}>{card.name}</div>
+                                </template>
+                            </div>
+                        </template>
+                        <template if:false={card.isReal}>
+                            <div key={card.key} class={card.cardClass} style={card.transform}>
+                                <span class="ws-cat ws-cat_ghost">{card.cat}</span>
+                                <div class="ws-sk"><i></i><i></i><i></i><i></i></div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <div class="ws-wall-core" lwc:ref="core">
+                    <div class="mono ws-core-eyebrow">{eyebrow}</div>
+                    <div class="ws-core-mark">{headline}<em>{headlineEmphasis}</em></div>
+                    <div class="ws-core-sub">{subCopy}</div>
+                </div>
+                <div class="ws-wall-vig"></div>
+                <div class="mono ws-wall-scroll" lwc:ref="scrollHint">Scroll ↓</div>
+            </div>
+        </section>
+    </template>
+
+    <template if:true={isFlat}>
+        <section class="ws-wall-flat">
+            <div class="ws-flat-core">
+                <div class="mono ws-core-eyebrow">{eyebrow}</div>
+                <div class="ws-core-mark">{headline}<em>{headlineEmphasis}</em></div>
+                <div class="ws-core-sub">{subCopy}</div>
+            </div>
+            <div class="ws-flat-grid">
+                <template for:each={cards} for:item="card">
+                    <template if:true={card.isReal}>
+                        <div key={card.key} class={card.flatClass}>
+                            <span class="ws-cat">{card.cat}</span>
+                            <template if:true={card.hasLogo}>
+                                <div class="ws-shot ws-shot_logo" style={card.shotStyle}>
+                                    <img src={card.logoUrl} alt={card.name} class="ws-logo-img" />
+                                </div>
+                            </template>
+                            <template if:false={card.hasLogo}>
+                                <div class="ws-shot" style={card.shotStyle}>{card.name}</div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={card.isReal}>
+                        <div key={card.key} class={card.flatClass}>
+                            <span class="ws-cat ws-cat_ghost">{card.cat}</span>
+                            <div class="ws-sk"><i></i><i></i><i></i><i></i></div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </section>
+    </template>
+</template>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Websuite Project Wall</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" default="Bendigo · Victoria" label="Eyebrow"/>
+            <property name="headline" type="String" default="Built with" label="Headline"/>
+            <property name="headlineEmphasis" type="String" default="Websuite." label="Headline (emphasis line)"/>
+            <property name="subCopy" type="String" default="Every one of these is a real business we put online." label="Sub copy"/>
+            <property name="flatLayout" type="Boolean" default="false" label="Force flat layout (skip 3D scroll effect)"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
