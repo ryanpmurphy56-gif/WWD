@@ -1,0 +1,115 @@
+.ws-login-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10, 10, 10, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.ws-login-card {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    background: var(--paper, #fff);
+    border-radius: 14px;
+    padding: 40px 32px 32px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    animation: ws-login-rise 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@keyframes ws-login-rise {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+}
+
+.ws-login-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: var(--ink-60, #666);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 6px;
+}
+
+.ws-login-close:hover {
+    color: var(--ink, #0a0a0a);
+}
+
+.ws-login-heading {
+    margin: 0 0 8px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink, #0a0a0a);
+}
+
+.ws-login-sub {
+    margin: 0 0 20px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--ink-60, #666);
+}
+
+.ws-login-label {
+    display: block;
+    margin: 0 0 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink-60, #666);
+}
+
+.ws-login-input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    border: 1.5px solid var(--rule, #e2e2e2);
+    border-radius: 8px;
+    background: var(--paper, #fff);
+    color: var(--ink, #0a0a0a);
+}
+
+.ws-login-input:focus {
+    outline: none;
+    border-color: var(--orange, #ff5b04);
+}
+
+.ws-login-input_code {
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.ws-login-btn {
+    width: 100%;
+}
+
+.ws-login-resend {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    padding: 6px;
+    background: none;
+    border: none;
+    color: var(--ink-60, #666);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.82rem;
+}
+
+.ws-login-resend:hover {
+    color: var(--ink, #0a0a0a);
+}
+
+.ws-login-error {
+    margin: -8px 0 16px;
+    font-size: 0.82rem;
+    color: #c0392b;
+}

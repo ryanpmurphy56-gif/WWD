@@ -1,0 +1,31 @@
+.ws-final {
+    text-align: center;
+    padding: 120px var(--space-xl);
+    background: var(--ink);
+    color: #fff;
+}
+
+.ws-final h2 {
+    font-family: var(--font-body);
+    font-size: clamp(38px, 5.5vw, 68px);
+    font-weight: 900;
+    letter-spacing: -.045em;
+    line-height: .98;
+    margin: 0;
+}
+
+.ws-final h2 em {
+    font-style: normal;
+    color: var(--orange);
+    display: block;
+}
+
+.ws-final p {
+    margin-top: 20px;
+    color: #8A8A8A;
+    font-size: 17px;
+}
+
+.ws-final .btn {
+    margin-top: 32px;
+}

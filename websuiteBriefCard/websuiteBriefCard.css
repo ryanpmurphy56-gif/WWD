@@ -1,0 +1,68 @@
+.ws-brief-card {
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+    box-shadow: 14px 14px 0 var(--orange);
+}
+
+.ws-brief-card_rail {
+    box-shadow: 8px 8px 0 var(--orange);
+}
+
+.ws-brief-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1.5px solid var(--ink);
+}
+
+.ws-brief-head .mono {
+    color: var(--ink-60);
+}
+
+.ws-brief-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--orange);
+}
+
+.ws-brief-body {
+    padding: 8px 18px 18px;
+}
+
+.ws-brief-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: baseline;
+    padding: 13px 0;
+    border-bottom: 1px dashed var(--rule);
+}
+
+.ws-brief-row:last-child {
+    border-bottom: none;
+}
+
+.ws-brief-k {
+    color: var(--ink-30);
+    flex-shrink: 0;
+}
+
+.ws-brief-v {
+    text-align: right;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-30);
+    transition: color .3s;
+    font-family: var(--font-body);
+}
+
+.ws-brief-row_filled .ws-brief-v {
+    color: var(--ink);
+}
+
+.ws-brief-row_filled .ws-brief-k {
+    color: var(--orange);
+}

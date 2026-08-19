@@ -1,0 +1,382 @@
+<template>
+    <div class="cc">
+        <!-- Sidebar -->
+        <aside class="cc-side">
+            <div class="cc-brand">
+                <div class="cc-mark">W</div>
+                <div class="cc-brand-text">
+                    <span class="cc-brand-name">WebSuite</span>
+                    <span class="cc-brand-sub">COMMAND CENTER</span>
+                </div>
+            </div>
+            <nav class="cc-nav">
+                <template for:each={navItems} for:item="item">
+                    <button
+                        key={item.id}
+                        class={item.cssClass}
+                        data-id={item.id}
+                        onclick={handleNav}
+                        type="button"
+                    >
+                        <lightning-icon
+                            icon-name={item.icon}
+                            size="x-small"
+                            variant={item.iconVariant}
+                            class="cc-nav-icon"
+                        ></lightning-icon>
+                        <span>{item.label}</span>
+                    </button>
+                </template>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="cc-main">
+            <header class="cc-head">
+                <h1 class="cc-title">{pageTitle}</h1>
+                <p class="cc-sub">{pageSubtitle}</p>
+            </header>
+
+            <!-- OVERVIEW -->
+            <template if:true={isOverview}>
+                <div class="cc-kpis">
+                    <template for:each={kpis} for:item="kpi">
+                        <div key={kpi.key} class="cc-card cc-kpi">
+                            <span class="cc-kpi-label mono">{kpi.label}</span>
+                            <span class="cc-kpi-value">{kpi.value}</span>
+                            <span class="cc-kpi-sub">{kpi.sub}</span>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="cc-cols">
+                    <div class="cc-card cc-panel">
+                        <h2 class="cc-panel-title">Recent leads</h2>
+                        <table class="cc-table">
+                            <thead>
+                                <tr>
+                                    <th class="mono">Ref</th>
+                                    <th class="mono">Company</th>
+                                    <th class="mono">Path</th>
+                                    <th class="mono">When</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={recentLeads} for:item="lead">
+                                    <tr key={lead.id}>
+                                        <td class="cc-strong">{lead.ref}</td>
+                                        <td>{lead.name}</td>
+                                        <td><span class="cc-pill">{lead.path}</span></td>
+                                        <td class="cc-muted">{lead.when}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="cc-card cc-panel">
+                        <h2 class="cc-panel-title">Companies on site
+                            <span class="cc-count">{visibleCount}</span>
+                        </h2>
+                        <template if:true={visibleCount}>
+                            <ol class="cc-livelist">
+                                <template for:each={visibleClients} for:item="co">
+                                    <li key={co.id}>
+                                        <span class="cc-livename">{co.name}</span>
+                                        <span class="cc-muted">{co.tagline}</span>
+                                    </li>
+                                </template>
+                            </ol>
+                        </template>
+                        <template if:false={visibleCount}>
+                            <p class="cc-empty-note">No companies are currently visible on the site.</p>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- COMPANIES MANAGER -->
+            <template if:true={isCompanies}>
+                <div class="cc-toolbar">
+                    <div class="cc-preview">
+                        <span class="mono">Live on site, in order</span>
+                        <span class="cc-preview-names">{companyPreview}</span>
+                    </div>
+                    <div class="cc-actions">
+                        <button class="btn btn-ghost btn-sm" onclick={handleShowAdd} type="button">
+                            + Add company
+                        </button>
+                        <button class="btn btn-ghost btn-sm" onclick={handleReset} type="button" disabled={saveDisabled}>
+                            Reset
+                        </button>
+                        <button class="btn btn-orange btn-sm" onclick={handleSave} type="button" disabled={saveDisabled}>
+                            <template if:true={saving}>Saving…</template>
+                            <template if:false={saving}>Save changes</template>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add company form -->
+                <template if:true={showAdd}>
+                    <div class="cc-card cc-add">
+                        <h2 class="cc-panel-title">Add a company</h2>
+                        <div class="cc-add-fields">
+                            <label class="cc-add-field">
+                                <span class="mono">Company name *</span>
+                                <input
+                                    type="text"
+                                    class="co-link-input"
+                                    placeholder="Acme Pty Ltd"
+                                    value={newCompany.name}
+                                    data-field="name"
+                                    oninput={handleNewInput}
+                                />
+                            </label>
+                            <label class="cc-add-field">
+                                <span class="mono">Tagline</span>
+                                <input
+                                    type="text"
+                                    class="co-link-input"
+                                    placeholder="What they do"
+                                    value={newCompany.tagline}
+                                    data-field="tagline"
+                                    oninput={handleNewInput}
+                                />
+                            </label>
+                            <label class="cc-add-field">
+                                <span class="mono">Website URL</span>
+                                <input
+                                    type="url"
+                                    class="co-link-input"
+                                    placeholder="https://example.com"
+                                    value={newCompany.websiteUrl}
+                                    data-field="websiteUrl"
+                                    oninput={handleNewInput}
+                                />
+                            </label>
+                        </div>
+                        <div class="cc-add-actions">
+                            <button class="btn btn-ghost btn-sm" onclick={handleCancelAdd} type="button">
+                                Cancel
+                            </button>
+                            <button class="btn btn-orange btn-sm" onclick={handleCreate} type="button" disabled={createDisabled}>
+                                <template if:true={creating}>Adding…</template>
+                                <template if:false={creating}>Add company</template>
+                            </button>
+                        </div>
+                        <p class="cc-add-hint mono">New companies start visible and at the end of the order. Upload a logo on its card once it appears.</p>
+                    </div>
+                </template>
+
+                <div class="cc-co-grid">
+                    <template for:each={rows} for:item="row">
+                        <article key={row.id} class={row.cardClass}>
+                            <div class="co-card-top">
+                                <span class="co-pos mono">{row.position}</span>
+                                <div class="co-move">
+                                    <button
+                                        class="cc-move"
+                                        data-id={row.id}
+                                        onclick={handleMoveUp}
+                                        disabled={row.disableUp}
+                                        title="Move up"
+                                        type="button"
+                                    >▲</button>
+                                    <button
+                                        class="cc-move"
+                                        data-id={row.id}
+                                        onclick={handleMoveDown}
+                                        disabled={row.disableDown}
+                                        title="Move down"
+                                        type="button"
+                                    >▼</button>
+                                </div>
+                            </div>
+
+                            <div class="co-logo">
+                                <template if:true={row.hasLogo}>
+                                    <img src={row.logoUrl} alt={row.name} class="co-logo-img" />
+                                </template>
+                                <template if:false={row.hasLogo}>
+                                    <div class="co-logo-empty">
+                                        <lightning-icon icon-name="utility:image" size="small"></lightning-icon>
+                                        <span>No logo</span>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <lightning-file-upload
+                                class="co-upload"
+                                label="Logo"
+                                variant="label-hidden"
+                                name="logo"
+                                accept={acceptedLogoFormats}
+                                record-id={row.id}
+                                data-id={row.id}
+                                onuploadfinished={handleLogoUpload}
+                            ></lightning-file-upload>
+
+                            <h3 class="co-name">{row.name}</h3>
+                            <p class="co-tagline cc-muted">{row.tagline}</p>
+
+                            <label class="co-link">
+                                <span class="co-link-label mono">Link</span>
+                                <input
+                                    type="url"
+                                    class="co-link-input"
+                                    placeholder="https://example.com"
+                                    value={row.websiteUrl}
+                                    data-id={row.id}
+                                    onchange={handleLinkChange}
+                                />
+                            </label>
+
+                            <label class="co-hero">
+                                <input
+                                    type="checkbox"
+                                    class="cc-check"
+                                    checked={row.isHero}
+                                    data-id={row.id}
+                                    onchange={handleHeroToggle}
+                                />
+                                <span>Hero</span>
+                            </label>
+
+                            <label class="co-active">
+                                <input
+                                    type="checkbox"
+                                    class="cc-check"
+                                    checked={row.visible}
+                                    data-id={row.id}
+                                    onchange={handleToggle}
+                                />
+                                <span>Active on site</span>
+                            </label>
+                        </article>
+                    </template>
+                </div>
+                <p class="cc-hint">Upload a logo, tick <strong>Hero</strong> to feature a company, and untick <strong>Active</strong> to pull it from the Trust Bar and Project Wall. Reorder with the arrows. Visibility, order and hero changes go live when you press <strong>Save</strong>; logo uploads apply immediately.</p>
+            </template>
+
+            <!-- FOR REVIEW -->
+            <template if:true={isReview}>
+                <template if:false={selectedReviewSiteId}>
+                    <template if:true={hasReviewRows}>
+                        <table class="cc-table">
+                            <thead>
+                                <tr>
+                                    <th class="mono">Site</th>
+                                    <th class="mono">Company / Contact</th>
+                                    <th class="mono">Submitted</th>
+                                    <th class="mono"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={reviewRows} for:item="row">
+                                    <tr key={row.id}>
+                                        <td class="cc-strong">{row.name}</td>
+                                        <td>{row.displayName}</td>
+                                        <td class="cc-muted">{row.submittedLabel}</td>
+                                        <td>
+                                            <button class="btn btn-orange btn-sm" data-id={row.id} onclick={handleOpenReview} type="button">
+                                                Review
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                    <template if:false={hasReviewRows}>
+                        <div class="cc-card cc-stub">
+                            <lightning-icon icon-name="utility:approval" size="small"></lightning-icon>
+                            <h2>Nothing waiting on review</h2>
+                            <p>Sites land here as soon as a customer submits them for review.</p>
+                        </div>
+                    </template>
+                </template>
+
+                <template if:true={selectedReviewSiteId}>
+                    <template if:true={reviewLoading}>
+                        <div class="cc-card cc-stub">
+                            <p>Loading…</p>
+                        </div>
+                    </template>
+                    <template if:true={reviewDetail}>
+                        <div class="cc-review">
+                            <div class="cc-review-preview">
+                                <c-theme-provider theme={reviewTheme}>
+                                    <c-page-canvas
+                                        page={reviewActivePage}
+                                        mode="live"
+                                        globals={reviewGlobals}
+                                        nav-menu={reviewNavMenu}
+                                    ></c-page-canvas>
+                                </c-theme-provider>
+                            </div>
+                            <div class="cc-review-panel">
+                                <button class="btn btn-ghost btn-sm" onclick={handleCloseReview} type="button">← Back to queue</button>
+                                <h2 class="cc-panel-title">{reviewDetail.name}</h2>
+
+                                <p class="cc-hint mono">Checklist</p>
+                                <ul class="cc-checklist">
+                                    <template for:each={checklistItems} for:item="item">
+                                        <li key={item.key}>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    class="cc-check"
+                                                    checked={item.checked}
+                                                    data-key={item.key}
+                                                    onchange={handleChecklistToggle}
+                                                />
+                                                <span>{item.label}</span>
+                                            </label>
+                                        </li>
+                                    </template>
+                                </ul>
+
+                                <label class="cc-add-field">
+                                    <span class="mono">Domain</span>
+                                    <input
+                                        type="text"
+                                        class="co-link-input"
+                                        placeholder="example.com.au"
+                                        value={domainInput}
+                                        oninput={handleDomainInput}
+                                    />
+                                </label>
+
+                                <label class="cc-add-field">
+                                    <span class="mono">Notes</span>
+                                    <textarea class="co-link-input" rows="3" oninput={handleNotesInput}></textarea>
+                                </label>
+
+                                <div class="cc-add-actions">
+                                    <button class="btn btn-ghost btn-sm" onclick={handleReject} type="button" disabled={rejectDisabled}>
+                                        <template if:true={rejecting}>Sending back…</template>
+                                        <template if:false={rejecting}>Request changes</template>
+                                    </button>
+                                    <button class="btn btn-orange btn-sm" onclick={handleApprove} type="button" disabled={approveDisabled}>
+                                        <template if:true={approving}>Publishing…</template>
+                                        <template if:false={approving}>Approve &amp; publish</template>
+                                    </button>
+                                </div>
+                                <p class="cc-hint">All checklist items must be ticked and a domain set before you can approve.</p>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </template>
+
+            <!-- STUBBED SECTIONS -->
+            <template if:true={isStub}>
+                <div class="cc-card cc-stub">
+                    <lightning-icon icon-name="utility:build" size="small"></lightning-icon>
+                    <h2>{pageTitle} is coming next</h2>
+                    <p>This tab is wired into the shell and ready to fill. Overview and Companies are live now — say the word and I'll build this one out with real data.</p>
+                </div>
+            </template>
+        </main>
+    </div>
+</template>

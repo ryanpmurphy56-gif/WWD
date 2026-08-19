@@ -1,0 +1,40 @@
+<template>
+    <div class="uploader">
+        <template lwc:if={hasVideo}>
+            <video class="uploader__thumb" src={videoUrl} controls muted></video>
+        </template>
+        <template lwc:elseif={hasEmbed}>
+            <div class="uploader__embed">
+                <iframe src={embedUrl} title="Video preview" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+            </div>
+        </template>
+        <div class="uploader__actions">
+            <button type="button" class="uploader__btn" onclick={openPicker} disabled={uploading}>{buttonLabel}</button>
+            <template lwc:if={canBrowse}>
+                <button type="button" class="uploader__btn" onclick={openLibrary} disabled={uploading}>Library</button>
+            </template>
+            <template lwc:if={hasAny}>
+                <button type="button" class="uploader__remove" onclick={handleRemove}>Remove</button>
+            </template>
+        </div>
+        <input type="file" accept="video/*" onchange={handleChange} />
+
+        <div class="uploader__link">
+            <input
+                type="text"
+                class="uploader__linkinput"
+                placeholder="Paste a YouTube or Vimeo link…"
+                value={linkInput}
+                oninput={handleLinkInput}
+            />
+            <button type="button" class="uploader__btn" onclick={handleLinkSet}>Set</button>
+        </div>
+
+        <template lwc:if={error}>
+            <p class="uploader__error">{error}</p>
+        </template>
+        <template lwc:if={libraryOpen}>
+            <c-asset-library site-id={siteId} media-kind="video" onselect={handleLibrarySelect} onclose={closeLibrary}></c-asset-library>
+        </template>
+    </div>
+</template>

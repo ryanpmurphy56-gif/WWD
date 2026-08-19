@@ -1,0 +1,126 @@
+.ws-sect {
+    padding: var(--space-3xl) 0;
+    background: var(--wash);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+}
+
+.ws-sec-head {
+    margin-bottom: 46px;
+}
+
+.ws-sec {
+    font-family: var(--font-body);
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 900;
+    letter-spacing: -.04em;
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 0;
+}
+
+.ws-sec-lead {
+    margin-top: var(--space-md);
+    font-size: 18px;
+    color: var(--ink-60);
+    max-width: 560px;
+    line-height: 1.55;
+}
+
+.ws-cases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.ws-case {
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--paper);
+}
+
+.ws-logo-art {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 900;
+    letter-spacing: -.03em;
+    font-size: 19px;
+    text-align: center;
+    padding: 16px;
+    position: relative;
+}
+
+.ws-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--orange);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+}
+
+.ws-in {
+    padding: 20px;
+}
+
+.ws-in b {
+    font-family: var(--font-body);
+    font-size: 16px;
+    letter-spacing: -.02em;
+    color: var(--ink);
+}
+
+.ws-stat {
+    margin: 14px 0;
+    padding: 12px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+}
+
+.ws-stat-n {
+    font-family: var(--font-body);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -.04em;
+    color: var(--orange);
+    line-height: 1;
+}
+
+.ws-stat-l {
+    font-size: 12px;
+    color: var(--ink-60);
+    margin-top: 4px;
+}
+
+.ws-in p {
+    font-size: 13.5px;
+    color: var(--ink-60);
+    line-height: 1.55;
+    margin: 0;
+}
+
+.ws-in a {
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--orange);
+    font-weight: 800;
+    font-size: 13px;
+    text-decoration: none;
+    font-family: var(--font-body);
+}
+
+@media (max-width: 1000px) {
+    .ws-cases {
+        grid-template-columns: 1fr;
+    }
+}

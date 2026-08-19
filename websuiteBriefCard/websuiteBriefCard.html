@@ -1,0 +1,16 @@
+<template>
+    <div class={cardClass}>
+        <div class="ws-brief-head">
+            <span class="mono">{title}</span>
+            <span class="ws-brief-dot"></span>
+        </div>
+        <div class="ws-brief-body">
+            <template for:each={rows} for:item="row">
+                <div key={row.key} class={row.rowClass}>
+                    <span class="mono ws-brief-k">{row.label}</span>
+                    <span class="ws-brief-v">{row.value}</span>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

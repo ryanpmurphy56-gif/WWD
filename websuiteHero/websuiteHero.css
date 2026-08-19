@@ -1,0 +1,59 @@
+.ws-hero {
+    max-width: var(--shell);
+    margin: 0 auto;
+    padding: 100px var(--space-xl) 60px;
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.ws-h1 {
+    font-family: var(--font-body);
+    font-size: clamp(46px, 6vw, 84px);
+    font-weight: 900;
+    line-height: .94;
+    letter-spacing: -.045em;
+    color: var(--ink);
+    margin: 0;
+}
+
+.ws-h1-em {
+    font-style: normal;
+    color: var(--orange);
+    display: block;
+}
+
+.ws-sub {
+    margin-top: 26px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-60);
+    max-width: 440px;
+}
+
+.ws-hero-cta {
+    margin-top: 36px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.ws-hero-cta a.btn {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.ws-fineprint {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--ink-30);
+}
+
+@media (max-width: 1000px) {
+    .ws-hero {
+        grid-template-columns: 1fr;
+        padding: 60px var(--space-lg) 50px;
+    }
+}

@@ -1,0 +1,20 @@
+<template>
+    <section class="ws-sect">
+        <div class="shell">
+            <div class="ws-sec-head">
+                <div class="mono eyebrow">{eyebrow}</div>
+                <h2 class="ws-sec">{heading}</h2>
+                <p class="ws-sec-lead">{lead}</p>
+            </div>
+            <div class="ws-feat-grid">
+                <template for:each={features} for:item="feat">
+                    <div key={feat.num} class="ws-feat">
+                        <div class="mono ws-feat-num">{feat.num}</div>
+                        <h4>{feat.title}</h4>
+                        <p>{feat.copy}</p>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Websuite Hero</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" default="No call. No quote. No contract." label="Eyebrow"/>
+            <property name="headline" type="String" default="Describe your business." label="Headline"/>
+            <property name="headlineEmphasis" type="String" default="See your site." label="Headline (emphasis line)"/>
+            <property name="subCopy" type="String" default="Answer six questions. We'll build you a real, working website in about sixty seconds — then you decide who finishes it. You, us, or both." label="Subheading"/>
+            <property name="primaryCtaLabel" type="String" default="See your site" label="Primary CTA label"/>
+            <property name="secondaryCtaLabel" type="String" default="Browse templates" label="Secondary CTA label"/>
+            <property name="fineprint" type="String" default="Free to build. Free to look at. You only pay when you go live." label="Fine print"/>
+            <property name="briefTitle" type="String" default="Your brief" label="Brief card title"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,124 @@
+.ws-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px var(--space-xl);
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, .93);
+    backdrop-filter: blur(8px);
+    z-index: 80;
+    transition: transform .35s cubic-bezier(.2, .7, .3, 1), opacity .3s;
+}
+
+.ws-nav_hidden {
+    transform: translateY(-110%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ws-logo {
+    font-family: var(--font-body);
+    font-weight: 900;
+    font-size: 19px;
+    letter-spacing: -.03em;
+    cursor: pointer;
+    color: var(--ink);
+}
+
+.ws-logo-dot {
+    color: var(--orange);
+}
+
+.ws-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.ws-nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-body);
+}
+
+.ws-nav-links a:hover {
+    color: var(--orange);
+}
+
+.ws-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ---- corner pill (condensed state) ---- */
+.ws-pill {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-pill);
+    padding: 8px 8px 8px 20px;
+    box-shadow: 6px 6px 0 var(--orange);
+    opacity: 0;
+    transform: translateY(-24px) scale(.92);
+    pointer-events: none;
+    transition: transform .35s cubic-bezier(.2, .7, .3, 1), opacity .3s;
+}
+
+.ws-pill_on {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+}
+
+.ws-pill-logo {
+    font-size: 16px;
+}
+
+.ws-pill-tag {
+    color: var(--ink-30);
+    font-size: 9px;
+}
+
+.ws-pill-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s, transform .15s;
+}
+
+.ws-pill-btn:hover {
+    background: var(--orange);
+    transform: translateX(2px);
+}
+
+@media (max-width: 1000px) {
+    .ws-nav {
+        padding: 16px var(--space-lg);
+    }
+    .ws-nav-links {
+        display: none;
+    }
+    .ws-pill-tag {
+        display: none;
+    }
+}

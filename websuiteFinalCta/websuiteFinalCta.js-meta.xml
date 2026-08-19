@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Websuite Final CTA</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="headline" type="String" default="Six questions." label="Headline"/>
+            <property name="headlineEmphasis" type="String" default="Sixty seconds." label="Headline (emphasis line)"/>
+            <property name="subCopy" type="String" default="Then you'll know exactly what we'd build you — before you've paid a cent or spoken to anyone." label="Sub copy"/>
+            <property name="ctaLabel" type="String" default="See your site" label="CTA label"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,25 @@
+<template>
+    <nav class={navClass}>
+        <div class="ws-logo" onclick={handleLogoClick}>
+            {logoText}<span class="ws-logo-dot">.</span>
+        </div>
+        <div class="ws-nav-links">
+            <template for:each={navLinks} for:item="link">
+                <a key={link.id} href={link.href}>{link.label}</a>
+            </template>
+        </div>
+        <div class="ws-nav-actions">
+            <button class="btn btn-ghost btn-sm" type="button" onclick={handleEditorClick}>{editorLabel}</button>
+            <button class="btn btn-ghost btn-sm" type="button" onclick={handleAccountClick}>{accountButtonLabel}</button>
+            <button class="btn btn-orange btn-sm" type="button" onclick={handleCtaClick}>{ctaLabel}</button>
+        </div>
+    </nav>
+
+    <div class={pillClass}>
+        <span class="ws-logo ws-pill-logo" onclick={handleLogoClick}>
+            {logoText}<span class="ws-logo-dot">.</span>
+        </span>
+        <span class="mono ws-pill-tag">{pillTagline}</span>
+        <button class="ws-pill-btn" type="button" onclick={handleCtaClick} aria-label={ctaLabel}>→</button>
+    </div>
+</template>

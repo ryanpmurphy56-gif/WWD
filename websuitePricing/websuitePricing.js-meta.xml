@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Websuite Pricing</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" default="Pricing" label="Eyebrow"/>
+            <property name="heading" type="String" default="One price. Everything in it." label="Heading"/>
+            <property name="lead" type="String" default="No feature gates. No transaction fees on your sales. Monthly or yearly — yearly saves you two months." label="Lead paragraph"/>
+            <property name="domainHeading" type="String" default="Start with the name." label="Domain box heading"/>
+            <property name="domainSub" type="String" default="Free for the first year on any yearly plan." label="Domain box sub copy"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

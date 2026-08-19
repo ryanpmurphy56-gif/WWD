@@ -1,0 +1,90 @@
+<template>
+    <footer class="ws-footer">
+        <div class="shell">
+            <div class="ws-ft">
+                <!-- Brand -->
+                <div class="ws-brand">
+                    <div class="ws-brand-head">
+                        <span class="ws-mark" aria-hidden="true">
+                            <svg viewBox="0 0 100 100" class="ws-mark-svg">
+                                <defs>
+                                    <path id="ws-arc-top" d="M 16,52 A 34,34 0 0 1 84,52" fill="none"></path>
+                                </defs>
+                                <text class="ws-mark-text">
+                                    <textPath href="#ws-arc-top" startOffset="50%" text-anchor="middle">
+                                        WEBSUITE · POWERED
+                                    </textPath>
+                                </text>
+                                <g class="ws-globe">
+                                    <circle cx="50" cy="56" r="19"></circle>
+                                    <ellipse cx="50" cy="56" rx="8.5" ry="19"></ellipse>
+                                    <line x1="31" y1="56" x2="69" y2="56"></line>
+                                    <line x1="50" y1="37" x2="50" y2="75"></line>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="ws-wordmark">
+                            <span class="ws-logo">{logoText}</span>
+                            <span class="ws-pill-tag mono">“{pillTagline}”</span>
+                        </span>
+                    </div>
+
+                    <h3 class="ws-headline">{headline}</h3>
+
+                    <address class="ws-address">
+                        <span>{addressLine1}</span>
+                        <span>{addressLine2}</span>
+                    </address>
+
+                    <p class="ws-desc">{description}</p>
+
+                    <p class="ws-contact">
+                        Contact: <a href={mailtoHref}>{contactEmail}</a>
+                    </p>
+
+                    <div class="ws-social">
+                        <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"
+                                ></path>
+                            </svg>
+                        </a>
+                        <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 1.62c-3.14 0-3.51.01-4.75.07-.9.04-1.39.19-1.71.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.13.32-.28.81-.32 1.71-.06 1.24-.07 1.61-.07 4.75s.01 3.51.07 4.75c.04.9.19 1.39.32 1.71.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.13.81.28 1.71.32 1.24.06 1.61.07 4.75.07s3.51-.01 4.75-.07c.9-.04 1.39-.19 1.71-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.13-.32.28-.81.32-1.71.06-1.24.07-1.61.07-4.75s-.01-3.51-.07-4.75c-.04-.9-.19-1.39-.32-1.71a2.85 2.85 0 0 0-.69-1.06 2.85 2.85 0 0 0-1.06-.69c-.32-.13-.81-.28-1.71-.32-1.24-.06-1.61-.07-4.75-.07Zm0 2.76a5.46 5.46 0 1 1 0 10.92 5.46 5.46 0 0 1 0-10.92Zm0 9a3.54 3.54 0 1 0 0-7.08 3.54 3.54 0 0 0 0 7.08Zm6.95-9.22a1.27 1.27 0 1 1-2.55 0 1.27 1.27 0 0 1 2.55 0Z"
+                                ></path>
+                            </svg>
+                        </a>
+                        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14Zm1.78 13.02H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"
+                                ></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Link columns -->
+                <template for:each={columns} for:item="col">
+                    <div key={col.title} class="ws-col">
+                        <h5>{col.title}</h5>
+                        <template for:each={col.links} for:item="link">
+                            <a key={link.id} href={link.href}>{link.label}</a>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <div class="ws-ft-base">
+                <span class="mono">{copyrightText}</span>
+                <div class="ws-ft-base-right">
+                    <a href={privacyHref} class="ws-privacy">{privacyLabel}</a>
+                    <button class="btn btn-orange" type="button" onclick={handleContact}>{ctaLabel}</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+</template>

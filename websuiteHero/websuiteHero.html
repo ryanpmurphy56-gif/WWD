@@ -1,0 +1,15 @@
+<template>
+    <section class="ws-hero">
+        <div class="ws-hero-copy">
+            <div class="mono eyebrow">{eyebrow}</div>
+            <h1 class="ws-h1">{headline}<em class="ws-h1-em">{headlineEmphasis}</em></h1>
+            <p class="ws-sub">{subCopy}</p>
+            <div class="ws-hero-cta">
+                <button class="btn btn-orange" type="button" onclick={handlePrimaryCta}>{primaryCtaLabel}&nbsp;→</button>
+                <a class="btn btn-ghost" href="#templates">{secondaryCtaLabel}</a>
+            </div>
+            <div class="ws-fineprint">{fineprint}</div>
+        </div>
+        <c-websuite-brief-card title={briefTitle} brief={emptyBrief} variant="hero"></c-websuite-brief-card>
+    </section>
+</template>

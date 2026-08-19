@@ -1,0 +1,49 @@
+<template>
+    <section class="ws-sect">
+        <div class="shell">
+            <div class="ws-sec-head">
+                <div class="mono eyebrow">{eyebrow}</div>
+                <h2 class="ws-sec">{heading}</h2>
+                <p class="ws-sec-lead">{lead}</p>
+            </div>
+
+            <div class="ws-tiers">
+                <template for:each={tiers} for:item="tier">
+                    <div key={tier.name} class={tier.cardClass}>
+                        <div class={tier.monoClass}>{tier.kicker}</div>
+                        <h3>{tier.name}</h3>
+                        <div class="ws-p">{tier.price}<small>{tier.priceSuffix}</small></div>
+                        <div class="ws-setup">{tier.setup}</div>
+                        <ul>
+                            <template for:each={tier.bullets} for:item="bullet">
+                                <li key={bullet}>{bullet}</li>
+                            </template>
+                        </ul>
+                        <button class={tier.btnClass} type="button" onclick={handleTierCta}>{tier.cta}</button>
+                    </div>
+                </template>
+            </div>
+
+            <div class="ws-domain">
+                <div class="ws-domain-txt">
+                    <h4>{domainHeading}</h4>
+                    <p>{domainSub}</p>
+                </div>
+                <div class="ws-domain-in">
+                    <input type="text" placeholder="yourbusiness.com.au" autocomplete="off"
+                        onkeyup={handleDomainKey} />
+                    <button class="btn btn-ink" type="button" onclick={handleDomainCheck}>Check</button>
+                </div>
+                <div class="ws-dns-out" if:true={dnsChecked}>
+                    <template if:true={dnsName}>
+                        <b>{dnsName}.com.au</b>&nbsp;is available — free for a year on any annual plan.
+                        <span class="ws-dns-taken">&nbsp;{dnsName}.com is taken.</span>
+                    </template>
+                    <template if:false={dnsName}>
+                        <span class="ws-dns-hint">Type a name first.</span>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Websuite Comparison</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" default="Straight comparison" label="Eyebrow"/>
+            <property name="heading" type="String" default="The others hand you a builder and leave." label="Heading"/>
+            <property name="lead" type="String" default="We're not pretending to out-feature a company with four thousand engineers. We're pointing at the gap they all have." label="Lead paragraph"/>
+            <property name="fairNote" type="String" default="Being fair about it: they're excellent products. Squarespace has better templates than we do today. Webflow gives designers more rope. If you want to do it entirely alone and never speak to anyone, use them — we'd say the same thing to a mate." label="Fair-play footnote"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

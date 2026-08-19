@@ -1,0 +1,45 @@
+<template>
+    <div class="ws-acct">
+        <template if:true={loading}>
+            <p class="ws-acct-loading mono">Loading…</p>
+        </template>
+
+        <template if:true={isLoggedOut}>
+            <div class="ws-acct-card">
+                <h1 class="ws-acct-heading">{heading}</h1>
+                <p class="ws-acct-sub">Log in to see the sites you've built with WebSuite.</p>
+                <button class="btn btn-ink" type="button" onclick={handleLogin}>Log in</button>
+            </div>
+        </template>
+
+        <template if:true={isLoggedIn}>
+            <div class="ws-acct-header">
+                <div>
+                    <h1 class="ws-acct-heading">{heading}</h1>
+                    <p class="ws-acct-sub">{fullName} — {session.email}</p>
+                </div>
+                <button class="ws-acct-logout mono" type="button" onclick={handleLogout}>Log out</button>
+            </div>
+
+            <h2 class="ws-acct-subheading">Your sites</h2>
+            <template if:true={hasSites}>
+                <ul class="ws-acct-sites">
+                    <template for:each={sites} for:item="site">
+                        <li key={site.id} class="ws-acct-site">
+                            <div class="ws-acct-site-info">
+                                <span class="ws-acct-site-name">{site.name}</span>
+                                <span class="ws-acct-site-status mono">{site.statusLabel}</span>
+                            </div>
+                            <button class="btn btn-ink ws-acct-site-edit" type="button" data-site-id={site.id} onclick={handleEditSite}>{site.actionLabel}</button>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <template if:false={hasSites}>
+                <p class="ws-acct-empty">{emptyStateText}</p>
+            </template>
+
+            <button class="btn btn-orange ws-acct-cta" type="button" onclick={handleOpenEditor}>Go to editor</button>
+        </template>
+    </div>
+</template>

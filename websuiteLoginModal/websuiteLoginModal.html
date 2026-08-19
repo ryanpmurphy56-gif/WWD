@@ -1,0 +1,87 @@
+<template>
+    <template if:true={isOpen}>
+        <div class="ws-login-backdrop" onclick={handleBackdropClick}>
+            <section class="ws-login-card">
+                <button class="ws-login-close mono" type="button" onclick={handleClose}>✕</button>
+
+                <h2 class="ws-login-heading">Log in to WebSuite</h2>
+
+                <template if:true={isEmailScreen}>
+                    <p class="ws-login-sub">No password needed — we'll email you a one-time code.</p>
+                    <label class="ws-login-label" for="wsl-email">Email address</label>
+                    <input
+                        id="wsl-email"
+                        class="ws-login-input"
+                        type="email"
+                        value={emailValue}
+                        disabled={loading}
+                        oninput={handleEmailInput}
+                        onkeydown={handleKeydown}
+                    />
+                    <template if:true={hasError}>
+                        <p class="ws-login-error">{errorMessage}</p>
+                    </template>
+                    <button class="btn btn-ink ws-login-btn" type="button" disabled={loading} onclick={handleEmailSubmit}>Continue</button>
+                </template>
+
+                <template if:true={isNameScreen}>
+                    <p class="ws-login-sub">We don't have an account for that email yet — tell us your name to create one.</p>
+                    <label class="ws-login-label" for="wsl-first">First name</label>
+                    <input
+                        id="wsl-first"
+                        class="ws-login-input"
+                        type="text"
+                        value={firstNameValue}
+                        disabled={loading}
+                        oninput={handleFirstNameInput}
+                        onkeydown={handleKeydown}
+                    />
+                    <label class="ws-login-label" for="wsl-last">Last name</label>
+                    <input
+                        id="wsl-last"
+                        class="ws-login-input"
+                        type="text"
+                        value={lastNameValue}
+                        disabled={loading}
+                        oninput={handleLastNameInput}
+                        onkeydown={handleKeydown}
+                    />
+                    <label class="ws-login-label" for="wsl-phone">Phone number (optional)</label>
+                    <input
+                        id="wsl-phone"
+                        class="ws-login-input"
+                        type="tel"
+                        value={phoneValue}
+                        disabled={loading}
+                        oninput={handlePhoneInput}
+                        onkeydown={handleKeydown}
+                    />
+                    <template if:true={hasError}>
+                        <p class="ws-login-error">{errorMessage}</p>
+                    </template>
+                    <button class="btn btn-ink ws-login-btn" type="button" disabled={loading} onclick={handleNameSubmit}>Create account &amp; send code</button>
+                </template>
+
+                <template if:true={isCodeScreen}>
+                    <p class="ws-login-sub">Enter the code we sent to {maskedEmail}.</p>
+                    <label class="ws-login-label" for="wsl-code">Login code</label>
+                    <input
+                        id="wsl-code"
+                        class="ws-login-input ws-login-input_code"
+                        type="text"
+                        maxlength="6"
+                        value={codeValue}
+                        disabled={loading}
+                        oninput={handleCodeInput}
+                        onkeydown={handleKeydown}
+                    />
+                    <template if:true={hasError}>
+                        <p class="ws-login-error">{errorMessage}</p>
+                    </template>
+                    <button class="btn btn-ink ws-login-btn" type="button" disabled={loading} onclick={handleCodeSubmit}>Verify &amp; log in</button>
+                    <button class="ws-login-resend mono" type="button" disabled={loading} onclick={handleResend}>Resend code</button>
+                </template>
+            </section>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,36 @@
+<template>
+    <section class="ws-sect">
+        <div class="shell">
+            <div class="ws-sec-head">
+                <div class="mono eyebrow">{eyebrow}</div>
+                <h2 class="ws-sec">{heading}</h2>
+                <p class="ws-sec-lead">{lead}</p>
+            </div>
+            <div class="ws-cmp-scroll">
+                <table class="ws-cmp">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="ws-us">Websuite</th>
+                            <th>Squarespace</th>
+                            <th>Wix</th>
+                            <th>Webflow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={rows} for:item="row">
+                            <tr key={row.label}>
+                                <td>{row.label}</td>
+                                <td class="ws-us-cell">{row.us}</td>
+                                <td class={row.sqClass}>{row.squarespace}</td>
+                                <td class={row.wixClass}>{row.wix}</td>
+                                <td class={row.wfClass}>{row.webflow}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <p class="ws-fair">{fairNote}</p>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,26 @@
+<template>
+  <div class="history">
+    <template lwc:if={loading}>
+      <p class="history__empty">Loading version history…</p>
+    </template>
+    <template lwc:elseif={error}>
+      <p class="history__error">{error}</p>
+    </template>
+    <template lwc:elseif={isEmpty}>
+      <p class="history__empty">No published versions yet. Publish this site to start building version history.</p>
+    </template>
+    <template lwc:else>
+      <ul class="history__list">
+        <template for:each={rows} for:item="r">
+          <li key={r.id} class="row">
+            <div class="row__main">
+              <span class="row__name">{r.name}</span>
+              <span class="row__date">{r.dateLabel}</span>
+            </div>
+            <button type="button" class="row__restore" data-version-id={r.id} onclick={handleRestore}>Restore</button>
+          </li>
+        </template>
+      </ul>
+    </template>
+  </div>
+</template>

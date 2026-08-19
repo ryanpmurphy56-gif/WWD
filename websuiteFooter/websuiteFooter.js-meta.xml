@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Websuite Footer</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="logoText" type="String" default="WebSuite" label="Logo text"/>
+            <property name="pillTagline" type="String" default="Scroll With Style" label="Tagline"/>
+            <property name="headline" type="String" default="Bendigo Built." label="Headline"/>
+            <property name="addressLine1" type="String" default="93–95 Williamson Street," label="Address line 1"/>
+            <property name="addressLine2" type="String" default="Bendigo VIC 3550" label="Address line 2"/>
+            <property name="description" type="String" label="Description paragraph"/>
+            <property name="contactEmail" type="String" default="hello@laddandassociates.com" label="Contact email"/>
+            <property name="copyrightText" type="String" default="© 2026 Websuite. All rights reserved." label="Copyright"/>
+            <property name="privacyLabel" type="String" default="Privacy Policy" label="Privacy link label"/>
+            <property name="privacyHref" type="String" default="#privacy" label="Privacy link URL"/>
+            <property name="ctaLabel" type="String" default="Contact Us" label="CTA button label"/>
+            <property name="facebookUrl" type="String" default="#" label="Facebook URL"/>
+            <property name="instagramUrl" type="String" default="#" label="Instagram URL"/>
+            <property name="linkedinUrl" type="String" default="#" label="LinkedIn URL"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

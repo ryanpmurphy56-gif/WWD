@@ -1,0 +1,93 @@
+.ws-sect {
+    padding: var(--space-3xl) 0;
+    background: var(--ink);
+    color: #fff;
+}
+
+.ws-sec-head {
+    margin-bottom: 46px;
+}
+
+.ws-sec {
+    font-family: var(--font-body);
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 900;
+    letter-spacing: -.04em;
+    line-height: 1.02;
+    color: #fff;
+    margin: 0;
+}
+
+.ws-sec-lead {
+    margin-top: var(--space-md);
+    font-size: 18px;
+    color: #8A8A8A;
+    max-width: 560px;
+    line-height: 1.55;
+}
+
+.ws-cmp-scroll {
+    overflow-x: auto;
+}
+
+.ws-cmp {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-family: var(--font-body);
+}
+
+.ws-cmp th,
+.ws-cmp td {
+    padding: 15px 16px;
+    text-align: left;
+    border-bottom: 1px solid #262626;
+}
+
+.ws-cmp thead th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #7A7A7A;
+    font-weight: 600;
+}
+
+.ws-cmp thead th.ws-us {
+    color: var(--orange);
+}
+
+.ws-cmp td:first-child {
+    color: var(--ink-30);
+    font-weight: 600;
+}
+
+.ws-cmp td.ws-us-cell {
+    color: #fff;
+    font-weight: 800;
+    background: rgba(255, 91, 4, .09);
+}
+
+.ws-cmp td.ws-no {
+    color: #5C5C5C;
+}
+
+.ws-cmp tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.ws-fair {
+    margin-top: 26px;
+    font-size: 13px;
+    color: #5C5C5C;
+    max-width: 640px;
+    line-height: 1.6;
+}
+
+@media (max-width: 1000px) {
+    .ws-cmp th,
+    .ws-cmp td {
+        padding: 12px 8px;
+        font-size: 12.5px;
+    }
+}

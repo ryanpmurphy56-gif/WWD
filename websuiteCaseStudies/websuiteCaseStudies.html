@@ -1,0 +1,29 @@
+<template>
+    <section class="ws-sect">
+        <div class="shell">
+            <div class="ws-sec-head">
+                <div class="mono eyebrow">{eyebrow}</div>
+                <h2 class="ws-sec">{heading}</h2>
+                <p class="ws-sec-lead">{lead}</p>
+            </div>
+            <div class="ws-cases">
+                <template for:each={cases} for:item="c">
+                    <div key={c.client} class="ws-case">
+                        <div class="ws-logo-art" style={c.artStyle}>
+                            <span class="ws-tag">{c.tag}</span>{c.client}
+                        </div>
+                        <div class="ws-in">
+                            <b>{c.title}</b>
+                            <div class="ws-stat">
+                                <div class="ws-stat-n">{c.statNumber}</div>
+                                <div class="ws-stat-l">{c.statLabel}</div>
+                            </div>
+                            <p>{c.copy}</p>
+                            <a href="#" onclick={handleReadStory}>Read the story →</a>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

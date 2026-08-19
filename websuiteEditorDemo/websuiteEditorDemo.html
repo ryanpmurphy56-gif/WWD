@@ -1,0 +1,77 @@
+<template>
+    <section class="ws-sect">
+        <div class="shell">
+            <div class="ws-sec-head">
+                <div class="mono eyebrow">{eyebrow}</div>
+                <h2 class="ws-sec">{heading}</h2>
+                <p class="ws-sec-lead">{lead}</p>
+            </div>
+
+            <div class="ws-ed">
+                <div class="ws-ed-top">
+                    <span class="mono">Editing — Home</span>
+                    <div class="ws-ed-dev">
+                        <template for:each={devices} for:item="dev">
+                            <button key={dev.name} class={dev.cssClass} type="button" data-dev={dev.name} onclick={handleDevice}>{dev.name}</button>
+                        </template>
+                    </div>
+                    <button class="btn btn-orange btn-sm" type="button">Publish</button>
+                </div>
+
+                <div class="ws-ed-body">
+                    <div class="ws-ed-tools">
+                        <template for:each={tools} for:item="tool">
+                            <button key={tool.name} class={tool.cssClass} type="button" data-tool={tool.name} onclick={handleTool}>{tool.label}</button>
+                        </template>
+                    </div>
+
+                    <div class="ws-ed-canvas">
+                        <div class={frameClass}>
+                            <div class="ws-fr-nav"><b>Your Business</b><i></i></div>
+                            <div class="ws-fr-hero">
+                                <h5 style={frameHeadingStyle}>Made in Bendigo.</h5>
+                                <p>Fast setup, effortless updates, beautiful by default.</p>
+                                <span class="ws-fr-cta" style={frameCtaStyle}>Get in touch</span>
+                            </div>
+                            <div class="ws-fr-grid"><i></i><i></i><i></i></div>
+                        </div>
+                    </div>
+
+                    <div class="ws-ed-insp">
+                        <h6>{activePanel.title}</h6>
+                        <span class="mono ws-insp-sub">{activePanel.subtitle}</span>
+
+                        <template for:each={activePanel.rows} for:item="row">
+                            <div key={row.label} class={row.rowClass}>
+                                {row.label}
+                                <span class={row.valueClass}>{row.value}</span>
+                            </div>
+                        </template>
+
+                        <template if:true={isTextTool}>
+                            <label class="ws-slider-label">
+                                <span class="mono">Size</span>
+                                <input class="ws-slider" type="range" min="16" max="34" value={headingSize} oninput={handleSize} />
+                            </label>
+                        </template>
+
+                        <template if:true={isColourTool}>
+                            <div class="ws-sw-row">
+                                <template for:each={swatches} for:item="sw">
+                                    <button key={sw.color} class={sw.cssClass} style={sw.style} data-c={sw.color} onclick={handleSwatch} type="button" aria-label={sw.color}></button>
+                                </template>
+                            </div>
+                            <div class="ws-row ws-contrast">Contrast check <span class="ws-ok">Passes AA</span></div>
+                        </template>
+
+                        <template if:true={isShopTool}>
+                            <button class="btn btn-ghost btn-sm ws-shop-btn" type="button">Turn on selling</button>
+                        </template>
+
+                        <div class="ws-ed-note">{activePanel.note}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
