@@ -1,0 +1,38 @@
+<template>
+    <div class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <h2
+                class="blog__heading"
+                style={headingFieldStyle}
+                contenteditable={editableAttr}
+                data-field="heading"
+                data-placeholder="From the blog"
+                onblur={handleHeadingEdit}
+                onkeydown={handleKeydown}
+            >{heading}</h2>
+
+            <template lwc:if={hasPosts}>
+                <div class={gridClass}>
+                    <template for:each={posts} for:item="p">
+                        <article key={p.id} class="blog__card">
+                            <template lwc:if={p.hasCover}>
+                                <div class="blog__cover" style={p.coverStyle}></div>
+                            </template>
+                            <div class="blog__body">
+                                <span class="blog__date">{p.dateLabel}</span>
+                                <h3 class="blog__title">{p.title}</h3>
+                                <p class="blog__excerpt">{p.excerpt}</p>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            <template lwc:elseif={showEmptyNoSite}>
+                <div class="blog__empty">Save the site to start adding blog posts.</div>
+            </template>
+            <template lwc:elseif={showEmptyNoPosts}>
+                <div class="blog__empty">No published posts yet. Use "Manage posts" in the Properties panel to add one.</div>
+            </template>
+        </div>
+    </div>
+</template>

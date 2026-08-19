@@ -1,0 +1,39 @@
+:host { display: block; }
+
+.rt {
+    position: fixed;
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    background: #0a0a0a;
+    color: #fff;
+    padding: 0.3rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.rt__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    border: none;
+    background: transparent;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.rt__btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.rt__sep {
+    width: 1px;
+    height: 1.1rem;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 0.15rem;
+}

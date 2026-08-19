@@ -1,0 +1,47 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Publish history">
+            <div class="dialog__head">
+                <span class="dialog__title">Publish history</span>
+                <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+            </div>
+            <div class="dialog__body">
+                <template lwc:if={loading}>
+                    <p class="dialog__lead">Loading…</p>
+                </template>
+                <template lwc:elseif={errorText}>
+                    <p class="dialog__error">{errorText}</p>
+                </template>
+                <template lwc:elseif={hasVersions}>
+                    <p class="dialog__lead">Every time you publish, a snapshot is saved here. Restoring brings a
+                        past version back into your DRAFT to review — it won't go live until you publish again.</p>
+                    <ul class="versions">
+                        <template for:each={rows} for:item="v">
+                            <li key={v.id} class="version">
+                                <span class="version__date">{v.label}</span>
+                                <template lwc:if={v.confirming}>
+                                    <span class="version__confirm">
+                                        <span class="version__confirm-text">Restore this into your draft?</span>
+                                        <button type="button" class="btn" disabled={v.restoring} onclick={handleCancelConfirm}>Cancel</button>
+                                        <button type="button" class="btn btn_primary" data-id={v.id} disabled={v.restoring} onclick={handleConfirmRestore}>
+                                            {v.confirmLabel}
+                                        </button>
+                                    </span>
+                                </template>
+                                <template lwc:else>
+                                    <button type="button" class="btn" data-id={v.id} disabled={v.disabled} onclick={handleRestoreClick}>Restore</button>
+                                </template>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template lwc:else>
+                    <p class="dialog__lead">Nothing published yet — hit Publish in the toolbar to create your first snapshot.</p>
+                </template>
+            </div>
+            <div class="dialog__foot">
+                <button type="button" class="btn" onclick={close}>Close</button>
+            </div>
+        </div>
+    </div>
+</template>

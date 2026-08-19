@@ -1,0 +1,62 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block faq" style={blockStyle}>
+                <h2
+                    class="faq__heading"
+                    style={headingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="heading"
+                    data-placeholder="Heading"
+                    onblur={handleFieldEdit}
+                    onkeydown={handleKeydown}
+                >{content.heading}</h2>
+
+                <!-- Edit mode: everything open and editable. Live mode: a real
+                     accordion via <details>, no JS needed. -->
+                <template lwc:if={isEdit}>
+                    <div class="faq__list">
+                        <template for:each={items} for:item="it">
+                            <div
+                                key={it.index}
+                                class="faq__item faq__item_edit"
+                                data-index={it.index}
+                                onclick={handleItemClick}
+                            >
+                                <button
+                                    class="faq__remove"
+                                    type="button"
+                                    title="Remove"
+                                    data-index={it.index}
+                                    onclick={handleRemove}
+                                >✕</button>
+                                <p class="faq__q">{it.q}</p>
+                                <p class="faq__a">{it.a}</p>
+                            </div>
+                        </template>
+                    </div>
+                    <button class="sec__add" type="button" onclick={handleAdd}>+ Add question</button>
+                </template>
+                <template lwc:else>
+                    <div class="faq__list">
+                        <template for:each={items} for:item="it">
+                            <details key={it.index} class="faq__item">
+                                <summary class="faq__q">{it.q}</summary>
+                                <p class="faq__a">{it.a}</p>
+                            </details>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <template lwc:if={editingItem}>
+            <c-faq-item-editor
+                question={editingItem.q}
+                answer={editingItem.a}
+                onsave={handleEditorSave}
+                onclose={handleEditorClose}
+            ></c-faq-item-editor>
+        </template>
+    </section>
+</template>

@@ -1,0 +1,60 @@
+<template>
+    <div class="history-shell">
+        <div class="history-head"><h2>Purchase History</h2></div>
+
+        <template if:true={message}>
+            <p class={messageClass}>{message}</p>
+        </template>
+
+        <template if:true={hasOrders}>
+            <div class="history-list">
+                <template for:each={orders} for:item="order">
+                    <div key={order.orderId} class="history-row-wrap">
+                        <div class="history-row" data-id={order.orderId} onclick={handleToggle}>
+                            <div class="history-main">
+                                <div class="order-id">Order #{order.orderNumber}</div>
+                                <div class="order-meta">
+                                    {order.displayDate} · {order.fulfilmentType} ·
+                                    <span class={order._statusClass}>{order.status}</span>
+                                </div>
+                                <template if:true={order.trackingNumber}>
+                                    <div class="order-tracking">Tracking: {order.trackingNumber}</div>
+                                </template>
+                            </div>
+                            <div class="order-total">{order.displayTotal}</div>
+                        </div>
+
+                        <template if:true={order._expanded}>
+                            <div class="order-lines">
+                                <template for:each={order.lines} for:item="line">
+                                    <div key={line.productId} class="order-line">
+                                        <span class="line-name">{line.productName}</span>
+                                        <span class="line-qty">{line.displayQty}</span>
+                                        <span class="line-total">{line.displayLineTotal}</span>
+                                    </div>
+                                </template>
+                                <template if:true={order.displayDiscount}>
+                                    <div class="order-line order-line--discount">
+                                        <span class="line-name">Discounts</span>
+                                        <span class="line-qty"></span>
+                                        <span class="line-total">{order.displayDiscount}</span>
+                                    </div>
+                                </template>
+                                <template if:true={order.canCancel}>
+                                    <div class="order-actions">
+                                        <button class="cancel-btn" data-id={order.orderId} data-armed={order._cancelArmed} onclick={handleCancel}>
+                                            {order._cancelLabel}
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template if:false={hasOrders}>
+            <div class="empty">No orders found yet.</div>
+        </template>
+    </div>
+</template>

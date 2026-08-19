@@ -1,0 +1,60 @@
+<template>
+    <div class="search-container">
+
+        <div class="search-header">
+            <h2 class="search-title">
+                Search results for: <span class="search-term">"{searchKey}"</span>
+            </h2>
+            <p class="result-count">{resultCount} products found</p>
+        </div>
+
+        <template if:true={hasProducts}>
+            <div class="grid">
+                <template for:each={products} for:item="product">
+                    <div key={product.Id} class="card" data-id={product.Id} onclick={handleNavigate}>
+
+                        <template if:true={product._showOfferRibbon}>
+                            <div class="ribbon">Offer</div>
+                        </template>
+
+                        <div class="image-container">
+                            <img if:true={product.Product_Image_Field__c}
+                                 src={product.Product_Image_Field__c}
+                                 alt={product.Name}/>
+                            <img if:false={product.Product_Image_Field__c}
+                                 src="https://via.placeholder.com/400x400?text=No+Image"
+                                 alt="Placeholder"/>
+                        </div>
+
+                        <div class="card-content">
+                            <h3>{product.Name}</h3>
+                            <p class="product-family">{product.Family}</p>
+                            <div class="pricing">
+                                <div class="price-row">
+                                    <span class="price-label">Price</span>
+                                    <span class="regular-price">{product.formattedRegular}</span>
+                                </div>
+                                <template if:true={product._showMemberPrice}>
+                                    <div class="price-row member-row">
+                                        <span class="label-text">Member Price</span>
+                                        <span class="member-price">{product.formattedMember}</span>
+                                    </div>
+                                </template>
+                            </div>
+                            <button data-id={product.Id} onclick={handleAddToCart}>Add to Cart</button>
+                        </div>
+
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={noResults}>
+            <div class="no-results">
+                <p>No products found for "<strong>{searchKey}</strong>"</p>
+                <p class="no-results-sub">Try a different search term or browse our categories above.</p>
+            </div>
+        </template>
+
+    </div>
+</template>

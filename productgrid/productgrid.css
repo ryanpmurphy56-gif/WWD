@@ -1,0 +1,174 @@
+/* GRID LAYOUT */
+.grid {
+    display: grid;
+    /* Use minmax to prevent cards getting too skinny */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px; /* Stop it stretching too wide on huge screens */
+    margin: 0 auto;
+}
+
+/* CARD CONTAINER */
+.card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0; /* Subtle border */
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative; /* Needed for the Ribbon */
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Forces all cards in a row to be equal height */
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    border-color: #b0b0b0;
+}
+
+/* IMAGE STAGE */
+.image-container {
+    width: 100%;
+    height: 260px; /* Fixed height for the 'stage' */
+    display: flex;
+    align-items: center;   /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    background-color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* RIBBON (Offer) */
+.ribbon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #9d164d; /* Brand color */
+    color: white;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+    border-bottom-right-radius: 8px; /* Soften one corner */
+}
+
+/* CONTENT */
+.card-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Pushes button to bottom */
+    text-align: center;
+}
+
+h3 {
+    font-size: 15px;
+    line-height: 1.4;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0 0 12px;
+    /* Limit to 2 lines so titles don't push content down unevenly */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 42px;
+}
+
+/* PRICING */
+.pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+    margin-top: auto; /* Pushes price to bottom of content area */
+}
+
+.price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.price-label {
+    font-size: 11px;
+    color: #444;
+    font-weight: 700;
+}
+
+.regular-price {
+    font-size: 22px;
+    font-weight: 800;
+    color: #222;
+}
+
+.label-text {
+    font-size: 11px;
+    color: #2e7d32; /* accent for member label */
+    font-weight: 700;
+}
+
+.member-row .label-text {
+    color: #2e7d32;
+}
+
+.member-price {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1b5e20;
+}
+
+/* BUTTONS */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #581d43; /* Darker Purple button */
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background-color: #7a285d;
+}
+
+/* CATEGORY/SUBTYPE BUTTONS */
+.categories button,
+.subtypes button {
+    margin: 4px;
+    padding: 8px 12px;
+    background: #581d43;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.categories button:hover,
+.subtypes button:hover {
+    background: #7a285d;
+}
+
+.categories {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}

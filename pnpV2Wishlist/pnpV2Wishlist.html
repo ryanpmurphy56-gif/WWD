@@ -1,0 +1,55 @@
+<template>
+    <div class="wishlist-shell">
+        <div class="wishlist-head">
+            <h2>My Wishlist</h2>
+            <template if:true={hasItems}>
+                <span class="wishlist-count">{itemCount} item{itemCountSuffix}</span>
+            </template>
+        </div>
+
+        <template if:true={hasItems}>
+            <div class="wishlist-list">
+                <template for:each={items} for:item="item">
+                    <div key={item.Id} class="wishlist-row">
+                        <div class="wishlist-image-wrap">
+                            <img src={item.ProductImage} alt={item.ProductName} class="wishlist-image" />
+                        </div>
+                        <div class="wishlist-info">
+                            <div class="wishlist-name">{item.ProductName}</div>
+                            <div class="wishlist-family">{item.ProductFamily}</div>
+                            <div class="wishlist-price">${item.Price}</div>
+                            <template if:false={item.InStock}>
+                                <div class="wishlist-oos">Out of Stock</div>
+                            </template>
+                        </div>
+                        <div class="wishlist-actions">
+                            <button
+                                class="action-btn action-btn--cart"
+                                data-id={item.Id}
+                                disabled={item.cartDisabled}
+                                onclick={handleMoveToCart}
+                            >Add to Cart</button>
+                            <button
+                                class="action-btn action-btn--remove"
+                                data-id={item.Id}
+                                onclick={handleRemove}
+                            >Remove</button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <template if:false={hasItems}>
+            <div class="wishlist-empty">
+                <div class="empty-icon">♡</div>
+                <p>Your wishlist is empty.</p>
+                <p class="empty-sub">Browse products and hit the heart icon to save favourites.</p>
+            </div>
+        </template>
+
+        <template if:true={errorMessage}>
+            <p class="wishlist-error">{errorMessage}</p>
+        </template>
+    </div>
+</template>

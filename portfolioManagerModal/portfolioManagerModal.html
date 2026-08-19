@@ -1,0 +1,92 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Manage portfolio items">
+            <template lwc:if={isEditing}>
+                <div class="dialog__head">
+                    <span class="dialog__title">{formTitle}</span>
+                    <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+                </div>
+                <div class="dialog__body">
+                    <template lwc:if={errorText}>
+                        <p class="dialog__error">{errorText}</p>
+                    </template>
+                    <div class="field">
+                        <label class="field__label">Title</label>
+                        <input class="field__input" type="text" value={draft.title} onchange={handleTitleChange} />
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Category</label>
+                        <input class="field__input" type="text" value={draft.category} onchange={handleCategoryChange} />
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Image</label>
+                        <c-image-uploader
+                            site-id={siteId}
+                            image-url={draft.imageUrl}
+                            label="Upload image"
+                            onuploaded={handleImageUploaded}
+                            onremove={handleImageRemove}
+                        ></c-image-uploader>
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Description</label>
+                        <textarea class="field__input" rows="5" onchange={handleDescriptionChange}>{draft.description}</textarea>
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Project link</label>
+                        <input class="field__input" type="text" placeholder="https://..." value={draft.projectUrl} onchange={handleProjectUrlChange} />
+                        <p class="field__note">Opens in a new tab when a visitor clicks "View project".</p>
+                    </div>
+                    <div class="field field_row">
+                        <label class="field__check">
+                            <input type="checkbox" checked={draft.isActive} onchange={handleActiveChange} />
+                            Active (visible in the Portfolio section)
+                        </label>
+                    </div>
+                </div>
+                <div class="dialog__foot">
+                    <button type="button" class="btn" onclick={handleCancelEdit}>Cancel</button>
+                    <button type="button" class="btn btn_primary" disabled={saveDisabled} onclick={handleSaveDraft}>{saveLabel}</button>
+                </div>
+            </template>
+
+            <template lwc:else>
+                <div class="dialog__head">
+                    <span class="dialog__title">Portfolio items</span>
+                    <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+                </div>
+                <div class="dialog__body">
+                    <template lwc:if={loading}>
+                        <p class="dialog__lead">Loading…</p>
+                    </template>
+                    <template lwc:elseif={errorText}>
+                        <p class="dialog__error">{errorText}</p>
+                    </template>
+                    <template lwc:elseif={hasItems}>
+                        <ul class="posts">
+                            <template for:each={items} for:item="i">
+                                <li key={i.id} class="post">
+                                    <div class="post__info">
+                                        <span class="post__title">{i.title}</span>
+                                        <span class="post__status">{i.statusLabel}</span>
+                                    </div>
+                                    <div class="post__actions">
+                                        <button type="button" class="btn" data-id={i.id} onclick={handleEditItem}>Edit</button>
+                                        <button type="button" class="btn btn_danger" data-id={i.id} onclick={handleDeleteItem}>Delete</button>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                    <template lwc:else>
+                        <p class="dialog__lead">No portfolio items yet.</p>
+                    </template>
+                </div>
+                <div class="dialog__foot">
+                    <button type="button" class="btn" onclick={close}>Close</button>
+                    <button type="button" class="btn btn_primary" onclick={handleNewItem}>+ New portfolio item</button>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

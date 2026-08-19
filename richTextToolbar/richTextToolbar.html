@@ -1,0 +1,23 @@
+<template>
+    <div class="rt" style={hostStyle}>
+        <button type="button" class="rt__btn" title="Heading 1" data-cmd="formatBlock" data-value="h1" onmousedown={stopDefault} onclick={fire}>H1</button>
+        <button type="button" class="rt__btn" title="Heading 2" data-cmd="formatBlock" data-value="h2" onmousedown={stopDefault} onclick={fire}>H2</button>
+        <button type="button" class="rt__btn" title="Normal text" data-cmd="formatBlock" data-value="p" onmousedown={stopDefault} onclick={fire}>P</button>
+        <span class="rt__sep"></span>
+        <button type="button" class="rt__btn" title="Bold" data-cmd="bold" onmousedown={stopDefault} onclick={fire}><b>B</b></button>
+        <button type="button" class="rt__btn" title="Italic" data-cmd="italic" onmousedown={stopDefault} onclick={fire}><i>I</i></button>
+        <button type="button" class="rt__btn" title="Underline" data-cmd="underline" onmousedown={stopDefault} onclick={fire}><u>U</u></button>
+        <span class="rt__sep"></span>
+        <button type="button" class="rt__btn" title="Link" data-cmd="createLink" onmousedown={stopDefault} onclick={fire}>🔗</button>
+        <button type="button" class="rt__btn" title="Remove link" data-cmd="unlink" onmousedown={stopDefault} onclick={fire}>⛓</button>
+        <span class="rt__sep"></span>
+        <button type="button" class="rt__btn" title="Bulleted list" data-cmd="insertUnorderedList" onmousedown={stopDefault} onclick={fire}>•≡</button>
+        <button type="button" class="rt__btn" title="Numbered list" data-cmd="insertOrderedList" onmousedown={stopDefault} onclick={fire}>1≡</button>
+        <span class="rt__sep"></span>
+        <button type="button" class="rt__btn" title="Align left" data-cmd="justifyLeft" onmousedown={stopDefault} onclick={fire}>⯇</button>
+        <button type="button" class="rt__btn" title="Align center" data-cmd="justifyCenter" onmousedown={stopDefault} onclick={fire}>≡</button>
+        <button type="button" class="rt__btn" title="Align right" data-cmd="justifyRight" onmousedown={stopDefault} onclick={fire}>⯈</button>
+        <span class="rt__sep"></span>
+        <button type="button" class="rt__btn" title="Clear formatting" data-cmd="removeFormat" onmousedown={stopDefault} onclick={fire}>⌫</button>
+    </div>
+</template>

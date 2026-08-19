@@ -1,0 +1,18 @@
+<template>
+    <div class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <template lwc:if={hasHtml}>
+                <iframe
+                    class="embed__frame"
+                    sandbox="allow-scripts allow-forms allow-popups"
+                    title="Custom embed"
+                ></iframe>
+            </template>
+            <template lwc:else>
+                <template lwc:if={isEdit}>
+                    <div class="embed__empty">Paste HTML/embed code for this block in the Properties panel on the right.</div>
+                </template>
+            </template>
+        </div>
+    </div>
+</template>

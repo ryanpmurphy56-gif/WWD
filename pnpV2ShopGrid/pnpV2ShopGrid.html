@@ -1,0 +1,49 @@
+<template>
+    <section class="product-section">
+        <div class="section-inner">
+            <template if:true={showHeading}>
+                <div class="section-heading-wrap">
+                    <h2 class="section-heading">{sectionTitle}</h2>
+                </div>
+            </template>
+            <template if:true={hasProducts}>
+                <div class="product-grid">
+                    <template for:each={products} for:item="product">
+                        <article key={product.Id} class="product-card" data-id={product.Id} onclick={handleCardClick}>
+                            <template if:true={product.showOfferBadge}>
+                                <div class="offer-badge">Member Offer</div>
+                            </template>
+                            <div class="image-wrap">
+                                <img src={product.Product_Image_Field__c} alt={product.Name} class="product-image" />
+                            </div>
+                            <div class="card-body">
+                                <h3 class="product-name">{product.Name}</h3>
+                                <div class="price-block">
+                                    <template if:true={product.showMemberPrice}>
+                                        <div class="price-line old-price-line">
+                                            <span class="price-label">Regular</span>
+                                            <span class="old-price">{product.formattedRegularPrice}</span>
+                                        </div>
+                                        <div class="price-line member-price-line">
+                                            <span class="price-label member-label">Member</span>
+                                            <span class="member-price">{product.formattedMemberPrice}</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={product.showMemberPrice}>
+                                        <div class="price-line single-price-line">
+                                            <span class="single-price">{product.formattedRegularPrice}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <button class="add-btn" data-id={product.Id} onclick={handleAddToCart}>Add to Cart</button>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            <template if:false={hasProducts}>
+                <div class="empty-state"><p>No products found.</p></div>
+            </template>
+        </div>
+    </section>
+</template>

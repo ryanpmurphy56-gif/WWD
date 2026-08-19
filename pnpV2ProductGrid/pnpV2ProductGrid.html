@@ -1,0 +1,157 @@
+<template>
+    <section class="product-section">
+        <div class="section-inner">
+
+            <template if:true={showHeading}>
+                <div class="section-heading-wrap">
+                    <h2 class="section-heading">{sectionTitle}</h2>
+                </div>
+            </template>
+
+            <div class="layout-wrap">
+
+                <!-- Sidebar -->
+                <aside class={sidebarClass}>
+                    <div class="sidebar-header">
+                        <span class="sidebar-title">Filter &amp; Sort</span>
+                        <template if:true={hasActiveFilters}>
+                            <button class="clear-btn" onclick={handleClearFilters}>Clear all</button>
+                        </template>
+                    </div>
+
+                    <div class="sidebar-body">
+
+                        <!-- Sort -->
+                        <div class="filter-group">
+                            <label class="filter-label">Sort By</label>
+                            <select class="filter-select" onchange={handleSortChange}>
+                                <option value="az">A – Z</option>
+                                <option value="price-asc">Price: Low → High</option>
+                                <option value="price-desc">Price: High → Low</option>
+                                <option value="newest">Newest First</option>
+                            </select>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="filter-group">
+                            <label class="filter-label">Price Range (AUD)</label>
+                            <div class="price-range-row">
+                                <input class="price-input price-min" type="number" min="0" placeholder="Min"
+                                       onchange={handlePriceMinChange} />
+                                <span class="price-sep">–</span>
+                                <input class="price-input price-max" type="number" min="0" placeholder="Max"
+                                       onchange={handlePriceMaxChange} />
+                            </div>
+                        </div>
+
+                        <!-- Availability -->
+                        <div class="filter-group">
+                            <label class="filter-label">Availability</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" checked={inStockOnly}
+                                           onchange={handleInStockToggle} />
+                                    <span>In Stock Only</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" checked={memberOffersOnly}
+                                           onchange={handleMemberOffersToggle} />
+                                    <span>Member Offers Only</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Packaging -->
+                        <div class="filter-group">
+                            <label class="filter-label">Packaging</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" checked={filterHas6Pack}
+                                           onchange={handle6PackToggle} />
+                                    <span>6-Pack Available</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" checked={filterHasSlab}
+                                           onchange={handleSlabToggle} />
+                                    <span>Slab of 24 Available</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Type (sub-family) — only shown when products have sub-families -->
+                        <template if:true={hasSidebarSubFamilies}>
+                            <div class="filter-group">
+                                <label class="filter-label">Type</label>
+                                <div class="checkbox-list">
+                                    <template for:each={availableSubFamilies} for:item="sub">
+                                        <label key={sub.value} class="checkbox-item">
+                                            <input type="checkbox" data-sub={sub.value}
+                                                   checked={sub.checked}
+                                                   onchange={handleSubFamilyFilter} />
+                                            <span>{sub.label}</span>
+                                        </label>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+
+                    </div>
+                </aside>
+
+                <!-- Main product grid -->
+                <div class="grid-area">
+                    <div class="filter-bar">
+                        <button class="filter-toggle-btn" onclick={handleToggleSidebar}>
+                            ⚙ {toggleSidebarLabel}
+                        </button>
+                        <span class="result-count">
+                            <template if:true={hasProducts}>{displayProducts.length} products</template>
+                        </span>
+                    </div>
+
+                    <template if:true={hasProducts}>
+                        <div class="product-grid">
+                            <template for:each={displayProducts} for:item="product">
+                                <article key={product.Id} class="product-card" data-id={product.Id} onclick={handleCardClick}>
+                                    <template if:true={product.showOfferBadge}>
+                                        <div class="offer-badge">Member Offer</div>
+                                    </template>
+                                    <div class="image-wrap">
+                                        <img src={product.imageUrl} alt={product.Name} class="product-image"
+                                             onerror={handleImageError} />
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="product-name">{product.Name}</h3>
+                                        <div class="price-block">
+                                            <template if:true={product.showMemberPrice}>
+                                                <div class="price-line old-price-line">
+                                                    <span class="price-label">Regular</span>
+                                                    <span class="old-price">{product.formattedRegularPrice}</span>
+                                                </div>
+                                                <div class="price-line member-price-line">
+                                                    <span class="price-label member-label">Member</span>
+                                                    <span class="member-price">{product.formattedMemberPrice}</span>
+                                                </div>
+                                            </template>
+                                            <template if:false={product.showMemberPrice}>
+                                                <div class="price-line single-price-line">
+                                                    <span class="single-price">{product.formattedRegularPrice}</span>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <button class="add-btn" data-id={product.Id} onclick={handleAddToCart}>Add to Cart</button>
+                                    </div>
+                                </article>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:false={hasProducts}>
+                        <div class="empty-state"><p>No products match your filters.</p></div>
+                    </template>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</template>

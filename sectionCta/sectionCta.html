@@ -1,0 +1,36 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block cta" style={blockStyle}>
+                <h2
+                    class="cta__heading"
+                    style={headingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="heading"
+                    data-placeholder="Heading"
+                    onblur={handleFieldEdit}
+                    onkeydown={handleKeydown}
+                >{content.heading}</h2>
+                <p
+                    class="cta__body"
+                    style={bodyFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="body"
+                    data-placeholder="Say why it matters"
+                    onblur={handleFieldEdit}
+                >{content.body}</p>
+                <a class="cta__btn" href={href} onclick={handleCtaClick}>
+                    <span
+                        class="cta__btn-label"
+                        style={ctaLabelFieldStyle}
+                        contenteditable={editableAttr}
+                        data-field="ctaLabel"
+                        data-placeholder="Button label"
+                        onblur={handleFieldEdit}
+                        onkeydown={handleKeydown}
+                    >{content.ctaLabel}</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,179 @@
+<template>
+    <template if:true={showCartPopup}>
+        <c-cart-popup
+            cart-items={cartItems}
+            cart-count={cartCount}
+            last-added-product={lastAddedProduct}
+            onclose={handleClosePopup}
+            onviewcart={handleViewCart}>
+        </c-cart-popup>
+    </template>
+
+    <div class="product-container">
+        <template if:true={product}>
+
+            <div class="breadcrumb">
+                <button class="breadcrumb-link" onclick={handleBack}>← Back</button>
+                <span class="breadcrumb-sep">/</span>
+                <span class="breadcrumb-current">{product.Name}</span>
+            </div>
+
+            <div class="product-layout">
+
+                <div class="product-image-col">
+                    <div class="image-frame">
+                        <template if:true={showOfferRibbon}>
+                            <div class="offer-badge">MEMBER OFFER</div>
+                        </template>
+                        <img if:true={product.Product_Image_Field__c}
+                             src={product.Product_Image_Field__c}
+                             alt={product.Name}/>
+                        <img if:false={product.Product_Image_Field__c}
+                             src="https://via.placeholder.com/500x500?text=No+Image"
+                             alt="Placeholder"/>
+                    </div>
+                </div>
+
+                <div class="product-info-col">
+
+                    <p class="product-category">{product.Family}
+                        <template if:true={product.Product_Sub_Family__c}>
+                            · {product.Product_Sub_Family__c}
+                        </template>
+                    </p>
+                    <h1 class="product-name">{product.Name}</h1>
+
+                    <div class="pricing-block">
+                        <template for:each={priceRows} for:item="row">
+                            <div key={row.key} class={row.rowClass}>
+                                <span class={row.labelClass}>{row.label}</span>
+                                <span class={row.priceClass}>{row.formatted}</span>
+                            </div>
+                        </template>
+                        <template if:true={showMemberSavings}>
+                            <div class="savings-pill">You save {formattedSavings}</div>
+                        </template>
+                    </div>
+
+                    <div class="meta-chips">
+                        <template if:true={product.Alcohol_By_Volume__c}>
+                            <div class="chip">
+                                <span class="chip-label">ABV</span>
+                                <span class="chip-value">{product.Alcohol_By_Volume__c}%</span>
+                            </div>
+                        </template>
+                        <template if:true={product.Volume_ml__c}>
+                            <div class="chip">
+                                <span class="chip-label">Size</span>
+                                <span class="chip-value">{product.Volume_ml__c}ml</span>
+                            </div>
+                        </template>
+                        <template if:true={product.Origin_Country__c}>
+                            <div class="chip">
+                                <span class="chip-label">Origin</span>
+                                <span class="chip-value">{product.Origin_Country__c}</span>
+                            </div>
+                        </template>
+                    </div>
+
+                    <template if:true={product.Description}>
+                        <div class="description-block">
+                            <p>{product.Description}</p>
+                        </div>
+                    </template>
+
+                    <template if:true={hasTastingNotes}>
+                        <div class="tasting-notes-block">
+                            <h3 class="section-heading">Tasting Notes</h3>
+                            <p>{product.Tasting_Notes__c}</p>
+                        </div>
+                    </template>
+
+                    <div class="stock-row">
+                        <template if:true={inStock}>
+                            <template if:true={isLowStock}>
+                                <span class="stock-warning">⚠️ Only {product.Quantity_on_Hand__c} left</span>
+                            </template>
+                            <template if:false={isLowStock}>
+                                <span class="stock-ok">✓ In Stock</span>
+                            </template>
+                        </template>
+                        <template if:false={inStock}>
+                            <span class="stock-out">✕ Out of Stock</span>
+                        </template>
+                    </div>
+
+                    <template if:true={hasFormatOptions}>
+                        <div class="format-selector">
+                            <label class="format-label">Select Format</label>
+                            <select class="format-select" onchange={handleFormatChange}>
+                                <template for:each={formatOptions} for:item="opt">
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                    </template>
+
+                    <div class="add-to-cart-row">
+                        <div class="qty-selector">
+                            <button class="qty-btn" onclick={handleDecreaseQty} disabled={isQtyMin}>−</button>
+                            <span class="qty-display">{quantity}</span>
+                            <button class="qty-btn" onclick={handleIncreaseQty} disabled={isQtyMax}>+</button>
+                        </div>
+                        <button class="add-btn" onclick={handleAddToCart} disabled={addDisabled}>
+                            <template if:true={isAdding}>Adding...</template>
+                            <template if:false={isAdding}>Add to Cart</template>
+                        </button>
+                    </div>
+
+                    <template if:true={showLineTotal}>
+                        <p class="line-total-preview">{quantity} × {formattedActivePrice} = <strong>{formattedLineTotal}</strong></p>
+                    </template>
+
+                    <template if:true={showMemberPromo}>
+                        <div class="member-promo">
+                            <p>🎫 <strong>Members save {formattedSavings} per bottle.</strong>
+                                <button class="promo-link" onclick={handleSignUp}>Join free →</button>
+                            </p>
+                        </div>
+                    </template>
+
+                </div>
+            </div>
+
+            <template if:true={hasRelatedProducts}>
+                <div class="related-section">
+                    <h2 class="related-heading">More {product.Family}</h2>
+                    <div class="related-grid">
+                        <template for:each={relatedProducts} for:item="rp">
+                            <div key={rp.Id} class="related-card" data-id={rp.Id} onclick={handleRelatedNavigate}>
+                                <div class="related-image">
+                                    <img if:true={rp.Product_Image_Field__c}
+                                         src={rp.Product_Image_Field__c}
+                                         alt={rp.Name}/>
+                                    <img if:false={rp.Product_Image_Field__c}
+                                         src="https://via.placeholder.com/300x300?text=No+Image"
+                                         alt="Placeholder"/>
+                                </div>
+                                <div class="related-info">
+                                    <p class="related-name">{rp.Name}</p>
+                                    <p class="related-price">{rp.displayPrice}</p>
+                                    <button class="related-add-btn" data-id={rp.Id} onclick={handleRelatedAddToCart}>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+        </template>
+
+        <template if:false={product}>
+            <div class="loading-state">
+                <lightning-spinner alternative-text="Loading product..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+    </div>
+</template>

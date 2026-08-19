@@ -1,0 +1,76 @@
+.history-shell {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(25, 0, 35, 0.08);
+    overflow: hidden;
+    min-height: 320px;
+}
+
+.history-head {
+    padding: 18px 20px;
+    border-bottom: 1px solid #eee7f3;
+}
+
+.history-head h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #4b1744;
+}
+
+.history-list {
+    padding: 8px 0;
+}
+
+.history-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f2edf5;
+}
+
+.order-id {
+    font-weight: 800;
+    color: #2b1b31;
+    margin-bottom: 4px;
+}
+
+.order-meta {
+    color: #746a79;
+    font-size: 14px;
+}
+
+.order-total {
+    font-weight: 800;
+    color: #4b1744;
+    white-space: nowrap;
+}
+
+.empty {
+    padding: 24px 20px;
+    color: #666;
+}
+/* Expandable order lines, status pills, cancel */
+.history-row { cursor: pointer; }
+.history-row-wrap { border-bottom: 1px solid #eee; }
+.history-row-wrap .history-row { border-bottom: none; }
+.order-lines { padding: 4px 12px 12px 12px; background: #faf8fc; border-radius: 8px; margin: 0 4px 10px; }
+.order-line { display: flex; justify-content: space-between; gap: 10px; padding: 6px 4px; font-size: 13.5px; border-bottom: 1px dashed #e8e2ee; }
+.order-line:last-of-type { border-bottom: none; }
+.order-line .line-name { flex: 1; }
+.order-line .line-qty { color: #777; min-width: 42px; text-align: right; }
+.order-line .line-total { min-width: 72px; text-align: right; font-weight: 600; }
+.order-line--discount .line-total, .order-line--discount .line-name { color: #0a7d32; }
+.order-tracking { font-size: 12.5px; color: #555; margin-top: 2px; }
+.status-pill { padding: 1px 8px; border-radius: 10px; font-size: 12px; background: #eee; }
+.status-confirmed { background: #e7f0fd; color: #1b4fa0; }
+.status-picked { background: #fdf3e0; color: #92600a; }
+.status-shipped, .status-ready-for-collection { background: #e5f8ff; color: #0a6a8c; }
+.status-completed, .status-fulfilled { background: #e8f8ec; color: #0a7d32; }
+.status-cancelled, .status-refunded { background: #fdeaea; color: #b03030; }
+.order-actions { padding-top: 8px; text-align: right; }
+.cancel-btn { background: #fff; color: #b03030; border: 1px solid #e5b5b5; border-radius: 6px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+.cancel-btn:hover { background: #fdf1f1; }
+.history-message { margin: 6px 0 10px; font-size: 13.5px; color: #0a7d32; }
+.history-message--error { color: #b03030; }
+.cancel-btn[data-armed="true"] { background: #b03030; color: #fff; border-color: #b03030; font-weight: 600; }

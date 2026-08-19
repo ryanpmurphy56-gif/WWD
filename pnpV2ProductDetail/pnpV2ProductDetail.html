@@ -1,0 +1,160 @@
+<template>
+    <template if:true={product}>
+        <div class="page">
+            <div class="detail-wrap">
+
+                <div class="crumbs">
+                    <button class="back-link" onclick={handleBack}>← Back</button>
+                    <span class="crumb-sep">/</span>
+                    <span class="crumb-name">{product.Name}</span>
+                </div>
+
+                <div class="top-grid">
+                    <div class="image-card">
+                        <img src={productImageUrl} alt={product.Name} class="product-image"
+                             onerror={handleImageError} />
+                    </div>
+
+                    <div class="info-col">
+                        <!-- FIX: was hardcoded "BEER · LAGER" -->
+                        <div class="eyebrow">{eyebrow}</div>
+                        <h1 class="title">{product.Name}</h1>
+
+                        <div class="price-panel">
+                            <template for:each={formatOptions} for:item="opt">
+                                <div key={opt.value} class="price-row">
+                                    <span class="price-label">{opt.label}</span>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- FIX: was hardcoded 5%, 330ml, Japan -->
+                        <div class="meta-row">
+                            <template if:true={hasAbv}>
+                                <div class="meta-pill">
+                                    <span class="meta-label">ABV</span>
+                                    <span class="meta-value">{abvDisplay}</span>
+                                </div>
+                            </template>
+                            <template if:true={hasVolume}>
+                                <div class="meta-pill">
+                                    <span class="meta-label">SIZE</span>
+                                    <span class="meta-value">{volumeDisplay}</span>
+                                </div>
+                            </template>
+                            <template if:true={hasOrigin}>
+                                <div class="meta-pill">
+                                    <span class="meta-label">ORIGIN</span>
+                                    <span class="meta-value">{product.Origin_Country__c}</span>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- FIX: was always "In Stock" regardless of stock level -->
+                        <div class={stockClass}>{stockLabel}</div>
+
+                        <div class="format-label">SELECT FORMAT</div>
+                        <div class="format-row">
+                            <select onchange={handleFormatChange}>
+                                <template for:each={formatOptions} for:item="opt">
+                                    <option key={opt.value} value={opt.value}>{opt.selectLabel}</option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <div class="buy-row">
+                            <div class="qty-box">
+                                <button class="qty-btn" onclick={decreaseQty} aria-label="Decrease quantity">−</button>
+                                <input type="number" class="qty-input" value={quantity}
+                                       min="1" max={maxQty} onchange={handleQtyChange}
+                                       aria-label="Quantity" />
+                                <button class="qty-btn" onclick={increaseQty}
+                                        disabled={atMaxQty} aria-label="Increase quantity">+</button>
+                            </div>
+                            <button onclick={handleAddToCart} class="add-btn" disabled={isOutOfStock}>
+                                <template if:true={isOutOfStock}>Out of Stock</template>
+                                <template if:false={isOutOfStock}>ADD TO CART</template>
+                            </button>
+                            <template if:false={isGuestUser}>
+                                <button class={wishlistBtnClass} onclick={handleWishlistToggle} title={wishlistTitle}>
+                                    {wishlistIcon}
+                                </button>
+                            </template>
+                        </div>
+
+                        <template if:true={addedMessage}>
+                            <p class="added-msg">{addedMessage}</p>
+                        </template>
+                        <template if:true={errorMessage}>
+                            <p class="error-msg">{errorMessage}</p>
+                        </template>
+
+                        <template if:true={product.Tasting_Notes__c}>
+                            <div class="tasting-notes">
+                                <h4>Tasting Notes</h4>
+                                <p>{product.Tasting_Notes__c}</p>
+                            </div>
+                        </template>
+                        <template if:false={product.Tasting_Notes__c}>
+                            <template if:true={product.Description}>
+                                <div class="tasting-notes">
+                                    <h4>Description</h4>
+                                    <p>{product.Description}</p>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+
+                <template if:true={hasRecommendations}>
+                    <div class="divider"></div>
+                    <div class="related-title">Customers Who Bought This Also Bought</div>
+                    <div class="related-grid">
+                        <template for:each={recommendations} for:item="rec">
+                            <div key={rec.Id} class="related-card" data-id={rec.Id} onclick={handleRelatedClick}>
+                                <div class="related-image-wrap">
+                                    <img src={rec.Image} alt={rec.Name} class="related-image" />
+                                </div>
+                                <div class="related-body">
+                                    <div class="related-name">{rec.Name}</div>
+                                    <div class="related-price">${rec.Price}</div>
+                                    <button class="related-add-btn" data-id={rec.Id} onclick={handleRelatedAddToCart}>
+                                        ADD TO CART
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={hasRelated}>
+                    <div class="divider"></div>
+                    <div class="related-title">More {product.Family}</div>
+                    <div class="related-grid">
+                        <template for:each={relatedProducts} for:item="item">
+                            <div key={item.Id} class="related-card" data-id={item.Id} onclick={handleRelatedClick}>
+                                <div class="related-image-wrap">
+                                    <img src={item.Product_Image_Field__c} alt={item.Name} class="related-image" />
+                                </div>
+                                <div class="related-body">
+                                    <div class="related-name">{item.Name}</div>
+                                    <div class="related-price">${item.Price__c}</div>
+                                    <button class="related-add-btn" data-id={item.Id} onclick={handleRelatedAddToCart}>
+                                        ADD TO CART
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+            </div>
+        </div>
+    </template>
+
+    <template if:false={product}>
+        <div class="loading-detail">
+            <lightning-spinner alternative-text="Loading product..." size="medium"></lightning-spinner>
+        </div>
+    </template>
+</template>

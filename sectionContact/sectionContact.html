@@ -1,0 +1,208 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block contact" style={blockStyle}>
+                <h2
+                    class="contact__heading"
+                    style={headingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="heading"
+                    data-placeholder="Add a heading"
+                    onblur={handleEdit}
+                    onkeydown={handleKeydown}
+                >{heading}</h2>
+                <p
+                    class="contact__body"
+                    style={bodyFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="body"
+                    data-placeholder="Add an intro"
+                    onblur={handleEdit}
+                >{body}</p>
+
+                <!-- Edit mode: the field BUILDER (label / type / required / remove / add)
+                     plus the editable thank-you line. -->
+                <template lwc:if={isEdit}>
+                    <div class="builder">
+                        <template for:each={fields} for:item="f">
+                            <div key={f.key} class="builder__field">
+                                <div class="builder__row">
+                                    <input
+                                        class="builder__label"
+                                        type="text"
+                                        value={f.label}
+                                        placeholder="Field label"
+                                        data-index={f.index}
+                                        onchange={handleFieldLabel}
+                                    />
+                                    <select class="builder__type" data-index={f.index} onchange={handleFieldType}>
+                                        <template for:each={f.typeOptions} for:item="t">
+                                            <option key={t.value} value={t.value} selected={t.selected}>{t.label}</option>
+                                        </template>
+                                    </select>
+                                    <label class="builder__req">
+                                        <input type="checkbox" checked={f.required} data-index={f.index} onchange={handleFieldRequired} />
+                                        Required
+                                    </label>
+                                    <button
+                                        type="button"
+                                        class="builder__remove"
+                                        title="Remove field"
+                                        data-index={f.index}
+                                        onclick={handleFieldRemove}
+                                    >✕</button>
+                                </div>
+                                <template lwc:if={f.isChoice}>
+                                    <div class="builder__options">
+                                        <label class="builder__optionslabel">Options — one per line</label>
+                                        <textarea
+                                            class="builder__optionsinput"
+                                            data-index={f.index}
+                                            onblur={handleFieldOptions}
+                                        >{f.optionsText}</textarea>
+                                    </div>
+                                </template>
+                                <template lwc:if={f.hasEligibleControllers}>
+                                    <div class="builder__condition">
+                                        <select class="builder__condfield" data-index={f.index} onchange={handleFieldConditionOn}>
+                                            <template for:each={f.controllerOptions} for:item="c">
+                                                <option key={c.value} value={c.value} selected={c.selected}>{c.label}</option>
+                                            </template>
+                                        </select>
+                                        <template lwc:if={f.conditionActive}>
+                                            <template lwc:if={f.conditionValueIsChoice}>
+                                                <select class="builder__condvalue" data-index={f.index} onchange={handleFieldConditionValue}>
+                                                    <template for:each={f.conditionValueOptions} for:item="o">
+                                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                                    </template>
+                                                </select>
+                                            </template>
+                                            <template lwc:else>
+                                                <input
+                                                    class="builder__condvalue"
+                                                    type="text"
+                                                    placeholder="equals…"
+                                                    value={f.conditionEquals}
+                                                    data-index={f.index}
+                                                    onchange={handleFieldConditionValue}
+                                                />
+                                            </template>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <button type="button" class="sec__add" onclick={handleFieldAdd}>+ Add field</button>
+                        <p class="builder__successlabel">After sending, visitors see:</p>
+                        <p
+                            class="builder__success"
+                            style={successMessageFieldStyle}
+                            contenteditable="true"
+                            data-field="successMessage"
+                            data-placeholder="Thank-you message"
+                            onblur={handleEdit}
+                        >{successMessage}</p>
+                    </div>
+                </template>
+
+                <!-- Live / preview: the working form with validation, honeypot,
+                     submitting state and thank-you state. -->
+                <template lwc:else>
+                    <template lwc:if={showForm}>
+                        <form class="contact__form" onsubmit={handleSubmit} novalidate>
+                            <template for:each={fields} for:item="f">
+                                <template lwc:if={f.visible}>
+                                    <div key={f.key} class={f.rowClass}>
+                                        <label class="form__label">
+                                            {f.label}
+                                            <template lwc:if={f.required}><span class="form__star" aria-hidden="true"> *</span></template>
+                                        </label>
+                                        <template lwc:if={f.isTextarea}>
+                                            <!-- textarea takes its value as content; the form unmounts on
+                                                 submit (thank-you state), so stale text can't linger -->
+                                            <textarea
+                                                class="contact__input"
+                                                rows="4"
+                                                data-index={f.index}
+                                                oninput={handleInput}
+                                            >{f.value}</textarea>
+                                        </template>
+                                        <template lwc:elseif={f.isSelect}>
+                                            <select class="contact__input" data-index={f.index} onchange={handleInput}>
+                                                <option value="">Choose…</option>
+                                                <template for:each={f.options} for:item="o">
+                                                    <option key={o.value} value={o.value} selected={o.selected}>{o.value}</option>
+                                                </template>
+                                            </select>
+                                        </template>
+                                        <template lwc:elseif={f.isRadio}>
+                                            <div class="contact__choices">
+                                                <template for:each={f.options} for:item="o">
+                                                    <label key={o.value} class="contact__choice">
+                                                        <input
+                                                            type="radio"
+                                                            name={f.radioName}
+                                                            value={o.value}
+                                                            checked={o.selected}
+                                                            data-index={f.index}
+                                                            onchange={handleInput}
+                                                        />
+                                                        <span>{o.value}</span>
+                                                    </label>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <template lwc:elseif={f.isCheckbox}>
+                                            <div class="contact__choices">
+                                                <template for:each={f.options} for:item="o">
+                                                    <label key={o.value} class="contact__choice">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={o.selected}
+                                                            data-index={f.index}
+                                                            data-option={o.value}
+                                                            onchange={handleCheckboxChange}
+                                                        />
+                                                        <span>{o.value}</span>
+                                                    </label>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <template lwc:else>
+                                            <input
+                                                class="contact__input"
+                                                type={f.inputType}
+                                                value={f.value}
+                                                data-index={f.index}
+                                                oninput={handleInput}
+                                            />
+                                        </template>
+                                        <template lwc:if={f.error}>
+                                            <p class="form__error">{f.error}</p>
+                                        </template>
+                                    </div>
+                                </template>
+                            </template>
+
+                            <!-- Honeypot: visually hidden, tab-skipped; bots fill it, people can't. -->
+                            <div class="form__trap" aria-hidden="true">
+                                <input type="text" name="company_website" tabindex="-1" autocomplete="off" />
+                            </div>
+
+                            <template lwc:if={submitError}>
+                                <p class="form__error form__error_global">{submitError}</p>
+                            </template>
+                            <button class="contact__submit" type="submit" disabled={submitting}>{submitLabel}</button>
+                        </form>
+                    </template>
+                    <template lwc:else>
+                        <div class="form__thanks">
+                            <p class="form__thanks-msg" style={successMessageFieldStyle}>{successMessage}</p>
+                            <button type="button" class="form__again" onclick={handleReset}>Send another message</button>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

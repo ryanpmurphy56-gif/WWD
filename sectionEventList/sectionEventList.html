@@ -1,0 +1,44 @@
+<template>
+    <div class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <h2
+                class="eventlist__heading"
+                style={headingFieldStyle}
+                contenteditable={editableAttr}
+                data-field="heading"
+                data-placeholder="Upcoming events"
+                onblur={handleHeadingEdit}
+                onkeydown={handleKeydown}
+            >{heading}</h2>
+
+            <template lwc:if={hasEvents}>
+                <div class={gridClass}>
+                    <template for:each={events} for:item="e">
+                        <article key={e.id} class="eventlist__card">
+                            <template lwc:if={e.hasImage}>
+                                <div class="eventlist__image" style={e.imageStyle}></div>
+                            </template>
+                            <div class="eventlist__body">
+                                <span class="eventlist__date">{e.dateLabel}</span>
+                                <h3 class="eventlist__title">{e.title}</h3>
+                                <template lwc:if={e.hasLocation}>
+                                    <span class="eventlist__location">{e.location}</span>
+                                </template>
+                                <p class="eventlist__desc">{e.description}</p>
+                                <template lwc:if={e.hasRegistration}>
+                                    <a class="eventlist__link" href={e.registrationUrl} target="_blank" rel="noopener">Register</a>
+                                </template>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            <template lwc:elseif={showEmptyNoSite}>
+                <div class="eventlist__empty">Save the site to start adding events.</div>
+            </template>
+            <template lwc:elseif={showEmptyNoEvents}>
+                <div class="eventlist__empty">No active events yet. Use "Manage events" in the Properties panel to add one.</div>
+            </template>
+        </div>
+    </div>
+</template>
