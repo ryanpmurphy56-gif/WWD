@@ -1,0 +1,272 @@
+:host {
+    display: block;
+    height: 100%;
+    --rail-w: 220px;
+    --panel-w: 288px;
+}
+
+/* The shell is a <dialog> so "Maximize" can use showModal()'s top layer — the
+   only way to escape the Experience page's ancestor transforms (which trap
+   position:fixed) with the native Fullscreen API blocked by LWS. Closed, the
+   UA styles are neutralized below so it renders as the plain in-flow shell:
+   author styles override UA styles, including dialog:not([open]) display:none. */
+.shell {
+    display: flex;
+    position: static;
+    inset: auto;
+    margin: 0;
+    border: none;
+    padding: 0;
+    max-width: none;
+    max-height: none;
+    color: inherit;
+    flex-direction: column;
+    width: 100%;
+    /* Fill the viewport so the editor is a full-page app, not a boxed widget. */
+    height: 100vh;
+    min-height: 560px;
+    background: #f4f5f7;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Open = maximized in the top layer: viewport-positioned, above everything,
+   untouched by any ancestor transform/overflow/z-index. Escape closes it. */
+.shell[open] {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.shell::backdrop {
+    background: #0a0a0a;
+}
+
+/* Three-column workspace ---------------------------------------------- */
+.workspace {
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0;
+}
+
+.workspace__rail {
+    flex: 0 0 var(--rail-w);
+    min-width: 0;
+    overflow: hidden;
+}
+.workspace__panel {
+    flex: 0 0 var(--panel-w);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-left: 1px solid #e5e7eb;
+}
+
+.ptabs-row {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem;
+    border-bottom: 1px solid #eef0f2;
+    background: #fbfbfc;
+}
+.ptabs {
+    flex: 1 1 auto;
+    display: flex;
+    gap: 0.2rem;
+    min-width: 0;
+}
+.cog-btn {
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #6b7280;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.cog-btn:hover {
+    background: #eef0f2;
+    color: #111827;
+}
+.ptab {
+    flex: 1 1 0;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.ptab_on {
+    background: #0a0a0a;
+    color: #fff;
+}
+.ptab-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+.ptab-body > * {
+    display: block;
+    height: 100%;
+}
+
+.stage {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.stage__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid #e9ebee;
+    background: #fbfbfc;
+}
+.add-btn {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #111827;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+.add-btn:hover {
+    background: #f3f4f6;
+    border-color: #ff5b04;
+}
+.add-btn_paste {
+    border-style: dashed;
+    color: #4338ca;
+}
+
+.stage__scroll {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+    overflow: auto;
+}
+
+.frame {
+    width: 100%;
+    background: var(--ws-surface, #fff);
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: max-width 0.2s ease, transform 0.15s ease;
+    align-self: flex-start;
+    /* No default `transform` here on purpose: ANY transform value (even the
+       identity scale(1)) turns this element into the containing block for
+       every position:fixed descendant inside it — combined with overflow:
+       hidden above, that silently clips/breaks fixed-position menus and
+       popovers rendered anywhere inside the canvas, even at 100% zoom where
+       nothing should visually change at all. The actual scale is applied
+       only via the inline `style` binding (frameStyle, siteEditorShell.js),
+       and only once zoom is genuinely not 100 — see the comment there. */
+    transform-origin: top center;
+}
+.frame_desktop {
+    max-width: 100%;
+}
+.frame_tablet {
+    max-width: 820px;
+}
+.frame_mobile {
+    max-width: 390px;
+}
+
+.stage__empty {
+    padding: 4rem;
+    text-align: center;
+    color: #6b7280;
+}
+
+/* "no site yet" fallback (shows when there's no recordId and no pending
+   wizard draft — the editor no longer has its own onboarding wizard) */
+.shell__empty {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 3rem;
+    text-align: center;
+}
+.shell__empty-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111827;
+}
+.shell__empty-hint {
+    margin: 0;
+    max-width: 32ch;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+.shell__empty-actions {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+}
+.shell__empty-btn {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.shell__empty-btn:hover {
+    border-color: #9ca3af;
+    background: #f9fafb;
+}
+.shell__empty-btn_primary {
+    border-color: #ff5b04;
+    background: #ff5b04;
+    color: #fff;
+}
+.shell__empty-btn_primary:hover {
+    border-color: #e85200;
+    background: #e85200;
+}
+
+/* Preview polish CTA -------------------------------------------------- */
+.polish-cta {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 5;
+    border: none;
+    background: #0a0a0a;
+    color: #fff;
+    padding: 0.7rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.polish-cta:hover {
+    background: #1a1a1a;
+}

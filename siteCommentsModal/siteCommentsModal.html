@@ -1,0 +1,47 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Site notes">
+            <div class="dialog__head">
+                <span class="dialog__title">Notes</span>
+                <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+            </div>
+            <div class="dialog__body">
+                <template lwc:if={errorText}>
+                    <p class="dialog__error">{errorText}</p>
+                </template>
+                <template lwc:if={loading}>
+                    <p class="dialog__lead">Loading…</p>
+                </template>
+                <template lwc:elseif={hasComments}>
+                    <ul class="comments">
+                        <template for:each={rows} for:item="c">
+                            <li key={c.id} class={c.rowClass}>
+                                <div class="comment__head">
+                                    <span class="comment__author">{c.authorName}</span>
+                                    <span class="comment__date">{c.dateLabel}</span>
+                                </div>
+                                <p class="comment__body">{c.body}</p>
+                                <div class="comment__actions">
+                                    <button type="button" class="btn" data-id={c.id} onclick={handleToggleResolved}>{c.toggleLabel}</button>
+                                    <button type="button" class="btn btn_danger" data-id={c.id} onclick={handleDelete}>Delete</button>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template lwc:else>
+                    <p class="dialog__lead">No notes yet — leave one for your team below.</p>
+                </template>
+            </div>
+            <div class="dialog__foot dialog__foot_post">
+                <textarea
+                    class="field__input"
+                    rows="2"
+                    placeholder="Leave a note for your team…"
+                    oninput={handleDraftChange}
+                >{draftBody}</textarea>
+                <button type="button" class="btn btn_primary" disabled={postDisabled} onclick={handlePost}>Post</button>
+            </div>
+        </div>
+    </div>
+</template>

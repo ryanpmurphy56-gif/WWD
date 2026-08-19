@@ -1,0 +1,193 @@
+.range-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.loading-state {
+    display: flex;
+    justify-content: center;
+    padding: 80px 0;
+}
+
+.error-box {
+    background: #fdecea;
+    border: 1px solid #f5c6c2;
+    color: #b3261e;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 18px;
+    border-radius: 8px;
+}
+
+/* -- Summary tiles --------------------------------------------------------- */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.tile {
+    background: #ffffff;
+    border: 1px solid #e6dde8;
+    border-radius: 12px;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 1px 4px rgba(42,21,53,0.05);
+}
+
+.tile-warn {
+    border-top: 3px solid #e0902a;
+}
+
+.tile-value {
+    font-size: 30px;
+    font-weight: 900;
+    color: #2a1535;
+    line-height: 1;
+}
+
+.tile-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9f8f98;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+/* -- Table ----------------------------------------------------------------- */
+.table-card {
+    background: #ffffff;
+    border: 1px solid #e6dde8;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(42,21,53,0.05);
+}
+
+.table-head {
+    padding: 22px 24px 16px;
+    border-bottom: 1px solid #f0e8f2;
+}
+
+.table-head h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #2a1535;
+    margin: 0 0 4px;
+}
+
+.table-sub {
+    font-size: 13px;
+    color: #9f8f98;
+    margin: 0;
+}
+
+.table-scroll {
+    overflow-x: auto;
+}
+
+.range-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.range-table thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9f8f98;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 16px;
+    background: #faf7fb;
+    border-bottom: 1px solid #f0e8f2;
+    white-space: nowrap;
+}
+
+.range-table thead th.num {
+    text-align: right;
+}
+
+.range-table tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f4eef5;
+    color: #3a2c42;
+}
+
+.range-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.range-table tbody tr:hover {
+    background: #fcfafd;
+}
+
+.range-table td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.prod-name {
+    font-weight: 700;
+    color: #2a1535;
+}
+
+/* -- Stock status pills ---------------------------------------------------- */
+.status-pill {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.status-in {
+    background: #e3f5e8;
+    color: #1f7a38;
+}
+
+.status-low {
+    background: #fdf0db;
+    color: #b56a0c;
+}
+
+.status-out {
+    background: #fdecea;
+    color: #b3261e;
+}
+
+/* -- Promo button ---------------------------------------------------------- */
+.promo-btn {
+    background: #2a1535;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+
+.promo-btn:hover {
+    background: #43234f;
+}
+
+.empty-state {
+    padding: 48px 24px;
+    text-align: center;
+    color: #9f8f98;
+    font-size: 14px;
+}
+
+@media (max-width: 900px) {
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

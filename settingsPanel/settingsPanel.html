@@ -1,0 +1,997 @@
+<template>
+    <div class="panel">
+        <div class="panel__head">
+            <span class="panel__eyebrow">Page</span>
+            <span class="panel__title">{pageTitle}</span>
+        </div>
+
+        <div class="panel__body">
+            <div class="group">
+                <button type="button" class="group__header group__header_page" onclick={togglePageGroup}>
+                    <span>Global Page Settings</span>
+                    <span class="group__chevron">{pageChevron}</span>
+                </button>
+                <template lwc:if={pageGroupOpen}>
+                    <div class="group__body">
+                        <div class="field">
+                            <label class="field__label">Page title</label>
+                            <input class="field__input" type="text" value={pageTitle} onchange={handlePageTitle} />
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Slug</label>
+                            <input class="field__input" type="text" value={pageSlug} onchange={handlePageSlug} />
+                        </div>
+                        <div class="field field_row">
+                            <label class="field__check">
+                                <input type="checkbox" checked={pageInNav} onchange={handlePageNav} />
+                                Show in navigation
+                            </label>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Parent page</label>
+                            <template lwc:if={pageHasChildren}>
+                                <p class="field__note">This page has subpages, so it stays at the top level.</p>
+                            </template>
+                            <template lwc:else>
+                                <select class="field__input" onchange={handlePageParent}>
+                                    <template for:each={parentOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                                <p class="field__note">Nest this page under another to make it a dropdown item in the menu.</p>
+                            </template>
+                        </div>
+                        <div class="field">
+                            <template lwc:if={pageIsHome}>
+                                <p class="field__note">This is the Home page.</p>
+                            </template>
+                            <template lwc:else>
+                                <button type="button" class="panel__btn" onclick={handleSetHome}>Set as Home page</button>
+                            </template>
+                        </div>
+                        <div class="field">
+                            <button type="button" class="panel__btn" onclick={handleDuplicatePage}>Duplicate this page</button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="group">
+                <button type="button" class="group__header group__header_seo" onclick={toggleSeoGroup}>
+                    <span>SEO &amp; Sharing</span>
+                    <span class="group__chevron">{seoChevron}</span>
+                </button>
+                <template lwc:if={seoGroupOpen}>
+                    <div class="group__body">
+                        <div class="field">
+                            <label class="field__label">Search title</label>
+                            <input class="field__input" type="text" value={seoMetaTitle} placeholder={pageTitle} onchange={handleSeoTitle} />
+                            <p class="field__note">The clickable headline in Google and the browser tab. Defaults to the page title.</p>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Meta description</label>
+                            <textarea class="field__input" rows="3" onchange={handleSeoDescription}>{seoMetaDescription}</textarea>
+                            <div class={seoDescCountClass}>{seoDescCountLabel}</div>
+                            <p class="field__note">The snippet shown under the title in search results. Aim for 150–160 characters.</p>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Social share image</label>
+                            <c-image-uploader
+                                site-id={uploadSiteId}
+                                image-url={socialImageUrl}
+                                label="Upload share image"
+                                onuploaded={handleSocialImageUploaded}
+                                onremove={handleSocialImageRemove}
+                            ></c-image-uploader>
+                            <p class="field__note">Shown when the page is shared to Facebook, LinkedIn or X. Ideal size 1200×630.</p>
+                        </div>
+
+                        <div class="panel__sub">Search &amp; social preview</div>
+                        <div class="seo-card">
+                            <template lwc:if={hasSocialImage}>
+                                <div class="seo-card__img" style={socialImageStyle}></div>
+                            </template>
+                            <template lwc:else>
+                                <div class="seo-card__img seo-card__img_empty">No share image</div>
+                            </template>
+                            <div class="seo-card__body">
+                                <div class="seo-card__url">{previewUrl}</div>
+                                <div class="seo-card__title">{previewTitle}</div>
+                                <div class="seo-card__desc">{previewDescription}</div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="group">
+                <button type="button" class="group__header group__header_seo" onclick={toggleSiteSeoGroup}>
+                    <span>Site SEO Defaults</span>
+                    <span class="group__chevron">{siteSeoChevron}</span>
+                </button>
+                <template lwc:if={siteSeoGroupOpen}>
+                    <div class="group__body">
+                        <p class="field__note">Fallbacks every page uses unless it sets its own title, description or share image above.</p>
+                        <div class="field">
+                            <label class="field__label">Title suffix</label>
+                            <input class="field__input" type="text" value={siteSeoTitleSuffix} placeholder={siteName} onchange={handleSiteSeoTitleSuffix} />
+                            <p class="field__note">Appended to every page's title, e.g. "Book a table | {siteName}".</p>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Default share image</label>
+                            <c-image-uploader
+                                site-id={uploadSiteId}
+                                image-url={siteSeoDefaultImageUrl}
+                                label="Upload default share image"
+                                onuploaded={handleSiteSeoDefaultImageUploaded}
+                                onremove={handleSiteSeoDefaultImageRemove}
+                            ></c-image-uploader>
+                            <p class="field__note">Used when a page has no share image of its own.</p>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Domain</label>
+                            <input class="field__input" type="text" value={siteSeoCanonicalDomain} placeholder="yourbusiness.com" onchange={handleSiteSeoCanonicalDomain} />
+                            <p class="field__note">Powers the canonical tag and the sitemap below. Leave blank until the site has a real domain.</p>
+                        </div>
+                        <div class="field field_row">
+                            <label class="field__check">
+                                <input type="checkbox" checked={siteSeoRobotsIndex} onchange={handleSiteSeoRobotsToggle} />
+                                Allow search engines to index this site
+                            </label>
+                        </div>
+                        <div class="panel__sub">Sitemap &amp; robots.txt</div>
+                        <template lwc:if={hasCanonicalDomain}>
+                            <p class="field__note">Generated from your pages and domain. There's no live domain wired up yet to serve these automatically — copy them to wherever the site ends up hosted.</p>
+                        </template>
+                        <template lwc:else>
+                            <p class="field__note">Set a domain above to generate a real sitemap.xml — robots.txt works without one.</p>
+                        </template>
+                        <div class="field field_row">
+                            <button type="button" class="panel__btn" disabled={sitemapDisabled} onclick={handleCopySitemap}>Copy sitemap.xml</button>
+                            <span class="field__note">{sitemapText}</span>
+                        </div>
+                        <div class="field field_row">
+                            <button type="button" class="panel__btn" onclick={handleCopyRobots}>Copy robots.txt</button>
+                            <span class="field__note">{robotsText}</span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="group">
+                <button type="button" class="group__header group__header_seo" onclick={toggleMarketingGroup}>
+                    <span>Marketing</span>
+                    <span class="group__chevron">{marketingChevron}</span>
+                </button>
+                <template lwc:if={marketingGroupOpen}>
+                    <div class="group__body">
+                        <div class="panel__sub">Announcement bar</div>
+                        <div class="field field_row">
+                            <label class="field__check">
+                                <input type="checkbox" checked={barEnabled} onchange={handleBarEnabled} />
+                                Show a bar across the top of the site
+                            </label>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Text</label>
+                            <input class="field__input" type="text" value={barText} placeholder="Free shipping this week only" onchange={handleBarText} />
+                        </div>
+                        <div class="field field_row">
+                            <div class="field">
+                                <label class="field__label">Button label</label>
+                                <input class="field__input" type="text" value={barCtaLabel} onchange={handleBarCtaLabel} />
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Button link</label>
+                                <input class="field__input" type="text" value={barCtaTarget} onchange={handleBarCtaTarget} />
+                            </div>
+                        </div>
+                        <div class="field field_row">
+                            <label class="field__check">
+                                <input type="checkbox" checked={barDismissible} onchange={handleBarDismissible} />
+                                Visitors can dismiss it
+                            </label>
+                        </div>
+
+                        <div class="panel__sub">Promo popup</div>
+                        <div class="field field_row">
+                            <label class="field__check">
+                                <input type="checkbox" checked={popupEnabled} onchange={handlePopupEnabled} />
+                                Show a popup
+                            </label>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Heading</label>
+                            <input class="field__input" type="text" value={popupHeading} onchange={handlePopupHeading} />
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Body</label>
+                            <textarea class="field__input" rows="2" onchange={handlePopupBody}>{popupBody}</textarea>
+                        </div>
+                        <div class="field field_row">
+                            <div class="field">
+                                <label class="field__label">Button label</label>
+                                <input class="field__input" type="text" value={popupCtaLabel} onchange={handlePopupCtaLabel} />
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Button link</label>
+                                <input class="field__input" type="text" value={popupCtaTarget} onchange={handlePopupCtaTarget} />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Show it</label>
+                            <select class="field__input" onchange={handlePopupTrigger}>
+                                <template for:each={popupTriggerOptions} for:item="o">
+                                    <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <template lwc:if={isDelayTrigger}>
+                            <div class="field">
+                                <label class="field__label">Delay (seconds)</label>
+                                <input class="field__input" type="number" min="0" value={popupDelaySeconds} onchange={handlePopupDelaySeconds} />
+                            </div>
+                        </template>
+                        <template lwc:if={isScrollTrigger}>
+                            <div class="field">
+                                <label class="field__label">Scrolled past (%)</label>
+                                <input class="field__input" type="number" min="0" max="100" value={popupScrollPercent} onchange={handlePopupScrollPercent} />
+                            </div>
+                        </template>
+                        <div class="field">
+                            <label class="field__label">Don't show again for (days)</label>
+                            <input class="field__input" type="number" min="0" value={popupDismissDays} onchange={handlePopupDismissDays} />
+                        </div>
+
+                        <div class="panel__sub">Business info &amp; social</div>
+                        <div class="field field_row">
+                            <div class="field">
+                                <label class="field__label">Email</label>
+                                <input class="field__input" type="text" value={contactEmail} onchange={handleContactEmail} />
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Phone</label>
+                                <input class="field__input" type="text" value={contactPhone} onchange={handleContactPhone} />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Address</label>
+                            <input class="field__input" type="text" value={contactAddress} onchange={handleContactAddress} />
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Hours</label>
+                            <input class="field__input" type="text" value={contactHours} onchange={handleContactHours} />
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Instagram</label>
+                            <input class="field__input" type="text" value={socialInstagram} placeholder="https://instagram.com/..." onchange={handleSocialInstagram} />
+                        </div>
+                        <div class="field">
+                            <label class="field__label">Facebook</label>
+                            <input class="field__input" type="text" value={socialFacebook} placeholder="https://facebook.com/..." onchange={handleSocialFacebook} />
+                        </div>
+                        <div class="field">
+                            <label class="field__label">LinkedIn</label>
+                            <input class="field__input" type="text" value={socialLinkedin} placeholder="https://linkedin.com/..." onchange={handleSocialLinkedin} />
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="group">
+                <button type="button" class="group__header group__header_seo" onclick={toggleAdvancedGroup}>
+                    <span>Advanced</span>
+                    <span class="group__chevron">{advancedChevron}</span>
+                </button>
+                <template lwc:if={advancedGroupOpen}>
+                    <div class="group__body">
+                        <div class="field">
+                            <label class="field__label">Custom CSS</label>
+                            <textarea class="field__input field__input_code" rows="8" placeholder=".my-class { color: red; }" onchange={handleCustomCss}>{customCss}</textarea>
+                            <p class="field__note">Applies site-wide, in Preview. For embedding third-party widgets or scripts, add a Custom Embed block from the section library instead — it runs sandboxed.</p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="group">
+                <button type="button" class="group__header group__header_section" onclick={toggleSectionGroup}>
+                    <span>Section/Element Properties</span>
+                    <span class="group__chevron">{sectionChevron}</span>
+                </button>
+                <template lwc:if={sectionGroupOpen}>
+                    <div class="group__body">
+                        <template lwc:if={hasSelection}>
+                            <div class="group__subtitle">{sectionTitle}</div>
+
+                            <div class="field field_row">
+                                <label class="field__check">
+                                    <input type="checkbox" checked={sectionLocked} onchange={handleLockToggle} />
+                                    Locked
+                                </label>
+                            </div>
+                            <div class="field field_row">
+                                <label class="field__check">
+                                    <input type="checkbox" checked={sectionHidden} onchange={handleHideToggle} />
+                                    Hidden
+                                </label>
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Opacity ({sectionOpacityPercent}%)</label>
+                                <input
+                                    class="field__input"
+                                    type="range"
+                                    min="0"
+                                    max="100"
+                                    value={sectionOpacityPercent}
+                                    onchange={handleOpacityChange}
+                                />
+                            </div>
+
+                            <div class="field">
+                                <label class="field__label">Entrance animation</label>
+                                <select class="field__input" onchange={handleAnimationType}>
+                                    <template for:each={animationTypeOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+                            <template lwc:if={hasAnimationType}>
+                                <div class="field">
+                                    <label class="field__label">Play</label>
+                                    <select class="field__input" onchange={handleAnimationTrigger}>
+                                        <template for:each={animationTriggerOptions} for:item="o">
+                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                                <div class="field field_row">
+                                    <div class="field">
+                                        <label class="field__label">Speed</label>
+                                        <select class="field__input" onchange={handleAnimationDuration}>
+                                            <template for:each={animationDurationOptions} for:item="o">
+                                                <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label class="field__label">Delay</label>
+                                        <select class="field__input" onchange={handleAnimationDelay}>
+                                            <template for:each={animationDelayOptions} for:item="o">
+                                                <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="field__note">Plays in Preview, not while editing.</p>
+                            </template>
+
+                            <div class="field field_row">
+                                <label class="field__check">
+                                    <input type="checkbox" checked={sectionSticky} onchange={handleStickyToggle} />
+                                    Sticky (stays pinned while scrolling)
+                                </label>
+                            </div>
+
+                            <template lwc:if={isBlogSection}>
+                                <div class="field">
+                                    <button type="button" class="panel__btn" onclick={handleManagePosts}>Manage posts</button>
+                                </div>
+                            </template>
+                            <template lwc:if={isShopSection}>
+                                <div class="field">
+                                    <button type="button" class="panel__btn" onclick={handleManageProducts}>Manage products</button>
+                                </div>
+                            </template>
+                            <template lwc:if={isTeamListSection}>
+                                <div class="field">
+                                    <button type="button" class="panel__btn" onclick={handleManageTeam}>Manage team</button>
+                                </div>
+                            </template>
+                            <template lwc:if={isPortfolioListSection}>
+                                <div class="field">
+                                    <button type="button" class="panel__btn" onclick={handleManagePortfolio}>Manage portfolio</button>
+                                </div>
+                            </template>
+                            <template lwc:if={isTestimonialListSection}>
+                                <div class="field">
+                                    <button type="button" class="panel__btn" onclick={handleManageTestimonials}>Manage testimonials</button>
+                                </div>
+                            </template>
+                            <template lwc:if={isEventListSection}>
+                                <div class="field">
+                                    <button type="button" class="panel__btn" onclick={handleManageEvents}>Manage events</button>
+                                </div>
+                            </template>
+
+                            <template for:each={fields} for:item="f">
+                                <div key={f.key} class="field">
+                                    <label class="field__label">{f.label}</label>
+                                    <template lwc:if={f.isTextarea}>
+                                        <textarea
+                                            class="field__input"
+                                            data-key={f.key}
+                                            rows="3"
+                                            onchange={handleContentChange}
+                                        >{f.value}</textarea>
+                                    </template>
+                                    <template lwc:elseif={f.isList}>
+                                        <p class="field__note">Edit {f.label} directly on the section — click an item to change it, or use its ✕ / “+ Add” controls on the canvas.</p>
+                                    </template>
+                                    <template lwc:else>
+                                        <input
+                                            class="field__input"
+                                            type="text"
+                                            data-key={f.key}
+                                            value={f.value}
+                                            onchange={handleContentChange}
+                                        />
+                                    </template>
+
+                                    <template lwc:if={f.styleable}>
+                                        <button type="button" class="field__type-toggle" data-key={f.key} onclick={handleFieldTypeToggle}>{f.typeToggleLabel}</button>
+                                        <template lwc:if={f.typeOpen}>
+                                            <div class="field__type-body">
+                                                <div class="field__type-row">
+                                                    <label class="field__label">Size (rem)</label>
+                                                    <input class="field__input" type="number" step="0.1" min="0.5" max="8" placeholder="Theme" data-key={f.key} value={f.fontSize} onchange={handleFieldFontSize} />
+                                                </div>
+                                                <div class="field__type-row">
+                                                    <label class="field__label">Weight</label>
+                                                    <select class="field__input" data-key={f.key} onchange={handleFieldFontWeight}>
+                                                        <template for:each={f.fontWeightOptions} for:item="o">
+                                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                                        </template>
+                                                    </select>
+                                                </div>
+                                                <div class="field__type-row">
+                                                    <label class="field__label">Line height</label>
+                                                    <input class="field__input" type="number" step="0.05" min="0.8" max="3" placeholder="Theme" data-key={f.key} value={f.lineHeight} onchange={handleFieldLineHeight} />
+                                                </div>
+                                                <div class="field__type-row">
+                                                    <label class="field__label">Letter spacing (em)</label>
+                                                    <input class="field__input" type="number" step="0.01" min="-0.1" max="0.5" placeholder="Theme" data-key={f.key} value={f.letterSpacing} onchange={handleFieldLetterSpacing} />
+                                                </div>
+                                                <div class="field__type-row">
+                                                    <label class="field__label">Text shadow</label>
+                                                    <select class="field__input" data-key={f.key} onchange={handleFieldTextShadow}>
+                                                        <template for:each={f.textShadowOptions} for:item="o">
+                                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                                        </template>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <template lwc:if={hasVariants}>
+                                <div class="field">
+                                    <label class="field__label">Layout variant</label>
+                                    <select class="field__input" onchange={handleVariantChange}>
+                                        <template for:each={variantOptions} for:item="o">
+                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </template>
+
+                            <template lwc:if={isNavHeader}>
+                                <div class="panel__sub">Navigation</div>
+                                <p class="field__note">
+                                    Menu items come from your Pages — use each page's “Show in navigation” and
+                                    “Parent page” settings (a parent becomes a dropdown). Add extra links below.
+                                </p>
+                                <template lwc:if={hasNavLinks}>
+                                    <template for:each={navLinks} for:item="l">
+                                        <div key={l.linkId} class="navlink">
+                                            <input
+                                                class="field__input"
+                                                type="text"
+                                                placeholder="Label"
+                                                value={l.label}
+                                                data-link-id={l.linkId}
+                                                onchange={handleNavLinkLabel}
+                                            />
+                                            <input
+                                                class="field__input"
+                                                type="text"
+                                                placeholder="https://…  ·  /page  ·  #anchor  ·  mailto:  ·  tel:"
+                                                value={l.url}
+                                                data-link-id={l.linkId}
+                                                onchange={handleNavLinkUrl}
+                                            />
+                                            <div class="navlink__row">
+                                                <label class="field__check">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={l.newTab}
+                                                        data-link-id={l.linkId}
+                                                        onchange={handleNavLinkNewTab}
+                                                    />
+                                                    New tab
+                                                </label>
+                                                <div class="navlink__actions">
+                                                    <button type="button" class="navlink__btn" title="Move up" disabled={l.isFirst} data-link-id={l.linkId} onclick={handleNavLinkUp}>↑</button>
+                                                    <button type="button" class="navlink__btn" title="Move down" disabled={l.isLast} data-link-id={l.linkId} onclick={handleNavLinkDown}>↓</button>
+                                                    <button type="button" class="navlink__btn navlink__btn_danger" title="Remove link" data-link-id={l.linkId} onclick={handleRemoveNavLink}>✕</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </template>
+                                <button type="button" class="panel__btn" onclick={handleAddNavLink}>+ Add link</button>
+                                <div class="field">
+                                    <label class="field__label">Mobile menu style</label>
+                                    <select class="field__input" onchange={handleMobileMenuStyle}>
+                                        <template for:each={mobileMenuStyleOptions} for:item="o">
+                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </template>
+
+                            <template lwc:if={isContact}>
+                                <div class="panel__sub">Notifications</div>
+                                <div class="field">
+                                    <label class="field__label">Notify email</label>
+                                    <input
+                                        class="field__input"
+                                        type="text"
+                                        placeholder="you@example.com"
+                                        value={notifyEmail}
+                                        onchange={handleNotifyEmailChange}
+                                    />
+                                    <p class="field__note">
+                                        Optional — sends an email here every time this form is submitted.
+                                        Separate multiple addresses with commas.
+                                    </p>
+                                </div>
+                            </template>
+
+                            <template lwc:if={supportsImage}>
+                                <div class="panel__sub">Image</div>
+                                <div class="field">
+                                    <c-image-uploader
+                                        site-id={uploadSiteId}
+                                        image-url={currentImageUrl}
+                                        label="Upload image"
+                                        onuploaded={handleImageUploaded}
+                                        onremove={handleImageRemove}
+                                    ></c-image-uploader>
+                                </div>
+                                <template lwc:if={currentImageUrl}>
+                                    <div class="field">
+                                        <c-focal-picker
+                                            image-url={currentImageUrl}
+                                            x={currentFocalX}
+                                            y={currentFocalY}
+                                            onfocalchange={handleFocalChange}
+                                        ></c-focal-picker>
+                                    </div>
+                                    <div class="field">
+                                        <button type="button" class="panel__btn" onclick={openCropper}>Crop image</button>
+                                        <p class="field__note">Crops to a new image — the focal point positions whatever's shown, the crop changes what's there.</p>
+                                    </div>
+                                    <template lwc:if={cropperOpen}>
+                                        <c-image-cropper
+                                            image-url={currentImageUrl}
+                                            site-id={uploadSiteId}
+                                            oncropped={handleCropped}
+                                            onclose={closeCropper}
+                                        ></c-image-cropper>
+                                    </template>
+                                    <template lwc:if={sectionBackgroundIsImage}>
+                                        <div class="field field_row">
+                                            <label class="field__check">
+                                                <input type="checkbox" checked={sectionParallax} onchange={handleParallaxToggle} />
+                                                Parallax scroll
+                                            </label>
+                                        </div>
+                                        <p class="field__note">The background stays fixed while content scrolls over it. Not supported on iOS Safari.</p>
+                                    </template>
+                                </template>
+                            </template>
+
+                            <template lwc:if={supportsMediaFilter}>
+                                <div class="field">
+                                    <label class="field__label">Filter</label>
+                                    <select class="field__input" onchange={handleMediaFilterChange}>
+                                        <template for:each={mediaFilterOptions} for:item="o">
+                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </template>
+
+                            <template lwc:if={supportsBgVideo}>
+                                <div class="panel__sub">Background video</div>
+                                <div class="field">
+                                    <c-video-uploader
+                                        site-id={uploadSiteId}
+                                        video-url={bgVideoUrl}
+                                        embed-url={bgVideoEmbedUrl}
+                                        label="Upload video"
+                                        onuploaded={handleBgVideoUploaded}
+                                        onembedset={handleBgVideoEmbedSet}
+                                        onremove={handleBgVideoRemove}
+                                    ></c-video-uploader>
+                                    <p class="field__note">Uploading or setting a link here switches Background to “Video”, same as picking an image switches it to “Image”.</p>
+                                </div>
+                            </template>
+
+                            <div class="panel__sub">Placement</div>
+                            <div class="drag">
+                                <div class="dragtrack">
+                                    <div class="dragseg" style={segStyle} onpointerdown={startMove}>
+                                        <span class="draghandle draghandle_l" onpointerdown={startLeft}></span>
+                                        <span class="draghandle draghandle_r" onpointerdown={startRight}></span>
+                                    </div>
+                                </div>
+                                <div class="draghint">{dragHint}</div>
+                            </div>
+                            <div class="places">
+                                <template for:each={placements} for:item="p">
+                                    <button
+                                        key={p.id}
+                                        type="button"
+                                        class={p.cssClass}
+                                        title={p.label}
+                                        data-start={p.colStart}
+                                        data-span={p.colSpan}
+                                        onclick={handlePlacement}
+                                    >
+                                        <span class="mini">
+                                            <template for:each={p.cells} for:item="c">
+                                                <span key={c.key} class={c.cssClass}></span>
+                                            </template>
+                                        </span>
+                                        <span class="place__label">{p.label}</span>
+                                    </button>
+                                </template>
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Vertical alignment</label>
+                                <div class="segs">
+                                    <template for:each={valigns} for:item="v">
+                                        <button
+                                            key={v.value}
+                                            type="button"
+                                            class={v.cssClass}
+                                            data-valign={v.value}
+                                            onclick={handleValign}
+                                        >{v.label}</button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <template lwc:if={isRow}>
+                                <div class="panel__sub">Layout</div>
+                                <div class="field">
+                                    <label class="field__label">Layout type</label>
+                                    <div class="segs">
+                                        <template for:each={layoutModes} for:item="m">
+                                            <button
+                                                key={m.value}
+                                                type="button"
+                                                class={m.cssClass}
+                                                data-mode={m.value}
+                                                onclick={handleLayoutMode}
+                                            >{m.label}</button>
+                                        </template>
+                                    </div>
+                                    <p class="field__note">
+                                        Columns places children on a 12-column grid. Flex lays them out in a
+                                        flexible row or stack. Grid flows equal cells left to right, wrapping
+                                        onto new lines.
+                                    </p>
+                                </div>
+
+                                <template lwc:if={isGridMode}>
+                                    <div class="field field_row">
+                                        <div class="field__half">
+                                            <label class="field__label">Cells</label>
+                                            <select class="field__input" onchange={handleColumnCount}>
+                                                <template for:each={cellCountOptions} for:item="o">
+                                                    <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                        <div class="field__half">
+                                            <label class="field__label">Columns across</label>
+                                            <select class="field__input" onchange={handleGridCols}>
+                                                <template for:each={gridColsOptions} for:item="o">
+                                                    <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <p class="field__note">Cells fill each line left to right, then wrap. All cells share one width.</p>
+                                </template>
+                                <template lwc:else>
+                                    <div class="field">
+                                        <label class="field__label">Columns</label>
+                                        <select class="field__input" onchange={handleColumnCount}>
+                                            <template for:each={columnCountOptions} for:item="o">
+                                                <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                            </template>
+                                        </select>
+                                        <p class="field__note">
+                                            Columns stack into one on mobile. Reducing the count moves that column's
+                                            content into the last one rather than deleting it.
+                                        </p>
+                                    </div>
+                                </template>
+
+                                <template lwc:if={isFlexMode}>
+                                    <div class="field field_row">
+                                        <div class="field__half">
+                                            <label class="field__label">Direction</label>
+                                            <select class="field__input" onchange={handleFlexDirection}>
+                                                <template for:each={flexDirectionOptions} for:item="o">
+                                                    <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                        <div class="field__half">
+                                            <label class="field__label">Align</label>
+                                            <select class="field__input" onchange={handleFlexAlign}>
+                                                <template for:each={flexAlignOptions} for:item="o">
+                                                    <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="field__label">Distribute</label>
+                                        <select class="field__input" onchange={handleFlexJustify}>
+                                            <template for:each={flexJustifyOptions} for:item="o">
+                                                <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div class="field field_row">
+                                        <label class="field__check">
+                                            <input type="checkbox" checked={flexWraps} onchange={handleFlexWrap} />
+                                            Wrap onto new lines
+                                        </label>
+                                    </div>
+                                </template>
+
+                                <template lwc:if={showColumnWidths}>
+                                    <div class="panel__sub">Column widths</div>
+                                    <template for:each={rowColumns} for:item="c">
+                                        <div key={c.colId} class="colw">
+                                            <span class="colw__name">{c.label}</span>
+                                            <select class="field__input colw__mode" data-col-id={c.colId} onchange={handleColWidthMode}>
+                                                <template for:each={c.modeOptions} for:item="o">
+                                                    <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                                </template>
+                                            </select>
+                                            <template lwc:if={c.isSpan}>
+                                                <input
+                                                    class="field__input colw__num"
+                                                    type="number"
+                                                    min="1"
+                                                    max="12"
+                                                    value={c.span}
+                                                    data-col-id={c.colId}
+                                                    onchange={handleColSpan}
+                                                />
+                                            </template>
+                                            <template lwc:elseif={c.isPercent}>
+                                                <input
+                                                    class="field__input colw__num"
+                                                    type="number"
+                                                    min="5"
+                                                    max="100"
+                                                    step="5"
+                                                    value={c.percent}
+                                                    data-col-id={c.colId}
+                                                    onchange={handleColPercent}
+                                                />
+                                            </template>
+                                            <template lwc:else>
+                                                <span class="colw__auto">fits content</span>
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <p class="field__note">
+                                        Span is in 12ths of the row. Percent is a share of the row's width.
+                                        Auto shrinks the column to fit whatever is inside it.
+                                    </p>
+                                </template>
+
+                                <div class="field">
+                                    <label class="field__label">Gap between columns</label>
+                                    <select class="field__input" data-key="gap" onchange={handleStyleChange}>
+                                        <template for:each={gapOptions} for:item="o">
+                                            <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </template>
+
+                            <div class="panel__sub">Style</div>
+
+                            <template lwc:if={showBreakpointBar}>
+                                <div class="bpbar">
+                                    <div class="bpbar__head">
+                                        Editing <b>{deviceLabel}</b>
+                                    </div>
+                                    <p class="bpbar__note">
+                                        Changes here override Desktop on {deviceLabel} and narrower. Switch back to
+                                        Desktop to change every size at once.
+                                    </p>
+                                    <template lwc:if={hasOverrides}>
+                                        <p class="bpbar__list">Overridden here: {overriddenLabel}</p>
+                                        <button class="bpbar__reset" type="button" onclick={handleResetOverrides}>
+                                            Reset {deviceLabel} to Desktop
+                                        </button>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <div class="field">
+                                <label class="field__label">Background</label>
+                                <select class="field__input" data-key="background" onchange={handleStyleChange}>
+                                    <template for:each={backgroundOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Tone</label>
+                                <select class="field__input" data-key="tone" onchange={handleStyleChange}>
+                                    <template for:each={toneOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+                            <template lwc:if={isGradient}>
+                                <div class="field field_row">
+                                    <div class="field__half">
+                                        <label class="field__label">Gradient from</label>
+                                        <input
+                                            class="field__color"
+                                            type="color"
+                                            data-key="from"
+                                            value={gradientFrom}
+                                            onchange={handleGradientChange}
+                                        />
+                                    </div>
+                                    <div class="field__half">
+                                        <label class="field__label">To</label>
+                                        <input
+                                            class="field__color"
+                                            type="color"
+                                            data-key="to"
+                                            value={gradientTo}
+                                            onchange={handleGradientChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="field__label">Angle · {gradientAngle}°</label>
+                                    <input
+                                        class="field__range"
+                                        type="range"
+                                        min="0"
+                                        max="360"
+                                        step="5"
+                                        data-key="angle"
+                                        value={gradientAngle}
+                                        onchange={handleGradientChange}
+                                    />
+                                </div>
+                            </template>
+
+                            <div class="field">
+                                <label class="field__label">Padding</label>
+                                <select class="field__input" data-key="padding" onchange={handleStyleChange}>
+                                    <template for:each={paddingOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Margin</label>
+                                <select class="field__input" data-key="margin" onchange={handleStyleChange}>
+                                    <template for:each={marginOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+                            <div class="field_row">
+                                <div class="field field__half">
+                                    <label class="field__label">Min width (rem)</label>
+                                    <input class="field__input" type="number" step="1" min="0" placeholder="None" data-key="minWidth" value={minWidth} onchange={handleMinMaxChange} />
+                                </div>
+                                <div class="field field__half">
+                                    <label class="field__label">Max width (rem)</label>
+                                    <input class="field__input" type="number" step="1" min="0" placeholder="None" data-key="maxWidth" value={maxWidth} onchange={handleMinMaxChange} />
+                                </div>
+                            </div>
+                            <div class="field_row">
+                                <div class="field field__half">
+                                    <label class="field__label">Min height (rem)</label>
+                                    <input class="field__input" type="number" step="1" min="0" placeholder="None" data-key="minHeight" value={minHeight} onchange={handleMinMaxChange} />
+                                </div>
+                                <div class="field field__half">
+                                    <label class="field__label">Max height (rem)</label>
+                                    <input class="field__input" type="number" step="1" min="0" placeholder="None" data-key="maxHeight" value={maxHeight} onchange={handleMinMaxChange} />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Corners</label>
+                                <select class="field__input" data-key="radius" onchange={handleStyleChange}>
+                                    <template for:each={radiusOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label class="field__label">Shadow</label>
+                                <select class="field__input" data-key="shadow" onchange={handleStyleChange}>
+                                    <template for:each={shadowOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label class="field__label">Border · {borderWidth}px</label>
+                                <input
+                                    class="field__range"
+                                    type="range"
+                                    min="0"
+                                    max="8"
+                                    step="1"
+                                    data-key="width"
+                                    value={borderWidth}
+                                    onchange={handleBorderChange}
+                                />
+                            </div>
+                            <template lwc:if={hasBorder}>
+                                <div class="field field_row">
+                                    <div class="field__half">
+                                        <label class="field__label">Border style</label>
+                                        <select class="field__input" data-key="style" onchange={handleBorderChange}>
+                                            <template for:each={borderStyleOptions} for:item="o">
+                                                <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div class="field__half">
+                                        <label class="field__label">Colour</label>
+                                        <input
+                                            class="field__color"
+                                            type="color"
+                                            data-key="color"
+                                            value={borderColor}
+                                            onchange={handleBorderChange}
+                                        />
+                                    </div>
+                                </div>
+                            </template>
+
+                            <div class="field">
+                                <label class="field__label">Hover</label>
+                                <select class="field__input" data-key="effect" onchange={handleHoverChange}>
+                                    <template for:each={hoverOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                                <p class="field__note">Hover effects preview in Preview mode, not while editing.</p>
+                            </div>
+                        </template>
+                        <template lwc:else>
+                            <p class="field__note">Select a section or element on the canvas to edit its properties.</p>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

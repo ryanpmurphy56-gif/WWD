@@ -1,0 +1,130 @@
+<template>
+    <div class="hub">
+        <header class="hub__header">
+            <div>
+                <p class="hub__eyebrow">WebSuite</p>
+                <h1 class="hub__title">{siteName}</h1>
+                <span class={publishStatusClass}>{publishStatusLabel}</span>
+            </div>
+            <button type="button" class="btn btn_primary" onclick={handleOpenEditor}>Open editor</button>
+        </header>
+
+        <div class="hub__grid">
+            <section class="card">
+                <h2 class="card__title">Pages</h2>
+                <template lwc:if={hasPages}>
+                    <ul class="card__list">
+                        <template for:each={pageRows} for:item="p">
+                            <li key={p.pageId} class="page-row">
+                                <span class="page-row__title">{p.title}</span>
+                                <template lwc:if={p.isHome}>
+                                    <span class="badge">Home</span>
+                                </template>
+                                <button
+                                    type="button"
+                                    class="btn btn_ghost btn_small"
+                                    data-page-id={p.pageId}
+                                    onclick={handleEditPage}
+                                >Edit</button>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template lwc:else>
+                    <p class="card__empty">No pages yet.</p>
+                </template>
+            </section>
+
+            <section class="card">
+                <h2 class="card__title">Styles</h2>
+                <div class="styles-row">
+                    <c-palette-swatch palette={palette}></c-palette-swatch>
+                    <span class="styles-row__label">{personalityLabel}</span>
+                </div>
+                <button type="button" class="btn btn_ghost btn_small" onclick={handleEditStyles}>Edit styles</button>
+            </section>
+
+            <section class="card">
+                <h2 class="card__title">Domain</h2>
+                <template lwc:if={domainLoading}>
+                    <p class="card__empty">Loading…</p>
+                </template>
+                <template lwc:elseif={hasDomain}>
+                    <div class="domain-row">
+                        <span class="domain-row__name">{domain.domain}</span>
+                        <span class={domainStatusClass}>{domainStatusLabel}</span>
+                    </div>
+                    <p class="card__empty">{domainStatusHint}</p>
+                    <template lwc:if={domainLastCheckedLabel}>
+                        <p class="domain-checked">{domainLastCheckedLabel}</p>
+                    </template>
+
+                    <div class="domain-dns">
+                        <div class="domain-dns__row">
+                            <span class="domain-dns__label">TXT record (verify ownership)</span>
+                            <span class="domain-dns__host">{domain.verificationHost}</span>
+                            <span class="domain-dns__value">{domain.verificationToken}</span>
+                        </div>
+                        <div class="domain-dns__row">
+                            <span class="domain-dns__label">CNAME record (route traffic)</span>
+                            <span class="domain-dns__host">{domain.domain}</span>
+                            <span class="domain-dns__value">{domain.cnameTarget}</span>
+                        </div>
+                    </div>
+
+                    <div class="domain-actions">
+                        <button type="button" class="btn btn_primary btn_small" onclick={handleVerifyDomain} disabled={domainVerifyDisabled}>{domainVerifyLabel}</button>
+                        <button type="button" class="btn btn_ghost btn_small" onclick={handleRemoveDomain} disabled={domainRemoving}>Remove</button>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <p class="card__empty">Custom domains aren't live yet, but you can register the one you want here.</p>
+                    <div class="domain-form">
+                        <input
+                            type="text"
+                            class="domain-form__input"
+                            placeholder="yourbusiness.com"
+                            value={domainInput}
+                            oninput={handleDomainInputChange}
+                        />
+                        <button type="button" class="btn btn_primary btn_small" onclick={handleAddDomain} disabled={domainAddDisabled}>Connect a domain</button>
+                    </div>
+                </template>
+                <template lwc:if={domainError}>
+                    <p class="card__empty domain-error">{domainError}</p>
+                </template>
+            </section>
+
+            <section class="card card_wide">
+                <h2 class="card__title">Contacts</h2>
+                <template lwc:if={hasRecord}>
+                    <template lwc:if={submissionsLoading}>
+                        <p class="card__empty">Loading…</p>
+                    </template>
+                    <template lwc:elseif={submissionsError}>
+                        <p class="card__empty">Could not load submissions.</p>
+                    </template>
+                    <template lwc:elseif={hasSubmissions}>
+                        <ul class="card__list">
+                            <template for:each={submissionRows} for:item="s">
+                                <li key={s.id} class="submission-row">
+                                    <div class="submission-row__main">
+                                        <span class="submission-row__form">{s.formName}</span>
+                                        <span class="submission-row__preview">{s.preview}</span>
+                                    </div>
+                                    <span class="submission-row__date">{s.createdLabel}</span>
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                    <template lwc:else>
+                        <p class="card__empty">No submissions yet.</p>
+                    </template>
+                </template>
+                <template lwc:else>
+                    <p class="card__empty">Save your site to start collecting form submissions here.</p>
+                </template>
+            </section>
+        </div>
+    </div>
+</template>

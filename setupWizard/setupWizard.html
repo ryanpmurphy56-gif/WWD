@@ -1,0 +1,101 @@
+<template>
+    <div class="wiz">
+        <template lwc:if={generating}>
+            <c-generation-loader
+                personality-label={personalityLabel}
+                category-label={categoryLabel}
+                page-names={draftPageNames}
+                ondone={handleGenerated}
+            ></c-generation-loader>
+        </template>
+
+        <template lwc:else>
+            <div class="wiz__card">
+                <div class="wiz__progress">
+                    <div class="wiz__progress-bar" style={progressStyle}></div>
+                </div>
+                <div class="wiz__step-label">{progressLabel}</div>
+
+                <!-- Step 0: category + goal -->
+                <template lwc:if={isStep0}>
+                    <h1 class="wiz__h">What are you building?</h1>
+                    <div class="grid">
+                        <template for:each={categories} for:item="c">
+                            <button key={c.id} type="button" class={c.cssClass} data-id={c.id} onclick={pickCategory}>
+                                <span class="opt__emoji">{c.emoji}</span>
+                                <span class="opt__label">{c.label}</span>
+                            </button>
+                        </template>
+                    </div>
+                    <h2 class="wiz__sub">And the main goal?</h2>
+                    <div class="pills">
+                        <template for:each={goals} for:item="g">
+                            <button key={g.id} type="button" class={g.cssClass} data-id={g.id} onclick={pickGoal}>{g.label}</button>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Step 1: describe -->
+                <template lwc:if={isStep1}>
+                    <h1 class="wiz__h">Tell us about it</h1>
+                    <label class="field">
+                        <span class="field__label">Business name</span>
+                        <input class="field__input" type="text" value={businessName} oninput={handleName} placeholder="e.g. Harvest & Vine" />
+                    </label>
+                    <label class="field">
+                        <span class="field__label">In a sentence, what do you do?</span>
+                        <textarea class="field__input" rows="3" oninput={handleAbout} placeholder="A small kitchen cooking seasonal plates in Fitzroy."></textarea>
+                    </label>
+                </template>
+
+                <!-- Step 2: personality -->
+                <template lwc:if={isStep2}>
+                    <h1 class="wiz__h">Pick a personality</h1>
+                    <p class="wiz__hint">Sets your colours, fonts and feel. You can change all of it later.</p>
+                    <div class="pills">
+                        <template for:each={personalities} for:item="p">
+                            <button key={p.id} type="button" class={p.cssClass} data-id={p.id} onclick={pickPersonality}>{p.label}</button>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Step 3: pages -->
+                <template lwc:if={isStep3}>
+                    <h1 class="wiz__h">Which pages?</h1>
+                    <p class="wiz__hint">Home is always included. Add any others — you can add more later.</p>
+                    <div class="pills">
+                        <template for:each={pageChoices} for:item="p">
+                            <button key={p.name} type="button" class={p.cssClass} data-name={p.name} onclick={togglePage}>{p.name}</button>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Step 4: lane fork -->
+                <template lwc:if={isStep4}>
+                    <h1 class="wiz__h">Ready to build</h1>
+                    <p class="wiz__hint">We'll assemble a real, editable draft from your answers.</p>
+                    <div class="lanes">
+                        <button type="button" class="lane lane_primary" onclick={chooseBuild}>
+                            <span class="lane__title">Build my site</span>
+                            <span class="lane__desc">Land in the editor with a complete draft to tweak.</span>
+                        </button>
+                        <button type="button" class="lane" onclick={chooseExpert}>
+                            <span class="lane__title">Have an expert finish it</span>
+                            <span class="lane__desc">Build the draft, then send it to our team with a note.</span>
+                        </button>
+                    </div>
+                </template>
+
+                <!-- Footer nav -->
+                <div class="wiz__nav">
+                    <template lwc:if={showBack}>
+                        <button type="button" class="btn btn_ghost" onclick={back}>Back</button>
+                    </template>
+                    <template lwc:if={showContinue}>
+                        <button type="button" class="btn btn_primary" disabled={nextDisabled} onclick={next}>Continue</button>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,70 @@
+<template>
+    <template lwc:if={visible}>
+        <div class="ws-cart">
+            <button type="button" class="ws-cart__fab" onclick={toggleOpen} aria-label="Open cart">
+                <span class="ws-cart__icon">🛒</span>
+                <template lwc:if={hasItems}>
+                    <span class="ws-cart__badge">{count}</span>
+                </template>
+            </button>
+
+            <template lwc:if={open}>
+                <div class="ws-cart__backdrop" onclick={closeDrawer}></div>
+                <div class="ws-cart__drawer" role="dialog" aria-label="Your cart" onclick={stopPropagation}>
+                    <div class="ws-cart__head">
+                        <span class="ws-cart__title">Your cart</span>
+                        <button type="button" class="ws-cart__close" onclick={closeDrawer} aria-label="Close cart">✕</button>
+                    </div>
+
+                    <template lwc:if={hasItems}>
+                        <ul class="ws-cart__items">
+                            <template for:each={decoratedItems} for:item="i">
+                                <li key={i.productId} class="ws-cart__item">
+                                    <template lwc:if={i.imageUrl}>
+                                        <div class="ws-cart__thumb" style={i.imageStyle}></div>
+                                    </template>
+                                    <div class="ws-cart__info">
+                                        <span class="ws-cart__name">{i.name}</span>
+                                        <span class="ws-cart__unit">{i.priceLabel} each</span>
+                                        <div class="ws-cart__qty">
+                                            <button type="button" disabled={i.atMin} data-id={i.productId} onclick={handleDecrease} aria-label="Decrease quantity">−</button>
+                                            <span class="ws-cart__qtynum">{i.qty}</span>
+                                            <button type="button" data-id={i.productId} onclick={handleIncrease} aria-label="Increase quantity">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="ws-cart__line">
+                                        <span class="ws-cart__linetotal">{i.lineTotalLabel}</span>
+                                        <button type="button" class="ws-cart__remove" data-id={i.productId} onclick={handleRemove}>Remove</button>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+
+                        <div class="ws-cart__subtotal">
+                            <span>Subtotal</span>
+                            <span>{subtotalLabel}</span>
+                        </div>
+
+                        <div class="ws-cart__checkout">
+                            <p class="ws-cart__note">Each item pays separately — tap to complete payment for that item:</p>
+                            <template for:each={decoratedItems} for:item="i">
+                                <button
+                                    key={i.productId}
+                                    type="button"
+                                    class="ws-cart__pay"
+                                    data-link={i.buyLink}
+                                    onclick={handlePay}
+                                >Pay for {i.name} · {i.lineTotalLabel} ↗</button>
+                            </template>
+                        </div>
+
+                        <button type="button" class="ws-cart__clear" onclick={handleClear}>Clear cart</button>
+                    </template>
+                    <template lwc:else>
+                        <p class="ws-cart__empty">Your cart is empty.</p>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,25 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block text" style={blockStyle}>
+                <h2
+                    class="text__heading"
+                    style={headingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="heading"
+                    data-placeholder="Add a heading"
+                    onblur={handleEdit}
+                    onkeydown={handleKeydown}
+                >{heading}</h2>
+                <p
+                    class="text__body"
+                    style={bodyFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="body"
+                    data-placeholder="Add some text"
+                    onblur={handleEdit}
+                >{body}</p>
+            </div>
+        </div>
+    </section>
+</template>

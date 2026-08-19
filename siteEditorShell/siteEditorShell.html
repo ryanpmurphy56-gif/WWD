@@ -1,0 +1,162 @@
+<template>
+    <dialog class="shell" onclose={handleShellClose}>
+        <template lwc:if={starting}>
+            <div class="shell__empty">
+                <p class="shell__empty-title">No site to edit yet.</p>
+                <p class="shell__empty-hint">Start from the homepage to answer a few quick questions, or jump straight into a blank canvas and build it yourself.</p>
+                <div class="shell__empty-actions">
+                    <button type="button" class="shell__empty-btn shell__empty-btn_primary" onclick={handleStartBlank}>Start a blank site</button>
+                    <button type="button" class="shell__empty-btn" onclick={handleGoHome}>Back to homepage</button>
+                </div>
+            </div>
+        </template>
+
+        <template lwc:elseif={isHubView}>
+            <c-site-home-hub
+                site-name={siteName}
+                is-published={isPublished}
+                published-at={publishedAt}
+                record-id={liveRecordId}
+                pages={pages}
+                theme={theme}
+                ongotoeditor={handleGoToEditor}
+                ongotostyles={handleGoToStyles}
+            ></c-site-home-hub>
+        </template>
+
+        <template lwc:elseif={isEditorView}>
+        <c-editor-toolbar
+            site-name={siteName}
+            mode={mode}
+            device={device}
+            zoom={zoom}
+            dirty={dirty}
+            saving={saving}
+            can-undo={canUndo}
+            can-redo={canRedo}
+            status-text={statusText}
+            is-fullscreen={fullscreen}
+            is-published={isPublished}
+            publishing={publishing}
+            published-at={publishedAt}
+            review-status={reviewStatus}
+            submitted-at={submittedAt}
+            onmodetoggle={handleModeToggle}
+            ondevicechange={handleDeviceChange}
+            onzoomchange={handleZoomChange}
+            onundo={handleUndo}
+            onredo={handleRedo}
+            onsave={handleSave}
+            onsubmitforreview={handleSubmitForReview}
+            onrequesthuman={handleRequestHuman}
+            onfullscreentoggle={handleFullscreenToggle}
+            ongotohub={handleGoToHub}
+        ></c-editor-toolbar>
+
+        <div class="workspace">
+            <template lwc:if={isEdit}>
+                <aside class="workspace__rail">
+                    <c-page-rail
+                        pages={pages}
+                        active-page-id={activePageId}
+                        onselectpage={handleSelectPage}
+                        onsectionadded={handleSectionAdded}
+                    ></c-page-rail>
+                </aside>
+            </template>
+
+            <main class="stage">
+                <template lwc:if={isEdit}>
+                    <div class="stage__actions">
+                        <button type="button" class="add-btn" onclick={openLibrary}>+ Add section</button>
+                        <template lwc:if={clipboard}>
+                            <button type="button" class="add-btn add-btn_paste" onclick={handlePaste}>{pasteLabel}</button>
+                        </template>
+                    </div>
+                </template>
+
+                <div class="stage__scroll">
+                    <div class={frameClass} style={frameStyle}>
+                        <c-theme-provider theme={theme}>
+                            <template lwc:if={activePage}>
+                                <c-page-canvas
+                                    page={activePage}
+                                    mode={mode}
+                                    selected-section-ids={selectedSectionIds}
+                                    globals={globals}
+                                    nav-menu={navMenu}
+                                    onsectionselect={handleSectionSelect}
+                                    onnavigate={handleNavigate}
+                                ></c-page-canvas>
+                            </template>
+                            <template lwc:else>
+                                <div class="stage__empty">{loadingMessage}</div>
+                            </template>
+                        </c-theme-provider>
+                    </div>
+                </div>
+
+                <template lwc:if={showPolishCta}>
+                    <button type="button" class="polish-cta" onclick={openPreviewHelp}>
+                        ✨ Request a polish pass
+                    </button>
+                </template>
+            </main>
+
+            <template lwc:if={isEdit}>
+                <aside class="workspace__panel">
+                    <div class="ptabs-row">
+                        <div class="ptabs">
+                            <button type="button" class={settingsTabClass} onclick={showSettingsTab}>Properties</button>
+                            <button type="button" class={layersTabClass} onclick={showLayersTab}>Layers</button>
+                            <button type="button" class={historyTabClass} onclick={showHistoryTab}>History</button>
+                        </div>
+                        <button type="button" class="cog-btn" title="Design settings" aria-label="Design settings" onclick={openThemePopup}>⚙</button>
+                    </div>
+                    <div class="ptab-body">
+                        <template lwc:if={isLayersTab}>
+                            <c-layers-panel
+                                active-page={activePage}
+                                selected-section-ids={selectedSectionIds}
+                                globals={globals}
+                                onsectionselect={handleSectionSelect}
+                            ></c-layers-panel>
+                        </template>
+                        <template lwc:elseif={isHistoryTab}>
+                            <c-version-history-panel></c-version-history-panel>
+                        </template>
+                        <template lwc:else>
+                            <c-settings-panel
+                                active-page={activePage}
+                                selected-section={selectedSection}
+                                pages={pages}
+                                nav={navConfig}
+                                redirects={redirectsConfig}
+                                device={device}
+                                site-name={siteName}
+                                onselectpage={handleSelectPage}
+                            ></c-settings-panel>
+                        </template>
+                    </div>
+                </aside>
+            </template>
+        </div>
+
+        <template lwc:if={libraryOpen}>
+            <c-section-library
+                page-id={activePageId}
+                onadded={handleSectionAdded}
+                onclose={closeLibrary}
+            ></c-section-library>
+        </template>
+
+        <template lwc:if={helpOpen}>
+            <c-human-request-modal source={helpSource} onclose={closeHelp}></c-human-request-modal>
+        </template>
+
+        <template lwc:if={themePopupOpen}>
+            <c-theme-settings-popup theme={theme} onclose={closeThemePopup}></c-theme-settings-popup>
+        </template>
+        </template>
+    </dialog>
+</template>

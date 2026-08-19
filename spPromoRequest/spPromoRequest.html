@@ -1,0 +1,116 @@
+<template>
+    <div class="promo-shell">
+
+        <!-- New request form -->
+        <div class="form-card">
+            <div class="card-head">
+                <h2>Request a Promotion</h2>
+                <p class="card-sub">Ask Point &amp; Pour to run a promotion on one of your ranged products.</p>
+            </div>
+
+            <template if:true={formError}>
+                <div class="msg-box error">{formError}</div>
+            </template>
+            <template if:true={formSuccess}>
+                <div class="msg-box success">{formSuccess}</div>
+            </template>
+
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label>Product</label>
+                    <select class="form-input" data-field="productId" onchange={handleInput}>
+                        <option value="">-- Select one of your products --</option>
+                        <template for:each={productOptions} for:item="opt">
+                            <option key={opt.value} value={opt.value}
+                                    selected={opt.selected}>{opt.label}</option>
+                        </template>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Proposed Promo Price (AUD)</label>
+                    <input type="number" step="0.01" min="0" class="form-input"
+                           data-field="proposedPrice" value={form.proposedPrice}
+                           oninput={handleInput} />
+                </div>
+
+                <div class="form-group">
+                    <label>Requested Start Date</label>
+                    <input type="date" class="form-input"
+                           data-field="startDate" value={form.startDate}
+                           oninput={handleInput} />
+                </div>
+
+                <div class="form-group">
+                    <label>Requested End Date</label>
+                    <input type="date" class="form-input"
+                           data-field="endDate" value={form.endDate}
+                           oninput={handleInput} />
+                </div>
+
+                <div class="form-group full">
+                    <label>Notes for the store</label>
+                    <textarea class="form-input" rows="3"
+                              data-field="notes" value={form.notes}
+                              oninput={handleInput}
+                              placeholder="e.g. National brand campaign running in March - co-op funding available."></textarea>
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick={handleSubmit} disabled={isSubmitting}>
+                <template if:true={isSubmitting}>Submitting...</template>
+                <template if:false={isSubmitting}>Submit Request</template>
+            </button>
+        </div>
+
+        <!-- Request history -->
+        <div class="history-card">
+            <div class="card-head">
+                <h2>Your Promotion Requests</h2>
+                <p class="card-sub">Status updates and replies from the store appear here.</p>
+            </div>
+
+            <template if:true={isLoading}>
+                <div class="loading-state">
+                    <lightning-spinner alternative-text="Loading requests..." size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:false={isLoading}>
+                <template if:true={hasRequests}>
+                    <div class="request-list">
+                        <template for:each={requests} for:item="req">
+                            <div key={req.Id} class="request-row">
+                                <div class="request-top">
+                                    <span class="request-num">{req.Name}</span>
+                                    <span class={req.statusClass}>{req.Status__c}</span>
+                                </div>
+                                <div class="request-product">{req.productName}</div>
+                                <div class="request-meta">
+                                    {req.displayDates}
+                                    <template if:true={req.displayPrice}>
+                                        &nbsp;&middot;&nbsp; Proposed {req.displayPrice}
+                                    </template>
+                                </div>
+                                <template if:true={req.Supplier_Notes__c}>
+                                    <div class="request-notes">"{req.Supplier_Notes__c}"</div>
+                                </template>
+                                <template if:true={req.Store_Response__c}>
+                                    <div class="store-response">
+                                        <span class="response-label">Store response</span>
+                                        {req.Store_Response__c}
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:false={hasRequests}>
+                    <div class="empty-state">You haven't submitted any promotion requests yet.</div>
+                </template>
+            </template>
+        </div>
+
+    </div>
+</template>

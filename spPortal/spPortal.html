@@ -1,0 +1,16 @@
+<template>
+    <div class="sp-wrapper">
+        <c-sp-header active-tab={activeTab} onnavigate={handleNavigate}></c-sp-header>
+        <div class="sp-content">
+
+            <template if:true={isRange}>
+                <c-sp-range-table onrequestpromo={handleRequestPromo}></c-sp-range-table>
+            </template>
+
+            <template if:true={isPromos}>
+                <c-sp-promo-request preselected-product-id={preselectedProductId}></c-sp-promo-request>
+            </template>
+
+        </div>
+    </div>
+</template>

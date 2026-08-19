@@ -1,0 +1,43 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block quotes" style={blockStyle}>
+                <div class="quotes__grid">
+                    <template for:each={items} for:item="it">
+                        <figure key={it.index} class="quote">
+                            <template lwc:if={isEdit}>
+                                <button
+                                    class="quote__remove"
+                                    type="button"
+                                    title="Remove"
+                                    data-index={it.index}
+                                    onclick={handleRemove}
+                                >✕</button>
+                            </template>
+                            <blockquote
+                                class="quote__text"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="quote"
+                                data-placeholder="Their words…"
+                                onblur={handleItemEdit}
+                            >{it.quote}</blockquote>
+                            <figcaption
+                                class="quote__author"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="author"
+                                data-placeholder="Name"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.author}</figcaption>
+                        </figure>
+                    </template>
+                </div>
+                <template lwc:if={isEdit}>
+                    <button class="sec__add" type="button" onclick={handleAdd}>+ Add quote</button>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

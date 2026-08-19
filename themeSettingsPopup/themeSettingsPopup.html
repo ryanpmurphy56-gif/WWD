@@ -1,0 +1,8 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Design settings">
+            <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+            <c-theme-panel theme={theme}></c-theme-panel>
+        </div>
+    </div>
+</template>

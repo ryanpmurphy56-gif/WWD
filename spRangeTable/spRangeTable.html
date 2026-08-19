@@ -1,0 +1,99 @@
+<template>
+    <div class="range-shell">
+
+        <!-- Loading -->
+        <template if:true={isLoading}>
+            <div class="loading-state">
+                <lightning-spinner alternative-text="Loading your range..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Error -->
+        <template if:true={errorMessage}>
+            <div class="error-box">{errorMessage}</div>
+        </template>
+
+        <!-- Loaded -->
+        <template if:false={isLoading}>
+            <template if:false={errorMessage}>
+
+                <!-- Summary tiles -->
+                <div class="summary-grid">
+                    <div class="tile">
+                        <span class="tile-value">{summary.rangedCount}</span>
+                        <span class="tile-label">Products Ranged</span>
+                    </div>
+                    <div class="tile">
+                        <span class="tile-value">{summary.unitsSold}</span>
+                        <span class="tile-label">Total Units Sold</span>
+                    </div>
+                    <div class="tile tile-warn">
+                        <span class="tile-value">{summary.lowStockCount}</span>
+                        <span class="tile-label">Low / Out of Stock</span>
+                    </div>
+                    <div class="tile">
+                        <span class="tile-value">{summary.openRequests}</span>
+                        <span class="tile-label">Open Promo Requests</span>
+                    </div>
+                </div>
+
+                <!-- Range table -->
+                <div class="table-card">
+                    <div class="table-head">
+                        <h2>My Ranged Products</h2>
+                        <p class="table-sub">Live stock and sales for products you supply to Point &amp; Pour.</p>
+                    </div>
+
+                    <template if:true={hasProducts}>
+                        <div class="table-scroll">
+                            <table class="range-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Category</th>
+                                        <th class="num">Selling Price</th>
+                                        <th class="num">On Hand</th>
+                                        <th class="num">Min Qty</th>
+                                        <th class="num">Total Sold</th>
+                                        <th>Stock Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={products} for:item="row">
+                                        <tr key={row.productId}>
+                                            <td class="prod-name">{row.name}</td>
+                                            <td>{row.category}</td>
+                                            <td class="num">{row.displayPrice}</td>
+                                            <td class="num">{row.quantityOnHand}</td>
+                                            <td class="num">{row.displayMinQty}</td>
+                                            <td class="num">{row.totalSold}</td>
+                                            <td>
+                                                <span class={row.statusClass}>{row.stockStatus}</span>
+                                            </td>
+                                            <td>
+                                                <button class="promo-btn"
+                                                        data-id={row.productId}
+                                                        data-name={row.name}
+                                                        onclick={handleRequestPromo}>
+                                                    Request Promo
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+
+                    <template if:false={hasProducts}>
+                        <div class="empty-state">
+                            No products are currently ranged under your account.
+                        </div>
+                    </template>
+                </div>
+
+            </template>
+        </template>
+    </div>
+</template>

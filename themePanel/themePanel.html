@@ -1,0 +1,163 @@
+<template>
+    <div class="theme">
+        <div class="theme__head">
+            <span class="theme__eyebrow">Design</span>
+            <span class="theme__title">Theme</span>
+        </div>
+
+        <div class="theme__body">
+            <!-- Personality -->
+            <div class="group">
+                <span class="group__label">Personality</span>
+                <div class="chips">
+                    <template for:each={personalities} for:item="p">
+                        <button
+                            key={p.id}
+                            type="button"
+                            class={p.cssClass}
+                            data-id={p.id}
+                            onclick={handlePersonality}
+                        >{p.label}</button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Palette -->
+            <div class="group">
+                <span class="group__label">Palette</span>
+                <div class="palettes">
+                    <template for:each={palettes} for:item="pal">
+                        <c-palette-swatch
+                            key={pal.id}
+                            palette={pal}
+                            selected={pal.selected}
+                            onselect={handlePaletteSelect}
+                        ></c-palette-swatch>
+                    </template>
+                </div>
+                <div class="colors">
+                    <label class="color">
+                        <input type="color" value={primary} data-key="primary" onchange={handleColor} />
+                        <span>Primary</span>
+                    </label>
+                    <label class="color">
+                        <input type="color" value={secondary} data-key="secondary" onchange={handleColor} />
+                        <span>Secondary</span>
+                    </label>
+                    <label class="color">
+                        <input type="color" value={accent} data-key="accent" onchange={handleColor} />
+                        <span>Accent</span>
+                    </label>
+                    <label class="color">
+                        <input type="color" value={surface} data-key="surface" onchange={handleColor} />
+                        <span>Surface</span>
+                    </label>
+                    <label class="color">
+                        <input type="color" value={textColor} data-key="text" onchange={handleColor} />
+                        <span>Text</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Fonts -->
+            <div class="group">
+                <span class="group__label">Font pairing</span>
+                <div class="fonts">
+                    <template for:each={fontPairs} for:item="f">
+                        <c-font-pair-card
+                            key={f.id}
+                            pair={f}
+                            selected={f.selected}
+                            onselect={handleFont}
+                        ></c-font-pair-card>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Radius -->
+            <div class="group">
+                <span class="group__label">Corners</span>
+                <div class="segs">
+                    <template for:each={radii} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleRadius}>{o.label}</button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Spacing -->
+            <div class="group">
+                <span class="group__label">Spacing</span>
+                <div class="segs">
+                    <template for:each={spacings} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleSpacing}>{o.label}</button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Motion -->
+            <div class="group">
+                <span class="group__label">Motion</span>
+                <div class="segs">
+                    <template for:each={motions} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleMotion}>{o.label}</button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="group">
+                <span class="group__label">Buttons</span>
+                <div class="segs">
+                    <template for:each={buttonVariants} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleButtonVariant}>{o.label}</button>
+                    </template>
+                </div>
+                <div class="segs" style="margin-top:0.4rem">
+                    <template for:each={buttonColorRoles} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleButtonColor}>{o.label}</button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div class="group">
+                <span class="group__label">Links</span>
+                <div class="segs">
+                    <template for:each={linkColors} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleLinkColor}>{o.label}</button>
+                    </template>
+                </div>
+                <div class="segs" style="margin-top:0.4rem">
+                    <template for:each={linkUnderlines} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleLinkUnderline}>{o.label}</button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Forms -->
+            <div class="group">
+                <span class="group__label">Form focus colour</span>
+                <div class="segs">
+                    <template for:each={formAccents} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleFormAccent}>{o.label}</button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Headings -->
+            <div class="group">
+                <span class="group__label">Headings</span>
+                <div class="segs">
+                    <template for:each={headingWeights} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleHeadingWeight}>{o.label}</button>
+                    </template>
+                </div>
+                <div class="segs" style="margin-top:0.4rem">
+                    <template for:each={headingColors} for:item="o">
+                        <button key={o.id} type="button" class={o.cssClass} data-id={o.id} onclick={handleHeadingColor}>{o.label}</button>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

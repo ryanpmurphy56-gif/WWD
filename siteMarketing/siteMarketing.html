@@ -1,0 +1,28 @@
+<template>
+    <template lwc:if={showBar}>
+        <div class="bar">
+            <span class="bar__text">{bar.text}</span>
+            <template lwc:if={barHasCta}>
+                <a class="bar__cta" href={bar.ctaTarget}>{bar.ctaLabel}</a>
+            </template>
+            <template lwc:if={barDismissible}>
+                <button type="button" class="bar__close" title="Dismiss" onclick={handleDismissBar}>✕</button>
+            </template>
+        </div>
+    </template>
+
+    <template lwc:if={popupVisible}>
+        <div class="popup-backdrop" onclick={handleDismissPopup}>
+            <div class="popup" onclick={stop} role="dialog" aria-label={popup.heading}>
+                <button type="button" class="popup__close" title="Close" onclick={handleDismissPopup}>✕</button>
+                <h3 class="popup__heading">{popup.heading}</h3>
+                <template lwc:if={popup.body}>
+                    <p class="popup__body">{popup.body}</p>
+                </template>
+                <template lwc:if={popupHasCta}>
+                    <a class="popup__cta" href={popup.ctaTarget}>{popup.ctaLabel}</a>
+                </template>
+            </div>
+        </div>
+    </template>
+</template>

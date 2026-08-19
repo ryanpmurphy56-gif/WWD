@@ -1,0 +1,24 @@
+<template>
+    <div class="sp-header">
+        <div class="header-left">
+            <span class="portal-title">&#127863; Supplier Portal</span>
+            <template if:true={supplierName}>
+                <span class="supplier-badge">{supplierName}</span>
+            </template>
+        </div>
+        <div class="header-nav">
+            <button class={rangeClass} data-tab="range" onclick={handleNav}>
+                My Range
+            </button>
+            <button class={promosClass} data-tab="promos" onclick={handleNav}>
+                Promotion Requests
+            </button>
+        </div>
+        <div class="header-right">
+            <div class="contact-block">
+                <span class="contact-name">{contactName}</span>
+                <span class="contact-email">{contactEmail}</span>
+            </div>
+        </div>
+    </div>
+</template>

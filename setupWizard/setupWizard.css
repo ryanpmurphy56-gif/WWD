@@ -1,0 +1,222 @@
+.wiz {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 480px;
+    padding: 2rem;
+    background: #f4f5f7;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.wiz__card {
+    width: 100%;
+    max-width: 560px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    padding: 2rem;
+}
+
+.wiz__progress {
+    height: 4px;
+    background: #eceef1;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.wiz__progress-bar {
+    height: 100%;
+    background: #ff5b04;
+    border-radius: 999px;
+    transition: width 0.25s ease;
+}
+.wiz__step-label {
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.wiz__h {
+    margin: 1rem 0 1.2rem;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #111827;
+}
+.wiz__sub {
+    margin: 1.6rem 0 0.8rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #374151;
+}
+.wiz__hint {
+    margin: -0.6rem 0 1.2rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* Category grid ------------------------------------------------------- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.6rem;
+}
+.opt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1rem 0.6rem;
+    background: #fafafa;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.opt:hover {
+    border-color: #d1d5db;
+}
+.opt_on {
+    border-color: #ff5b04;
+    background: #fff5ef;
+}
+.opt__emoji {
+    font-size: 1.6rem;
+}
+.opt__label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #374151;
+    text-align: center;
+}
+
+/* Pills --------------------------------------------------------------- */
+.pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.pill {
+    border: 1.5px solid #e5e7eb;
+    background: #fff;
+    color: #374151;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    cursor: pointer;
+}
+.pill:hover {
+    border-color: #d1d5db;
+}
+.pill_on {
+    border-color: #ff5b04;
+    background: #0a0a0a;
+    color: #fff;
+}
+
+/* Fields -------------------------------------------------------------- */
+.field {
+    display: block;
+    margin-bottom: 1rem;
+}
+.field__label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.35rem;
+}
+.field__input {
+    width: 100%;
+    box-sizing: border-box;
+    font: inherit;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.8rem;
+    border: 1.5px solid #d1d5db;
+    border-radius: 10px;
+}
+.field__input:focus {
+    outline: none;
+    border-color: #ff5b04;
+    box-shadow: 0 0 0 3px rgba(255, 91, 4, 0.15);
+}
+textarea.field__input {
+    resize: vertical;
+}
+
+/* Lanes --------------------------------------------------------------- */
+.lanes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+.lane {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: left;
+    padding: 1.1rem 1.2rem;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.lane:hover {
+    border-color: #d1d5db;
+}
+.lane_primary {
+    border-color: #ff5b04;
+    background: #fff5ef;
+}
+.lane__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+}
+.lane__desc {
+    font-size: 0.86rem;
+    color: #6b7280;
+}
+
+/* Nav ----------------------------------------------------------------- */
+.wiz__nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 1.6rem;
+}
+.wiz__nav .btn_primary {
+    margin-left: auto;
+}
+.btn {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #111827;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+.btn:hover:not(:disabled) {
+    background: #f3f4f6;
+}
+.btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+.btn_primary {
+    background: #ff5b04;
+    border-color: #ff5b04;
+    color: #fff;
+    font-weight: 600;
+}
+.btn_primary:hover:not(:disabled) {
+    background: #e85200;
+}
+.btn_ghost {
+    background: transparent;
+    border-color: transparent;
+    color: #6b7280;
+}

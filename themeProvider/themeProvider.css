@@ -1,0 +1,7 @@
+.theme-root {
+    display: block;
+    width: 100%;
+    background: var(--ws-surface, #fff);
+    color: var(--ws-text, #0a0a0a);
+    font-family: var(--ws-font-body, system-ui, sans-serif);
+}

@@ -1,0 +1,33 @@
+<template>
+  <template lwc:if={loading}>
+    <div class="ws-loading">Loading…</div>
+  </template>
+  <template lwc:elseif={notFound}>
+    <div class="ws-notfound">
+      <p class="ws-notfound__title">This site isn't published yet.</p>
+      <p class="ws-notfound__hint">Check back soon.</p>
+    </div>
+  </template>
+  <template lwc:elseif={showSite}>
+    <!--
+      Announcement bar + promo popups (F11b/F11e). Mounted outside
+      c-theme-provider, matching siteEditorShell — these are chrome over the
+      site, not part of it, and neither reads the theme vars. `device` is
+      deliberately not passed: the editor supplies its preview device, but here
+      siteMarketing measures the real viewport instead.
+    -->
+    <c-site-marketing
+      config={config}
+      active-page-id={activePageId}
+    ></c-site-marketing>
+    <c-theme-provider theme={theme}>
+      <c-page-canvas
+        page={activePage}
+        mode="live"
+        globals={globals}
+        nav-menu={navMenu}
+        onnavigate={handleNavigate}
+      ></c-page-canvas>
+    </c-theme-provider>
+  </template>
+</template>

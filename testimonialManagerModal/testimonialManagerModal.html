@@ -1,0 +1,87 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Manage testimonials">
+            <template lwc:if={isEditing}>
+                <div class="dialog__head">
+                    <span class="dialog__title">{formTitle}</span>
+                    <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+                </div>
+                <div class="dialog__body">
+                    <template lwc:if={errorText}>
+                        <p class="dialog__error">{errorText}</p>
+                    </template>
+                    <div class="field">
+                        <label class="field__label">Author name</label>
+                        <input class="field__input" type="text" value={draft.authorName} onchange={handleAuthorNameChange} />
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Role / company</label>
+                        <input class="field__input" type="text" placeholder="e.g. CEO, Acme Inc" value={draft.roleCompany} onchange={handleRoleCompanyChange} />
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Photo</label>
+                        <c-image-uploader
+                            site-id={siteId}
+                            image-url={draft.photoUrl}
+                            label="Upload photo"
+                            onuploaded={handlePhotoUploaded}
+                            onremove={handlePhotoRemove}
+                        ></c-image-uploader>
+                    </div>
+                    <div class="field">
+                        <label class="field__label">Quote</label>
+                        <textarea class="field__input" rows="4" onchange={handleQuoteChange}>{draft.quote}</textarea>
+                    </div>
+                    <div class="field field_row">
+                        <label class="field__check">
+                            <input type="checkbox" checked={draft.isActive} onchange={handleActiveChange} />
+                            Active (visible in the Testimonials section)
+                        </label>
+                    </div>
+                </div>
+                <div class="dialog__foot">
+                    <button type="button" class="btn" onclick={handleCancelEdit}>Cancel</button>
+                    <button type="button" class="btn btn_primary" disabled={saveDisabled} onclick={handleSaveDraft}>{saveLabel}</button>
+                </div>
+            </template>
+
+            <template lwc:else>
+                <div class="dialog__head">
+                    <span class="dialog__title">Testimonials</span>
+                    <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+                </div>
+                <div class="dialog__body">
+                    <template lwc:if={loading}>
+                        <p class="dialog__lead">Loading…</p>
+                    </template>
+                    <template lwc:elseif={errorText}>
+                        <p class="dialog__error">{errorText}</p>
+                    </template>
+                    <template lwc:elseif={hasTestimonials}>
+                        <ul class="posts">
+                            <template for:each={testimonials} for:item="t">
+                                <li key={t.id} class="post">
+                                    <div class="post__info">
+                                        <span class="post__title">{t.authorName}</span>
+                                        <span class="post__status">{t.statusLabel}</span>
+                                    </div>
+                                    <div class="post__actions">
+                                        <button type="button" class="btn" data-id={t.id} onclick={handleEditTestimonial}>Edit</button>
+                                        <button type="button" class="btn btn_danger" data-id={t.id} onclick={handleDeleteTestimonial}>Delete</button>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                    <template lwc:else>
+                        <p class="dialog__lead">No testimonials yet.</p>
+                    </template>
+                </div>
+                <div class="dialog__foot">
+                    <button type="button" class="btn" onclick={close}>Close</button>
+                    <button type="button" class="btn btn_primary" onclick={handleNewTestimonial}>+ New testimonial</button>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

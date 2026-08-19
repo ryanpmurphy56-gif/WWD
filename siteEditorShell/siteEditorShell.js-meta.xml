@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Site Editor Shell</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="hideThemeControls" type="Boolean" default="false" label="Hide theme controls in the inspector" />
+            <property name="recordId" type="String" label="Record Id" description="Bound to the current page's record/CMS content Id, if any." />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
