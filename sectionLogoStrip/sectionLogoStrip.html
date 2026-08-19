@@ -1,0 +1,44 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block logostrip" style={blockStyle}>
+                <p
+                    class="logostrip__heading"
+                    style={headingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="heading"
+                    data-placeholder="Heading"
+                    onblur={handleFieldEdit}
+                    onkeydown={handleKeydown}
+                >{content.heading}</p>
+                <div class="logostrip__row">
+                    <template for:each={items} for:item="it">
+                        <span key={it.index} class="logo">
+                            <template lwc:if={isEdit}>
+                                <button
+                                    class="logo__remove"
+                                    type="button"
+                                    title="Remove"
+                                    data-index={it.index}
+                                    onclick={handleRemove}
+                                >✕</button>
+                            </template>
+                            <span
+                                class="logo__name"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="name"
+                                data-placeholder="Name"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.name}</span>
+                        </span>
+                    </template>
+                </div>
+                <template lwc:if={isEdit}>
+                    <button class="sec__add" type="button" onclick={handleAdd}>+ Add name</button>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,43 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block features" style={blockStyle}>
+                <div class="features__grid">
+                    <template for:each={items} for:item="it">
+                        <div key={it.index} class="feat">
+                            <template lwc:if={isEdit}>
+                                <button
+                                    class="feat__remove"
+                                    type="button"
+                                    title="Remove"
+                                    data-index={it.index}
+                                    onclick={handleRemove}
+                                >✕</button>
+                            </template>
+                            <h3
+                                class="feat__title"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="title"
+                                data-placeholder="Title"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.title}</h3>
+                            <p
+                                class="feat__body"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="body"
+                                data-placeholder="Description"
+                                onblur={handleItemEdit}
+                            >{it.body}</p>
+                        </div>
+                    </template>
+                </div>
+                <template lwc:if={isEdit}>
+                    <button class="sec__add" type="button" onclick={handleAdd}>+ Add pillar</button>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

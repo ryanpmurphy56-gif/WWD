@@ -1,0 +1,129 @@
+.sec__grid {
+    max-width: 460px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+.ml__card {
+    background: rgba(127, 127, 127, 0.05);
+    border-radius: 12px;
+    padding: 2rem 1.75rem;
+}
+.ml__heading {
+    margin: 0 0 0.4rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--sec-color, inherit);
+    outline: none;
+}
+.ml__subheading {
+    margin: 0 0 1.5rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--sec-color, inherit);
+    opacity: 0.8;
+    outline: none;
+}
+.ml__heading[contenteditable="true"]:hover,
+.ml__subheading[contenteditable="true"]:hover {
+    outline: 1px dashed rgba(127, 127, 127, 0.4);
+}
+.ml__field {
+    margin-bottom: 1rem;
+}
+.ml__label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--sec-color, inherit);
+    opacity: 0.85;
+}
+.ml__input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.65rem 0.8rem;
+    font-size: 0.95rem;
+    border: 1px solid rgba(127, 127, 127, 0.35);
+    border-radius: 8px;
+    background: var(--ws-surface, #fff);
+    color: inherit;
+}
+.ml__input:focus {
+    outline: none;
+    border-color: var(--ws-primary, #1f3d5c);
+}
+.ml__input_code {
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.ml__button {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--ws-primary, #1f3d5c);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.ml__button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+.ml__linkbutton {
+    display: block;
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--ws-primary, #1f3d5c);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.ml__linkbutton:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+.ml__note {
+    margin: 0 0 1rem;
+    font-size: 0.88rem;
+    color: var(--sec-color, inherit);
+    opacity: 0.85;
+}
+.ml__welcome {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+    color: var(--sec-color, inherit);
+}
+.ml__error {
+    margin: -0.5rem 0 1rem;
+    font-size: 0.85rem;
+    color: #c0392b;
+}
+.ml__preview .ml__fakeinput {
+    height: 2.2rem;
+    border: 1px solid rgba(127, 127, 127, 0.35);
+    border-radius: 8px;
+    background: var(--ws-surface, #fff);
+}
+.ml__preview .ml__fakebutton {
+    padding: 0.7rem 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--ws-primary, #1f3d5c);
+    border-radius: 8px;
+    opacity: 0.6;
+}
+.ml__hint {
+    margin: 1rem 0 0;
+    font-size: 0.78rem;
+    color: var(--sec-color, #666);
+    opacity: 0.75;
+    text-align: center;
+}

@@ -1,0 +1,43 @@
+<template>
+    <div class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <h2
+                class="portfoliolist__heading"
+                style={headingFieldStyle}
+                contenteditable={editableAttr}
+                data-field="heading"
+                data-placeholder="Our work"
+                onblur={handleHeadingEdit}
+                onkeydown={handleKeydown}
+            >{heading}</h2>
+
+            <template lwc:if={hasItems}>
+                <div class={gridClass}>
+                    <template for:each={items} for:item="i">
+                        <article key={i.id} class="portfoliolist__card">
+                            <template lwc:if={i.hasImage}>
+                                <div class="portfoliolist__image" style={i.imageStyle}></div>
+                            </template>
+                            <div class="portfoliolist__body">
+                                <template lwc:if={i.hasCategory}>
+                                    <span class="portfoliolist__category">{i.category}</span>
+                                </template>
+                                <h3 class="portfoliolist__title">{i.title}</h3>
+                                <p class="portfoliolist__desc">{i.description}</p>
+                                <template lwc:if={i.hasProjectUrl}>
+                                    <a class="portfoliolist__link" href={i.projectUrl} target="_blank" rel="noopener">View project</a>
+                                </template>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            <template lwc:elseif={showEmptyNoSite}>
+                <div class="portfoliolist__empty">Save the site to start adding portfolio items.</div>
+            </template>
+            <template lwc:elseif={showEmptyNoItems}>
+                <div class="portfoliolist__empty">No active portfolio items yet. Use "Manage portfolio" in the Properties panel to add one.</div>
+            </template>
+        </div>
+    </div>
+</template>

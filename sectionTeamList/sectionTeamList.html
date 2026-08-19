@@ -1,0 +1,44 @@
+<template>
+    <div class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <h2
+                class="teamlist__heading"
+                style={headingFieldStyle}
+                contenteditable={editableAttr}
+                data-field="heading"
+                data-placeholder="The people behind it"
+                onblur={handleHeadingEdit}
+                onkeydown={handleKeydown}
+            >{heading}</h2>
+
+            <template lwc:if={hasMembers}>
+                <div class="teamlist__grid">
+                    <template for:each={members} for:item="m">
+                        <article key={m.id} class="teamlist__card">
+                            <template lwc:if={m.hasPhoto}>
+                                <div class="teamlist__photo" style={m.photoStyle}></div>
+                            </template>
+                            <template lwc:else>
+                                <div class="teamlist__photo teamlist__photo_placeholder"></div>
+                            </template>
+                            <div class="teamlist__body">
+                                <h3 class="teamlist__name">{m.name}</h3>
+                                <span class="teamlist__role">{m.role}</span>
+                                <p class="teamlist__bio">{m.bio}</p>
+                                <template lwc:if={m.hasLinkedin}>
+                                    <a class="teamlist__link" href={m.linkedinUrl} target="_blank" rel="noopener">LinkedIn</a>
+                                </template>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            <template lwc:elseif={showEmptyNoSite}>
+                <div class="teamlist__empty">Save the site to start adding team members.</div>
+            </template>
+            <template lwc:elseif={showEmptyNoMembers}>
+                <div class="teamlist__empty">No active team members yet. Use "Manage team" in the Properties panel to add one.</div>
+            </template>
+        </div>
+    </div>
+</template>

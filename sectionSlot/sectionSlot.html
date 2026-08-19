@@ -1,0 +1,159 @@
+<template>
+  <div
+    class={frameClass}
+    data-section-id={sectionId}
+    onclick={handleSelect}
+    onpointermove={handleDragMove}
+    onpointerleave={handleDragLeave}
+    onsectiondragover={handleChildDragOver}
+  >
+    <template lwc:if={isEdit}>
+      <div class="frame__bar">
+        <template lwc:if={isDraggable}>
+          <span class="frame__grip" title="Drag to move" onpointerdown={handleGripDown}>⠿</span>
+        </template>
+        <span class="frame__label">{label}</span>
+        <template lwc:if={hidden}>
+          <span class="frame__badge">Hidden</span>
+        </template>
+        <div class="frame__actions">
+          <button type="button" class="frame__btn" title="Move up" disabled={isFirst} onclick={handleMoveUp}>↑</button>
+          <button type="button" class="frame__btn" title="Move down" disabled={isLast} onclick={handleMoveDown}>↓</button>
+          <button type="button" class={lockClass} title={lockTitle} onclick={handleToggleLocked}>🔒</button>
+          <button type="button" class={hideClass} title={hideTitle} onclick={handleToggleHidden}>👁</button>
+          <button type="button" class="frame__btn" title="Duplicate" onclick={handleDuplicate}>⧉</button>
+          <button type="button" class="frame__btn" title="Copy (paste onto any page)" onclick={handleCopy}>⎘</button>
+          <button type="button" class="frame__btn" title="Save as preset" onclick={handleSavePreset}>☆</button>
+          <template lwc:if={canMakeGlobal}>
+            <button type="button" class="frame__btn" title="Make global — edit once, updates everywhere" onclick={handleMakeGlobal}>🌐</button>
+          </template>
+          <template lwc:if={isRef}>
+            <button type="button" class="frame__btn" title="Detach — make this an independent copy" onclick={handleDetach}>⛓</button>
+          </template>
+          <button type="button" class="frame__btn frame__btn_danger" title="Delete" onclick={handleDelete}>✕</button>
+        </div>
+      </div>
+    </template>
+
+    <div class={bodyClass} style={bodyStyle}>
+      <template lwc:if={isRow}>
+        <c-section-row
+          node={node}
+          page-id={pageId}
+          mode={childMode}
+          selected-section-ids={selectedSectionIds}
+          dragging-section-ids={draggingSectionIds}
+          globals={globals}
+          nav-menu={navMenu}
+          site-id={siteId}
+          oncontentchange={handleContentChange}
+        ></c-section-row>
+      </template>
+
+      <template lwc:elseif={isHero}>
+        <c-section-hero content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-hero>
+      </template>
+
+      <template lwc:elseif={isNavHeader}>
+        <c-section-nav-header content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} nav-menu={navMenu} oncontentchange={handleContentChange}></c-section-nav-header>
+      </template>
+
+      <template lwc:elseif={isTextBlock}>
+        <c-section-text-block content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-text-block>
+      </template>
+
+      <template lwc:elseif={isImageText}>
+        <c-section-image-text content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-image-text>
+      </template>
+
+      <template lwc:elseif={isFeatures}>
+        <c-section-features content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-features>
+      </template>
+
+      <template lwc:elseif={isGallery}>
+        <c-section-gallery content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-gallery>
+      </template>
+
+      <template lwc:elseif={isTestimonials}>
+        <c-section-testimonials content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-testimonials>
+      </template>
+
+      <template lwc:elseif={isContact}>
+        <c-section-contact content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-contact>
+      </template>
+
+      <template lwc:elseif={isPricing}>
+        <c-section-pricing content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-pricing>
+      </template>
+
+      <template lwc:elseif={isFooter}>
+        <c-section-footer content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-footer>
+      </template>
+
+      <template lwc:elseif={isFreeform}>
+        <c-section-freeform content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-freeform>
+      </template>
+
+      <template lwc:elseif={isFaq}>
+        <c-section-faq content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-faq>
+      </template>
+
+      <template lwc:elseif={isCta}>
+        <c-section-cta content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-cta>
+      </template>
+
+      <template lwc:elseif={isStats}>
+        <c-section-stats content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-stats>
+      </template>
+
+      <template lwc:elseif={isTeam}>
+        <c-section-team content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-team>
+      </template>
+
+      <template lwc:elseif={isLogoStrip}>
+        <c-section-logo-strip content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-logo-strip>
+      </template>
+
+      <template lwc:elseif={isEmbed}>
+        <c-section-embed content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} oncontentchange={handleContentChange}></c-section-embed>
+      </template>
+
+      <template lwc:elseif={isBlogList}>
+        <c-section-blog-list content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} site-id={siteId} oncontentchange={handleContentChange}></c-section-blog-list>
+      </template>
+
+      <template lwc:elseif={isShop}>
+        <c-section-shop content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} site-id={siteId} oncontentchange={handleContentChange}></c-section-shop>
+      </template>
+
+      <template lwc:elseif={isTeamList}>
+        <c-section-team-list content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} site-id={siteId} oncontentchange={handleContentChange}></c-section-team-list>
+      </template>
+
+      <template lwc:elseif={isPortfolioList}>
+        <c-section-portfolio-list content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} site-id={siteId} oncontentchange={handleContentChange}></c-section-portfolio-list>
+      </template>
+
+      <template lwc:elseif={isTestimonialList}>
+        <c-section-testimonial-list content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} site-id={siteId} oncontentchange={handleContentChange}></c-section-testimonial-list>
+      </template>
+
+      <template lwc:elseif={isEventList}>
+        <c-section-event-list content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} site-id={siteId} oncontentchange={handleContentChange}></c-section-event-list>
+      </template>
+
+      <template lwc:elseif={isMemberLogin}>
+        <c-section-member-login content={content} section-style={sectionStyle} variant={variant} layout={layout} mode={childMode} site-id={siteId} oncontentchange={handleContentChange}></c-section-member-login>
+      </template>
+
+      <template lwc:elseif={isRef}>
+        <!-- resolvedNode came back null: the global definition is gone -->
+        <div class="frame__placeholder">This global block no longer exists. Delete this instance.</div>
+      </template>
+
+      <template lwc:else>
+        <div class="frame__placeholder">Unknown section type: <strong>{type}</strong></div>
+      </template>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,52 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block pricing" style={blockStyle}>
+                <div class="pricing__grid">
+                    <template for:each={items} for:item="it">
+                        <div key={it.index} class="tier">
+                            <template lwc:if={isEdit}>
+                                <button
+                                    class="tier__remove"
+                                    type="button"
+                                    title="Remove"
+                                    data-index={it.index}
+                                    onclick={handleRemove}
+                                >✕</button>
+                            </template>
+                            <div
+                                class="tier__name"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="name"
+                                data-placeholder="Tier"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.name}</div>
+                            <div
+                                class="tier__price"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="price"
+                                data-placeholder="$0"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.price}</div>
+                            <p
+                                class="tier__body"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="body"
+                                data-placeholder="What's included"
+                                onblur={handleItemEdit}
+                            >{it.body}</p>
+                        </div>
+                    </template>
+                </div>
+                <template lwc:if={isEdit}>
+                    <button class="sec__add" type="button" onclick={handleAdd}>+ Add tier</button>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

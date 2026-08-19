@@ -1,0 +1,60 @@
+<template>
+  <section class={rootClass} style={rootStyle}>
+    <div class="sec__grid">
+      <div class="sec__block row" style={blockStyle}>
+        <div class={colsClass} style={colsStyle}>
+          <template for:each={columns} for:item="col">
+            <div
+              key={col.key}
+              class={col.colClass}
+              style={col.style}
+              data-col-id={col.colId}
+              onpointermove={handleColMove}
+              onpointerleave={handleColLeave}
+              onsectiondragover={handleChildDragOver}
+            >
+              <template for:each={col.children} for:item="child">
+                <c-section-slot
+                  key={child.key}
+                  node={child}
+                  page-id={pageId}
+                  mode={mode}
+                  selected-section-ids={selectedSectionIds}
+                  dragging-section-ids={draggingSectionIds}
+                  globals={globals}
+                  nav-menu={navMenu}
+                  site-id={siteId}
+                  index={child.index}
+                  parent-row-id={sectionId}
+                  parent-col-id={col.colId}
+                  is-first={child.isFirst}
+                  is-last={child.isLast}
+                ></c-section-slot>
+              </template>
+
+              <template lwc:if={isEdit}>
+                <template lwc:if={col.isEmpty}>
+                  <p class="row__hint">Empty column</p>
+                </template>
+                <div class="row__addbar">
+                  <button type="button" class="row__add" data-col-id={col.colId} onclick={handleAddToColumn}>
+                    ＋ Add here
+                  </button>
+                  <button
+                    type="button"
+                    class="row__add"
+                    title="Nest a columns container inside this column"
+                    data-col-id={col.colId}
+                    onclick={handleAddRowToColumn}
+                  >
+                    ＋ Columns
+                  </button>
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>

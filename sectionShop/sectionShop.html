@@ -1,0 +1,43 @@
+<template>
+    <div class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <h2
+                class="shop__heading"
+                style={headingFieldStyle}
+                contenteditable={editableAttr}
+                data-field="heading"
+                data-placeholder="Shop"
+                onblur={handleHeadingEdit}
+                onkeydown={handleKeydown}
+            >{heading}</h2>
+
+            <template lwc:if={hasProducts}>
+                <div class={gridClass}>
+                    <template for:each={products} for:item="p">
+                        <article key={p.id} class="shop__card">
+                            <template lwc:if={p.hasImage}>
+                                <div class="shop__image" style={p.imageStyle}></div>
+                            </template>
+                            <div class="shop__body">
+                                <h3 class="shop__name">{p.name}</h3>
+                                <template lwc:if={p.priceLabel}>
+                                    <span class="shop__price">{p.priceLabel}</span>
+                                </template>
+                                <p class="shop__desc">{p.description}</p>
+                                <template lwc:if={p.hasBuyLink}>
+                                    <button type="button" class="shop__addcart" data-id={p.id} onclick={handleAddToCart}>{p.addLabel}</button>
+                                </template>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            <template lwc:elseif={showEmptyNoSite}>
+                <div class="shop__empty">Save the site to start adding products.</div>
+            </template>
+            <template lwc:elseif={showEmptyNoProducts}>
+                <div class="shop__empty">No active products yet. Use "Manage products" in the Properties panel to add one.</div>
+            </template>
+        </div>
+    </div>
+</template>

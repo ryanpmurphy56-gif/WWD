@@ -1,0 +1,44 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block stats" style={blockStyle}>
+                <div class="stats__grid">
+                    <template for:each={items} for:item="it">
+                        <div key={it.index} class="stat">
+                            <template lwc:if={isEdit}>
+                                <button
+                                    class="stat__remove"
+                                    type="button"
+                                    title="Remove"
+                                    data-index={it.index}
+                                    onclick={handleRemove}
+                                >✕</button>
+                            </template>
+                            <p
+                                class="stat__value"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="value"
+                                data-placeholder="123"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.value}</p>
+                            <p
+                                class="stat__label"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="label"
+                                data-placeholder="What it measures"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.label}</p>
+                        </div>
+                    </template>
+                </div>
+                <template lwc:if={isEdit}>
+                    <button class="sec__add" type="button" onclick={handleAdd}>+ Add stat</button>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

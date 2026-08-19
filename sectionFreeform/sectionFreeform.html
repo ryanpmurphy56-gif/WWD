@@ -1,0 +1,191 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="ff__canvas" tabindex="-1" onclick={handleCanvasClick} onkeydown={handleCanvasKeydown}>
+            <template lwc:if={isEdit}>
+                <template lwc:if={hasNoElements}>
+                    <div class="ff__empty">No elements yet — use the Element Panel (+) to add one.</div>
+                </template>
+                <template lwc:if={showGuideV}>
+                    <div class={guideVClass} style={guideVStyle}></div>
+                </template>
+                <template lwc:if={showGuideH}>
+                    <div class={guideHClass} style={guideHStyle}></div>
+                </template>
+            </template>
+
+            <template for:each={elements} for:item="el">
+                <div key={el.key} class={el.itemClass} style={el.itemStyle} data-element-id={el.elementId} onclick={handleItemClick}>
+                    <template lwc:if={isEdit}>
+                        <div class="ff__bar">
+                            <template lwc:if={el.canEditItem}>
+                                <button type="button" class="ff__btn ff__btn_grip" title="Drag to move" data-element-id={el.elementId} onpointerdown={handleDragStart}>✥</button>
+                                <button type="button" class="ff__btn ff__btn_rotate" title="Drag to rotate" data-element-id={el.elementId} onpointerdown={handleRotateStart}>⟳</button>
+                            </template>
+                            <span class="ff__label">{el.kind}</span>
+                            <template lwc:if={el.hidden}>
+                                <span class="ff__badge">Hidden</span>
+                            </template>
+                            <div class="ff__actions">
+                                <button type="button" class="ff__btn" title="Move up" data-element-id={el.elementId} disabled={el.isFirst} onclick={handleMoveUp}>↑</button>
+                                <button type="button" class="ff__btn" title="Move down" data-element-id={el.elementId} disabled={el.isLast} onclick={handleMoveDown}>↓</button>
+                                <button type="button" class="ff__btn" title="Bring to front" data-element-id={el.elementId} disabled={el.isLast} onclick={handleBringToFront}>⤒</button>
+                                <button type="button" class="ff__btn" title="Send to back" data-element-id={el.elementId} disabled={el.isFirst} onclick={handleSendToBack}>⤓</button>
+                                <button type="button" class={el.lockClass} title={el.lockTitle} data-element-id={el.elementId} onclick={handleToggleElementLocked}>🔒</button>
+                                <button type="button" class={el.hideClass} title={el.hideTitle} data-element-id={el.elementId} onclick={handleToggleElementHidden}>👁</button>
+                                <template lwc:if={el.canEditItem}>
+                                    <button type="button" class={el.bgClass} title="Background" data-element-id={el.elementId} onclick={handleToggleBgPicker}>🎨</button>
+                                </template>
+                                <button type="button" class="ff__btn ff__btn_danger" title="Delete" data-element-id={el.elementId} onclick={handleDelete}>✕</button>
+                            </div>
+                        </div>
+                        <template lwc:if={el.isBgOpen}>
+                            <div class="ff__bgpop" onclick={handleBarClick}>
+                                <div class="ff__bgpop-types">
+                                    <button type="button" class="ff__btn" data-element-id={el.elementId} data-type="none" onclick={handleBgTypeChange}>None</button>
+                                    <button type="button" class="ff__btn" data-element-id={el.elementId} data-type="color" onclick={handleBgTypeChange}>Colour</button>
+                                    <button type="button" class="ff__btn" data-element-id={el.elementId} data-type="image" onclick={handleBgTypeChange}>Image</button>
+                                </div>
+                                <template lwc:if={el.bgIsColor}>
+                                    <input type="color" class="ff__bgpop-color" value={el.bgColorValue} data-element-id={el.elementId} onchange={handleBgColorChange} />
+                                </template>
+                                <template lwc:if={el.bgIsImage}>
+                                    <c-image-uploader
+                                        site-id={uploadSiteId}
+                                        image-url={el.bgImageUrl}
+                                        label="Background image"
+                                        data-element-id={el.elementId}
+                                        onuploaded={handleBgImageUploaded}
+                                        onremove={handleBgImageRemove}
+                                    ></c-image-uploader>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+                    <template lwc:if={el.showResizeHandle}>
+                        <button type="button" class="ff__handle ff__handle_resize" title="Drag to resize" data-element-id={el.elementId} onpointerdown={handleResizeStart}></button>
+                    </template>
+
+                    <template lwc:if={el.isText}>
+                        <p
+                            class="ff__text"
+                            contenteditable={el.itemEditableAttr}
+                            data-placeholder="Add some text"
+                            data-text-id={el.elementId}
+                            data-element-id={el.elementId}
+                            lwc:dom="manual"
+                            onblur={handleTextBlur}
+                        ></p>
+                    </template>
+
+                    <template lwc:elseif={el.isButton}>
+                        <div class="ff__button-wrap">
+                            <a class="ff__button" href={el.href}>
+                                <span
+                                    contenteditable={el.itemEditableAttr}
+                                    data-element-id={el.elementId}
+                                    onblur={handleButtonLabelBlur}
+                                    onkeydown={handleKeydown}
+                                >{el.label}</span>
+                            </a>
+                            <template lwc:if={el.canEditItem}>
+                                <input class="ff__href" type="text" placeholder="https://…" value={el.href} data-element-id={el.elementId} onchange={handleButtonHrefChange} />
+                            </template>
+                        </div>
+                    </template>
+
+                    <template lwc:elseif={el.isImage}>
+                        <template lwc:if={el.canEditItem}>
+                            <c-image-uploader
+                                site-id={uploadSiteId}
+                                image-url={el.imageUrl}
+                                label="Upload image"
+                                data-element-id={el.elementId}
+                                onuploaded={handleImageUploaded}
+                                onremove={handleImageRemove}
+                            ></c-image-uploader>
+                        </template>
+                        <template lwc:else>
+                            <template lwc:if={el.imageUrl}>
+                                <img class="ff__image" src={el.imageUrl} alt="" />
+                            </template>
+                        </template>
+                    </template>
+
+                    <template lwc:elseif={el.isVideo}>
+                        <template lwc:if={el.canEditItem}>
+                            <c-video-uploader
+                                site-id={uploadSiteId}
+                                video-url={el.videoUrl}
+                                embed-url={el.videoEmbedUrl}
+                                label="Upload video"
+                                data-element-id={el.elementId}
+                                onuploaded={handleVideoUploaded}
+                                onembedset={handleVideoEmbedSet}
+                                onremove={handleVideoRemove}
+                            ></c-video-uploader>
+                        </template>
+                        <template lwc:else>
+                            <template lwc:if={el.videoUrl}>
+                                <video class="ff__video" src={el.videoUrl} controls></video>
+                            </template>
+                            <template lwc:elseif={el.videoEmbedUrl}>
+                                <div class="ff__videoembed">
+                                    <iframe src={el.videoEmbedUrl} title="Video" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+
+                    <template lwc:elseif={el.isSpacer}>
+                        <div class="ff__spacer" style={el.spacerStyle} data-element-id={el.elementId} onclick={handleSpacerCycle}>
+                            <template lwc:if={el.canEditItem}>
+                                <span class="ff__spacer-label">Spacer ({el.height}) — click to resize</span>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template lwc:elseif={el.isLayout}>
+                        <div class="ff__layout">
+                            <template for:each={el.columnList} for:item="c">
+                                <div key={c.key} class="ff__col"></div>
+                            </template>
+                        </div>
+                        <template lwc:if={el.canEditItem}>
+                            <div class="ff__layout-controls">
+                                <button type="button" class="ff__btn" data-element-id={el.elementId} onclick={handleLayoutRemoveColumn}>− column</button>
+                                <button type="button" class="ff__btn" data-element-id={el.elementId} onclick={handleLayoutAddColumn}>+ column</button>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </template>
+
+            <!-- Align / distribute bar for the element multi-selection.
+                 Alignment works on the rendered boxes (heights are content-
+                 driven), so the handlers measure the DOM and write back
+                 center-percentages. -->
+            <template lwc:if={showElementBar}>
+                <div class="ff__multibar" onclick={handleBarClick}>
+                    <span class="ff__multibar-count">{selectedCount} selected</span>
+                    <span class="ff__multibar-sep"></span>
+                    <button type="button" class="ff__mbtn" title="Align left edges" data-align="left" onclick={handleElementsAlign}>⇤</button>
+                    <button type="button" class="ff__mbtn" title="Align horizontal centers" data-align="center" onclick={handleElementsAlign}>↔</button>
+                    <button type="button" class="ff__mbtn" title="Align right edges" data-align="right" onclick={handleElementsAlign}>⇥</button>
+                    <span class="ff__multibar-sep"></span>
+                    <button type="button" class="ff__mbtn" title="Align top edges" data-align="top" onclick={handleElementsAlign}>⤒</button>
+                    <button type="button" class="ff__mbtn" title="Align vertical centers" data-align="middle" onclick={handleElementsAlign}>↕</button>
+                    <button type="button" class="ff__mbtn" title="Align bottom edges" data-align="bottom" onclick={handleElementsAlign}>⤓</button>
+                    <span class="ff__multibar-sep"></span>
+                    <button type="button" class="ff__mbtn" title="Distribute horizontally (equal gaps)" data-axis="h" disabled={cannotDistribute} onclick={handleElementsDistribute}>⇹</button>
+                    <button type="button" class="ff__mbtn" title="Distribute vertically (equal gaps)" data-axis="v" disabled={cannotDistribute} onclick={handleElementsDistribute}>⇳</button>
+                    <span class="ff__multibar-sep"></span>
+                    <button type="button" class={bulkLockClass} title="Lock / unlock selected" onclick={handleElementsToggleLock}>🔒</button>
+                    <button type="button" class={bulkHideClass} title="Hide / unhide selected" onclick={handleElementsToggleHide}>👁</button>
+                    <span class="ff__multibar-sep"></span>
+                    <button type="button" class="ff__mbtn ff__mbtn_danger" title="Delete selected elements" onclick={handleElementsDelete}>✕</button>
+                    <button type="button" class="ff__mbtn ff__mbtn_quiet" title="Clear selection" onclick={handleElementsClear}>Clear</button>
+                </div>
+            </template>
+        </div>
+    </section>
+</template>

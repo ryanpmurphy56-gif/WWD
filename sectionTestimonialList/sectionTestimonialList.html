@@ -1,0 +1,40 @@
+<template>
+    <div class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <h2
+                class="testimoniallist__heading"
+                style={headingFieldStyle}
+                contenteditable={editableAttr}
+                data-field="heading"
+                data-placeholder="What people say"
+                onblur={handleHeadingEdit}
+                onkeydown={handleKeydown}
+            >{heading}</h2>
+
+            <template lwc:if={hasTestimonials}>
+                <div class="testimoniallist__grid">
+                    <template for:each={testimonials} for:item="t">
+                        <article key={t.id} class="testimoniallist__card">
+                            <p class="testimoniallist__quote">"{t.quote}"</p>
+                            <div class="testimoniallist__author">
+                                <template lwc:if={t.hasPhoto}>
+                                    <div class="testimoniallist__photo" style={t.photoStyle}></div>
+                                </template>
+                                <div class="testimoniallist__authorinfo">
+                                    <span class="testimoniallist__name">{t.authorName}</span>
+                                    <span class="testimoniallist__role">{t.roleCompany}</span>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                </div>
+            </template>
+            <template lwc:elseif={showEmptyNoSite}>
+                <div class="testimoniallist__empty">Save the site to start adding testimonials.</div>
+            </template>
+            <template lwc:elseif={showEmptyNoTestimonials}>
+                <div class="testimoniallist__empty">No active testimonials yet. Use "Manage testimonials" in the Properties panel to add one.</div>
+            </template>
+        </div>
+    </div>
+</template>

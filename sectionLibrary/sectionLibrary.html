@@ -1,0 +1,89 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Add a section">
+            <div class="dialog__head">
+                <span class="dialog__title">Add a section</span>
+                <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+            </div>
+
+            <p class="group__label">Sections</p>
+            <div class="grid">
+                <template for:each={types} for:item="t">
+                    <button
+                        key={t.type}
+                        type="button"
+                        class="tile"
+                        data-type={t.type}
+                        onclick={handlePick}
+                    >
+                        <span class="tile__thumb">{t.thumb}</span>
+                        <span class="tile__label">{t.label}</span>
+                    </button>
+                </template>
+            </div>
+
+            <p class="group__label">Layouts</p>
+            <div class="grid">
+                <template for:each={layouts} for:item="l">
+                    <button
+                        key={l.id}
+                        type="button"
+                        class="tile"
+                        data-layout-id={l.id}
+                        onclick={handlePickLayout}
+                    >
+                        <span class="tile__thumb">{l.thumb}</span>
+                        <span class="tile__label">{l.label}</span>
+                    </button>
+                </template>
+            </div>
+
+            <template lwc:if={hasGlobals}>
+                <p class="group__label">Global blocks</p>
+                <div class="grid">
+                    <template for:each={globalBlocks} for:item="g">
+                        <button
+                            key={g.globalId}
+                            type="button"
+                            class="tile"
+                            title="Adds a linked instance — editing one updates all"
+                            data-global-id={g.globalId}
+                            onclick={handlePickGlobal}
+                        >
+                            <span class="tile__thumb">{g.thumb}</span>
+                            <span class="tile__label">{g.name}</span>
+                            <span class="tile__sub">{g.typeLabel}</span>
+                        </button>
+                    </template>
+                </div>
+            </template>
+
+            <template lwc:if={hasPresets}>
+                <p class="group__label">Your presets</p>
+                <div class="grid">
+                    <template for:each={presets} for:item="p">
+                        <div key={p.presetId} class="tilewrap">
+                            <button
+                                type="button"
+                                class="tile tile_preset"
+                                data-preset-id={p.presetId}
+                                onclick={handlePickPreset}
+                            >
+                                <span class="tile__thumb">{p.thumb}</span>
+                                <span class="tile__label">{p.name}</span>
+                                <span class="tile__sub">{p.typeLabel}</span>
+                            </button>
+                            <button
+                                type="button"
+                                class="tile__del"
+                                title="Delete preset"
+                                data-preset-id={p.presetId}
+                                onclick={handleDeletePreset}
+                            >✕</button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

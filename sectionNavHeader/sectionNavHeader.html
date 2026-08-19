@@ -1,0 +1,118 @@
+<template>
+    <header class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block nav" style={blockStyle}>
+                <span
+                    class="nav__brand"
+                    style={brandFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="brand"
+                    data-placeholder="Brand"
+                    onblur={handleEdit}
+                    onkeydown={handleKeydown}
+                >{brand}</span>
+
+                <nav class="nav__links">
+                    <template for:each={menuItems} for:item="item">
+                        <div key={item.key} class="nav__item">
+                            <template lwc:if={item.hasChildren}>
+                                <button
+                                    type="button"
+                                    class="nav__link nav__link_parent"
+                                    data-type="page"
+                                    data-page-id={item.pageId}
+                                    onclick={handleNavClick}
+                                >{item.label}<span class="nav__caret">▾</span></button>
+                                <div class="nav__dropdown">
+                                    <template for:each={item.children} for:item="child">
+                                        <button
+                                            key={child.key}
+                                            type="button"
+                                            class="nav__droplink"
+                                            data-type="page"
+                                            data-page-id={child.pageId}
+                                            onclick={handleNavClick}
+                                        >{child.label}</button>
+                                    </template>
+                                </div>
+                            </template>
+                            <template lwc:elseif={item.isLink}>
+                                <a
+                                    class="nav__link"
+                                    href={item.url}
+                                    target={item.target}
+                                    rel={item.rel}
+                                    data-type="link"
+                                    onclick={handleNavClick}
+                                >{item.label}</a>
+                            </template>
+                            <template lwc:else>
+                                <button
+                                    type="button"
+                                    class="nav__link"
+                                    data-type="page"
+                                    data-page-id={item.pageId}
+                                    onclick={handleNavClick}
+                                >{item.label}</button>
+                            </template>
+                        </div>
+                    </template>
+                </nav>
+
+                <a class="nav__cta" href="#" onclick={handleCtaClick}>
+                    <span
+                        class="nav__cta-label"
+                        style={ctaLabelFieldStyle}
+                        contenteditable={editableAttr}
+                        data-field="ctaLabel"
+                        data-placeholder="Button"
+                        onblur={handleEdit}
+                        onkeydown={handleKeydown}
+                    >{ctaLabel}</span>
+                </a>
+
+                <button type="button" class="nav__toggle" title="Menu" aria-label="Toggle menu" onclick={toggleMenu}>☰</button>
+            </div>
+        </div>
+
+        <template lwc:if={menuOpen}>
+            <div class={mobilePanelClass}>
+                <template for:each={menuItems} for:item="item">
+                    <div key={item.key} class="navm__group">
+                        <template lwc:if={item.isLink}>
+                            <a
+                                class="navm__link"
+                                href={item.url}
+                                target={item.target}
+                                rel={item.rel}
+                                data-type="link"
+                                onclick={handleNavClick}
+                            >{item.label}</a>
+                        </template>
+                        <template lwc:else>
+                            <button
+                                type="button"
+                                class="navm__link"
+                                data-type="page"
+                                data-page-id={item.pageId}
+                                onclick={handleNavClick}
+                            >{item.label}</button>
+                        </template>
+                        <template lwc:if={item.hasChildren}>
+                            <template for:each={item.children} for:item="child">
+                                <button
+                                    key={child.key}
+                                    type="button"
+                                    class="navm__link navm__link_child"
+                                    data-type="page"
+                                    data-page-id={child.pageId}
+                                    onclick={handleNavClick}
+                                >{child.label}</button>
+                            </template>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </header>
+</template>

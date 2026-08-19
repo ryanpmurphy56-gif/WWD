@@ -1,0 +1,126 @@
+<template>
+    <div class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="ml__card">
+                <h2
+                    class="ml__heading"
+                    style={headingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="heading"
+                    data-placeholder="Member Login"
+                    onblur={handleHeadingEdit}
+                    onkeydown={handleKeydown}
+                >{heading}</h2>
+                <p
+                    class="ml__subheading"
+                    contenteditable={editableAttr}
+                    data-field="subheading"
+                    data-placeholder="Enter your email to sign in."
+                    onblur={handleSubheadingEdit}
+                    onkeydown={handleKeydown}
+                >{subheading}</p>
+
+                <template lwc:if={isEdit}>
+                    <div class="ml__preview">
+                        <div class="ml__field">
+                            <span class="ml__label">Email address</span>
+                            <div class="ml__fakeinput"></div>
+                        </div>
+                        <div class="ml__fakebutton">Continue</div>
+                        <p class="ml__hint">The working email-code login form renders here on the published site.</p>
+                    </div>
+                </template>
+
+                <template lwc:elseif={isEmailScreen}>
+                    <div class="ml__field">
+                        <label class="ml__label" for="ml-email">Email address</label>
+                        <input
+                            id="ml-email"
+                            class="ml__input"
+                            type="email"
+                            value={emailValue}
+                            disabled={loading}
+                            oninput={handleEmailInput}
+                            onkeydown={handleKeydown}
+                        />
+                    </div>
+                    <template lwc:if={hasError}>
+                        <p class="ml__error">{errorMessage}</p>
+                    </template>
+                    <button class="ml__button" disabled={loading} onclick={handleEmailSubmit}>Continue</button>
+                </template>
+
+                <template lwc:elseif={isNameScreen}>
+                    <p class="ml__note">We don't have an account for that email yet — tell us your name to create one.</p>
+                    <div class="ml__field">
+                        <label class="ml__label" for="ml-first">First name</label>
+                        <input
+                            id="ml-first"
+                            class="ml__input"
+                            type="text"
+                            value={firstNameValue}
+                            disabled={loading}
+                            oninput={handleFirstNameInput}
+                            onkeydown={handleKeydown}
+                        />
+                    </div>
+                    <div class="ml__field">
+                        <label class="ml__label" for="ml-last">Last name</label>
+                        <input
+                            id="ml-last"
+                            class="ml__input"
+                            type="text"
+                            value={lastNameValue}
+                            disabled={loading}
+                            oninput={handleLastNameInput}
+                            onkeydown={handleKeydown}
+                        />
+                    </div>
+                    <div class="ml__field">
+                        <label class="ml__label" for="ml-phone">Phone number (optional)</label>
+                        <input
+                            id="ml-phone"
+                            class="ml__input"
+                            type="tel"
+                            value={phoneValue}
+                            disabled={loading}
+                            oninput={handlePhoneInput}
+                            onkeydown={handleKeydown}
+                        />
+                    </div>
+                    <template lwc:if={hasError}>
+                        <p class="ml__error">{errorMessage}</p>
+                    </template>
+                    <button class="ml__button" disabled={loading} onclick={handleNameSubmit}>Create account &amp; send code</button>
+                </template>
+
+                <template lwc:elseif={isCodeScreen}>
+                    <p class="ml__note">Enter the code we sent to {maskedEmail}.</p>
+                    <div class="ml__field">
+                        <label class="ml__label" for="ml-code">Login code</label>
+                        <input
+                            id="ml-code"
+                            class="ml__input ml__input_code"
+                            type="text"
+                            maxlength="6"
+                            value={codeValue}
+                            disabled={loading}
+                            oninput={handleCodeInput}
+                            onkeydown={handleKeydown}
+                        />
+                    </div>
+                    <template lwc:if={hasError}>
+                        <p class="ml__error">{errorMessage}</p>
+                    </template>
+                    <button class="ml__button" disabled={loading} onclick={handleCodeSubmit}>Verify &amp; log in</button>
+                    <button class="ml__linkbutton" disabled={loading} onclick={handleResend}>Resend code</button>
+                </template>
+
+                <template lwc:elseif={isLoggedIn}>
+                    <p class="ml__welcome">{welcomeText}, {memberFullName}.</p>
+                    <button class="ml__linkbutton" onclick={handleLogout}>Log out</button>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

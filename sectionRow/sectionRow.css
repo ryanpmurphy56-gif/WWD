@@ -1,0 +1,188 @@
+:host { display: block; }
+
+.sec {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: var(--ws-font-body, system-ui, sans-serif);
+}
+.sec__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 1rem;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+    box-sizing: border-box;
+}
+.sec__block { min-width: 0; }
+
+/* The row's own 12-column track; each column spans a slice of it. Gap comes
+   from --sec-gap so it rides the same breakpoint machinery as padding. */
+.row__cols {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--sec-gap, 1.5rem);
+    align-items: start;
+}
+.row__col {
+    grid-column: span var(--col-span, 6);
+    min-width: 0; /* let children shrink instead of forcing the track wider */
+}
+
+/* --- layout modes --------------------------------------------------------
+   The mode class comes from content.layoutMode; the vars it consumes are
+   emitted inline by sectionRow.js as custom properties (never real
+   declarations), so the container queries below can still take over on
+   narrow screens by setting the real properties directly. */
+
+/* Explicit tracks: any column set to percent or auto width switches the row
+   from the shared 12-col track to one track per column. Percent arrives as fr
+   (30% → 30fr) because a literal 30% + gap would overflow the row. */
+.row__cols_tracks {
+    grid-template-columns: var(--row-tracks, repeat(12, 1fr));
+}
+.row__cols_tracks > .row__col {
+    grid-column: auto;
+}
+
+/* Flex: columns become flex items; direction, wrap, justify and align come
+   from content.flex. Gap still rides --sec-gap like the grid modes. */
+.row__cols_flex {
+    display: flex;
+    flex-direction: var(--row-dir, row);
+    flex-wrap: var(--row-wrap, wrap);
+    justify-content: var(--row-justify, flex-start);
+    align-items: var(--row-align, stretch);
+}
+.row__cols_flex > .row__col {
+    flex: var(--col-flex, 1 1 0%);
+    min-width: 0;
+}
+
+/* Grid: N equal columns; cells auto-flow left→right and wrap onto new lines,
+   so a row can hold more cells than fit across. */
+.row__cols_grid {
+    grid-template-columns: repeat(var(--row-grid-n, 3), minmax(0, 1fr));
+}
+.row__cols_grid > .row__col {
+    grid-column: auto;
+}
+
+/* drop-target highlight while a drag hovers this column */
+.row__col_drop {
+    outline: 2px dashed var(--ws-secondary, #ff5b04);
+    outline-offset: 2px;
+    background: rgba(255, 91, 4, 0.06);
+    border-radius: 6px;
+}
+
+/* edit affordances */
+.row__hint {
+    margin: 0 0 0.5rem;
+    padding: 1.25rem 0.5rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: #9ca3af;
+    border: 1px dashed #d1d5db;
+    border-radius: 6px;
+}
+.row__addbar {
+    display: flex;
+    gap: 0.4rem;
+}
+.row__add {
+    display: block;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.4rem;
+    font: inherit;
+    font-size: 0.76rem;
+    color: #6b7280;
+    background: #f9fafb;
+    border: 1px dashed #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.row__add:hover {
+    color: #ff5b04;
+    border-color: #ff5b04;
+    background: #fff7ed;
+}
+
+/* --- style shell (sectionCommon) -----------------------------------------
+   See any other section's stylesheet for why these are custom properties and
+   why the breakpoints are container queries rather than media queries. */
+.sec {
+    padding-block: var(--sec-pad, calc(4rem * var(--ws-space, 1)));
+    background: var(--sec-bg, var(--ws-surface, #ffffff));
+    background-attachment: var(--sec-bg-attachment, scroll);
+    color: var(--sec-color, var(--ws-text, #0a0a0a));
+    border: var(--sec-border, 0 solid transparent);
+    border-radius: var(--sec-radius, 0);
+    box-shadow: var(--sec-shadow, none);
+    opacity: var(--sec-opacity, 1);
+    margin-block: var(--sec-margin, 0);
+    min-width: var(--sec-min-w, 0);
+    max-width: var(--sec-max-w, none);
+    min-height: var(--sec-min-h, 0);
+    max-height: var(--sec-max-h, none);
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+.sec:not(.sec_edit):hover {
+    transform: var(--sec-hover-transform, none);
+    box-shadow: var(--sec-hover-shadow, var(--sec-shadow, none));
+}
+.sec__block {
+    grid-column: var(--sec-col-start, 1) / span var(--sec-col-span, 12);
+}
+
+@container wscanvas (max-width: 820px) {
+    .sec {
+        padding-block: var(--sec-pad-t, var(--sec-pad, calc(4rem * var(--ws-space, 1))));
+        background: var(--sec-bg-t, var(--sec-bg, var(--ws-surface, #ffffff)));
+        background-attachment: var(--sec-bg-attachment, scroll);
+        color: var(--sec-color-t, var(--sec-color, var(--ws-text, #0a0a0a)));
+        border: var(--sec-border-t, var(--sec-border, 0 solid transparent));
+        border-radius: var(--sec-radius-t, var(--sec-radius, 0));
+        box-shadow: var(--sec-shadow-t, var(--sec-shadow, none));
+    }
+    .row__cols {
+        gap: var(--sec-gap-t, var(--sec-gap, 1.5rem));
+    }
+}
+@container wscanvas (max-width: 640px) {
+    .sec {
+        padding-block: var(--sec-pad-m, var(--sec-pad, calc(4rem * var(--ws-space, 1))));
+        background: var(--sec-bg-m, var(--sec-bg, var(--ws-surface, #ffffff)));
+        background-attachment: var(--sec-bg-attachment, scroll);
+        color: var(--sec-color-m, var(--sec-color, var(--ws-text, #0a0a0a)));
+        border: var(--sec-border-m, var(--sec-border, 0 solid transparent));
+        border-radius: var(--sec-radius-m, var(--sec-radius, 0));
+        box-shadow: var(--sec-shadow-m, var(--sec-shadow, none));
+    }
+    .sec__block {
+        grid-column: 1 / span 12;
+    }
+    .row__cols {
+        gap: var(--sec-gap-m, var(--sec-gap, 1.5rem));
+    }
+    /* Columns stack on a phone: side-by-side columns at 390px are unusable,
+       so every column takes the full track regardless of its span or width
+       mode, in every layout mode. `1 / -1` (not `span 12`) because explicit-
+       track rows have fewer than 12 tracks; the `.row__cols >` prefix matches
+       the mode rules' specificity so these win on file order. */
+    .row__cols > .row__col {
+        grid-column: 1 / -1;
+    }
+    .row__cols_flex {
+        flex-direction: column;
+    }
+    .row__cols_flex > .row__col {
+        flex: 0 0 auto;
+        width: auto;
+    }
+    .row__cols_grid {
+        grid-template-columns: 1fr;
+    }
+}

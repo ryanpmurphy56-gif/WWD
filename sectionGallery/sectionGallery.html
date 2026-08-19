@@ -1,0 +1,66 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block gallery" style={blockStyle}>
+                <div class="gallery__grid">
+                    <template for:each={items} for:item="it">
+                        <figure key={it.index} class="shot">
+                            <template lwc:if={isEdit}>
+                                <div class="shot__tools">
+                                    <button
+                                        class="shot__move"
+                                        type="button"
+                                        title="Move earlier"
+                                        data-index={it.index}
+                                        disabled={it.isFirst}
+                                        onclick={handleMoveUp}
+                                    >◀</button>
+                                    <button
+                                        class="shot__move"
+                                        type="button"
+                                        title="Move later"
+                                        data-index={it.index}
+                                        disabled={it.isLast}
+                                        onclick={handleMoveDown}
+                                    >▶</button>
+                                    <button
+                                        class="shot__remove"
+                                        type="button"
+                                        title="Remove"
+                                        data-index={it.index}
+                                        onclick={handleRemove}
+                                    >✕</button>
+                                </div>
+                            </template>
+                            <div class="shot__media" data-index={it.index} onclick={handleTileClick}>
+                                <template lwc:if={it.hasImage}>
+                                    <img class="shot__img" src={it.imageUrl} alt={it.caption} />
+                                </template>
+                                <template lwc:elseif={it.uploading}>
+                                    <span class="shot__hint">Uploading…</span>
+                                </template>
+                                <template lwc:elseif={isEdit}>
+                                    <span class="shot__hint">＋ Add image</span>
+                                </template>
+                                <template lwc:else>🖼</template>
+                            </div>
+                            <figcaption
+                                class="shot__caption"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="caption"
+                                data-placeholder="Caption"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.caption}</figcaption>
+                        </figure>
+                    </template>
+                </div>
+                <template lwc:if={isEdit}>
+                    <button class="sec__add" type="button" onclick={handleAdd}>+ Add image</button>
+                    <input type="file" class="gallery__file" accept="image/*" onchange={handleFile} />
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

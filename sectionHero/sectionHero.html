@@ -1,0 +1,56 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <template lwc:if={showBgVideoFile}>
+            <div class="hero__bgmedia">
+                <video class="hero__bgvideo" src={bgVideoUrl} autoplay muted loop playsinline></video>
+            </div>
+        </template>
+        <template lwc:elseif={showBgVideoEmbed}>
+            <div class="hero__bgmedia">
+                <iframe
+                    class="hero__bgiframe"
+                    src={bgVideoEmbedUrl}
+                    title="Background video"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media"
+                    tabindex="-1"
+                ></iframe>
+            </div>
+        </template>
+        <div class="hero__grid">
+            <div class="hero__inner" style={blockStyle}>
+                <h1
+                    class="hero__heading"
+                    style={headingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-placeholder="Add a headline"
+                    lwc:dom="manual"
+                    onblur={handleHeadingBlur}
+                    onkeydown={handleKeydown}
+                ></h1>
+
+                <p
+                    class="hero__sub"
+                    style={subheadingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-placeholder="Add a supporting line"
+                    lwc:dom="manual"
+                    onblur={handleSubheadingBlur}
+                ></p>
+
+                <template lwc:if={hasCta}>
+                    <a class="hero__cta" href={ctaHref} onclick={handleCtaClick}>
+                        <span
+                            class="hero__cta-label"
+                            style={ctaLabelFieldStyle}
+                            contenteditable={editableAttr}
+                            data-placeholder="Button"
+                            onblur={handleCtaLabelBlur}
+                            onkeydown={handleKeydown}
+                        >{ctaLabel}</span>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,155 @@
+/* The section frame — moved here from pageCanvas so that a nested child gets
+   exactly the same chrome as a top-level section. LWC scopes CSS per component,
+   so the rules have to live wherever the markup does. */
+:host {
+  display: block;
+}
+
+.frame {
+  position:relative;
+  display:block;
+  margin-bottom:1rem;
+  border-radius:8px;
+  overflow:hidden;
+  background:var(--ws-surface,#fff);
+  transition:box-shadow 0.12s ease, transform 0.12s ease;
+}
+
+/* sticky (F9b) — pins the section to the top of the viewport while later
+   sections scroll over it. overflow:visible deliberately overrides the base
+   .frame's overflow:hidden above (only for sticky sections) since a clipped
+   ancestor would clip the section right where it tries to "escape" into the
+   sticky viewport position. */
+.frame_sticky {
+  position:sticky;
+  top:0;
+  overflow:visible;
+}
+
+/* selected outline */
+.frame_selected {
+  outline:2px solid var(--ws-secondary,#ff5b04);
+  outline-offset:-2px;
+}
+
+/* global-block instances get an indigo bar so "shared" is visible at a glance */
+.frame_global .frame__bar {
+  background:rgba(67,56,202,0.88);
+}
+
+/* frame chrome */
+.frame__bar {
+  position:absolute;
+  top:0;
+  right:0;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  padding:0.25rem 0.5rem;
+  background:rgba(10,10,10,0.82);
+  color:#fff;
+  font:500 0.72rem/1 system-ui, sans-serif;
+  border-bottom-left-radius:6px;
+  opacity:0;
+  transition:opacity 0.12s ease;
+}
+.frame:hover .frame__bar,
+.frame_selected .frame__bar { opacity:1; }
+
+.frame__grip {
+  cursor:grab;
+  touch-action:none; /* a touch drag must move the section, not scroll the page */
+  user-select:none;
+  padding:0 0.2rem;
+  opacity:0.75;
+  font-size:0.85rem;
+  line-height:1;
+}
+.frame__grip:active { cursor:grabbing; }
+
+.frame__label { text-transform:uppercase; letter-spacing:0.06em; opacity:0.75; }
+.frame__badge {
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  font-size:0.62rem;
+  padding:0.1rem 0.35rem;
+  border-radius:999px;
+  background:rgba(255,255,255,0.18);
+}
+.frame__actions { display:flex; gap:0.25rem; }
+.frame__btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:1.5rem;
+  height:1.5rem;
+  padding:0;
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  font-size:0.8rem;
+  cursor:pointer;
+}
+.frame__btn:hover:not(:disabled) { background:rgba(255,255,255,0.28); }
+.frame__btn:disabled { opacity:0.35; cursor:default; }
+.frame__btn_danger:hover:not(:disabled) { background:#c0392b; }
+.frame__btn_on { background:var(--ws-secondary,#ff5b04); color:#fff; }
+.frame__btn_on:hover:not(:disabled) { background:var(--ws-secondary,#ff5b04); }
+
+/* an editor-only dim for hidden sections — unrelated to the user-facing
+   content-opacity feature (--sec-opacity), which lives inside each leaf
+   section's own shell, not on this wrapper frame */
+.frame_hidden { opacity:0.4; }
+
+/* drag feedback: the source fades in place; the hovered frame shows a single
+   insertion line on the half the pointer is in */
+.frame_dragging { opacity:0.45; }
+.frame_drop-before::before,
+.frame_drop-after::after {
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  height:3px;
+  background:var(--ws-secondary,#ff5b04);
+  z-index:3;
+  pointer-events:none;
+}
+.frame_drop-before::before { top:0; }
+.frame_drop-after::after { bottom:0; }
+
+/* placeholder */
+.frame__placeholder {
+  padding:2rem 1.5rem;
+  text-align:center;
+  color:var(--ws-text,#0a0a0a);
+  background:repeating-linear-gradient(
+    45deg,
+    rgba(127,127,127,0.06),
+    rgba(127,127,127,0.06) 10px,
+    rgba(127,127,127,0.12) 10px,
+    rgba(127,127,127,0.12) 20px
+  );
+  font:0.9rem/1.4 system-ui, sans-serif;
+}
+
+/* entrance animation (F9) — plays outside edit mode only, see sectionSlot.js */
+.ws-anim {
+  opacity:0;
+  transition:
+    opacity var(--ws-anim-dur,600ms) var(--ws-anim-delay,0ms) ease,
+    transform var(--ws-anim-dur,600ms) var(--ws-anim-delay,0ms) ease;
+}
+.ws-anim_slide-up { transform:translateY(28px); }
+.ws-anim_slide-left { transform:translateX(28px); }
+.ws-anim_slide-right { transform:translateX(-28px); }
+.ws-anim_zoom { transform:scale(0.94); }
+.ws-anim-in {
+  opacity:1;
+  transform:none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ws-anim { transition:none; opacity:1; transform:none; }
+}

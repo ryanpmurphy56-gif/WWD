@@ -1,0 +1,17 @@
+<template>
+    <footer class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block foot" style={blockStyle}>
+                <span
+                    class="foot__text"
+                    style={textFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="text"
+                    data-placeholder="Footer text"
+                    onblur={handleEdit}
+                    onkeydown={handleKeydown}
+                >{text}</span>
+            </div>
+        </div>
+    </footer>
+</template>

@@ -1,0 +1,62 @@
+<template>
+    <section class={rootClass} style={rootStyle}>
+        <div class="sec__grid">
+            <div class="sec__block team" style={blockStyle}>
+                <h2
+                    class="team__heading"
+                    style={headingFieldStyle}
+                    contenteditable={editableAttr}
+                    data-field="heading"
+                    data-placeholder="Heading"
+                    onblur={handleFieldEdit}
+                    onkeydown={handleKeydown}
+                >{content.heading}</h2>
+                <div class="team__grid">
+                    <template for:each={items} for:item="it">
+                        <div key={it.index} class="member">
+                            <template lwc:if={isEdit}>
+                                <button
+                                    class="member__remove"
+                                    type="button"
+                                    title="Remove"
+                                    data-index={it.index}
+                                    onclick={handleRemove}
+                                >✕</button>
+                            </template>
+                            <span class="member__avatar" aria-hidden="true">{it.initials}</span>
+                            <p
+                                class="member__name"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="name"
+                                data-placeholder="Name"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.name}</p>
+                            <p
+                                class="member__role"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="role"
+                                data-placeholder="Role"
+                                onblur={handleItemEdit}
+                                onkeydown={handleKeydown}
+                            >{it.role}</p>
+                            <p
+                                class="member__bio"
+                                contenteditable={editableAttr}
+                                data-index={it.index}
+                                data-key="bio"
+                                data-placeholder="A line about them"
+                                onblur={handleItemEdit}
+                            >{it.bio}</p>
+                        </div>
+                    </template>
+                </div>
+                <template lwc:if={isEdit}>
+                    <button class="sec__add" type="button" onclick={handleAdd}>+ Add person</button>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

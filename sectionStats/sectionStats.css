@@ -1,0 +1,165 @@
+.sec {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: var(--ws-font-body, system-ui, sans-serif);
+    color: var(--ws-text, #0a0a0a);
+}
+.sec__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 1rem;
+    align-items: center;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+    box-sizing: border-box;
+}
+.sec_valign-top .sec__grid {
+    align-items: start;
+}
+.sec_valign-bottom .sec__grid {
+    align-items: end;
+}
+.sec__block {
+    min-width: 0;
+}
+.sec_tone-dark {
+    color: #fff;
+}
+.sec_edit [contenteditable='true'] {
+    outline: none;
+    cursor: text;
+    border-radius: 4px;
+}
+.sec_edit [contenteditable='true']:hover {
+    box-shadow: 0 0 0 1px rgba(127, 127, 127, 0.4);
+}
+.sec_edit [contenteditable='true']:focus {
+    box-shadow: 0 0 0 2px var(--ws-secondary, #ff5b04);
+}
+.sec_edit [contenteditable='true']:empty::before {
+    content: attr(data-placeholder);
+    opacity: 0.4;
+}
+.sec__add {
+    margin-top: 1.25rem;
+    border: 1px dashed rgba(127, 127, 127, 0.5);
+    background: transparent;
+    color: inherit;
+    padding: 0.5rem 1rem;
+    border-radius: var(--ws-radius, 8px);
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    opacity: 0.8;
+}
+.sec__add:hover {
+    opacity: 1;
+    border-color: var(--ws-secondary, #ff5b04);
+}
+
+/* Stats ----------------------------------------------------------------- */
+.stats__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(1.25rem * var(--ws-space, 1));
+    text-align: center;
+}
+.sec_four-up .stats__grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+.stat {
+    position: relative;
+    padding: 1.25rem 0.75rem;
+}
+.stat__value {
+    margin: 0;
+    font-family: var(--ws-font-heading, inherit);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--ws-secondary, #ff5b04);
+}
+.sec_bg-primary .stat__value,
+.sec_tone-dark .stat__value {
+    color: inherit;
+}
+.stat__label {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+}
+.stat__remove {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(10, 10, 10, 0.55);
+    color: #fff;
+    font-size: 0.7rem;
+    cursor: pointer;
+}
+@container wscanvas (max-width: 640px) {
+    .stats__grid,
+    .sec_four-up .stats__grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* --- style shell (sectionCommon) — see sectionFeatures.css for the notes on
+   why these are custom properties and why the breakpoints are container
+   queries. */
+.sec {
+    padding-block: var(--sec-pad, calc(4rem * var(--ws-space, 1)));
+    background: var(--sec-bg, var(--ws-surface, #ffffff));
+    background-attachment: var(--sec-bg-attachment, scroll);
+    color: var(--sec-color, var(--ws-text, #0a0a0a));
+    border: var(--sec-border, 0 solid transparent);
+    border-radius: var(--sec-radius, 0);
+    box-shadow: var(--sec-shadow, none);
+    opacity: var(--sec-opacity, 1);
+    margin-block: var(--sec-margin, 0);
+    min-width: var(--sec-min-w, 0);
+    max-width: var(--sec-max-w, none);
+    min-height: var(--sec-min-h, 0);
+    max-height: var(--sec-max-h, none);
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+.sec:not(.sec_edit):hover {
+    transform: var(--sec-hover-transform, none);
+    box-shadow: var(--sec-hover-shadow, var(--sec-shadow, none));
+}
+.sec__block {
+    grid-column: var(--sec-col-start, 1) / span var(--sec-col-span, 12);
+}
+@container wscanvas (max-width: 820px) {
+    .sec {
+        padding-block: var(--sec-pad-t, var(--sec-pad, calc(4rem * var(--ws-space, 1))));
+        background: var(--sec-bg-t, var(--sec-bg, var(--ws-surface, #ffffff)));
+        background-attachment: var(--sec-bg-attachment, scroll);
+        color: var(--sec-color-t, var(--sec-color, var(--ws-text, #0a0a0a)));
+        border: var(--sec-border-t, var(--sec-border, 0 solid transparent));
+        border-radius: var(--sec-radius-t, var(--sec-radius, 0));
+        box-shadow: var(--sec-shadow-t, var(--sec-shadow, none));
+    }
+}
+@container wscanvas (max-width: 640px) {
+    .sec {
+        padding-block: var(--sec-pad-m, var(--sec-pad, calc(4rem * var(--ws-space, 1))));
+        background: var(--sec-bg-m, var(--sec-bg, var(--ws-surface, #ffffff)));
+        background-attachment: var(--sec-bg-attachment, scroll);
+        color: var(--sec-color-m, var(--sec-color, var(--ws-text, #0a0a0a)));
+        border: var(--sec-border-m, var(--sec-border, 0 solid transparent));
+        border-radius: var(--sec-radius-m, var(--sec-radius, 0));
+        box-shadow: var(--sec-shadow-m, var(--sec-shadow, none));
+    }
+    .sec__block {
+        grid-column: 1 / span 12;
+    }
+}
