@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Session_Length__c</fullName>
+    <label>Session Length</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>start_time__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>30 Minutes</fullName>
+                <default>false</default>
+                <label>30 Minutes</label>
+            </value>
+            <value>
+                <fullName>1 Hour</fullName>
+                <default>false</default>
+                <label>1 Hour</label>
+            </value>
+            <value>
+                <fullName>2 Hours</fullName>
+                <default>false</default>
+                <label>2 Hours</label>
+            </value>
+            <value>
+                <fullName>3 Hours</fullName>
+                <default>false</default>
+                <label>3 Hours</label>
+            </value>
+            <value>
+                <fullName>4 Hours</fullName>
+                <default>false</default>
+                <label>4 Hours</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>02:00pm</controllingFieldValue>
+            <controllingFieldValue>07:30pm</controllingFieldValue>
+            <controllingFieldValue>02:30pm</controllingFieldValue>
+            <controllingFieldValue>08:00pm</controllingFieldValue>
+            <controllingFieldValue>03:00pm</controllingFieldValue>
+            <controllingFieldValue>08:30pm</controllingFieldValue>
+            <controllingFieldValue>03:30pm</controllingFieldValue>
+            <controllingFieldValue>04:00pm</controllingFieldValue>
+            <controllingFieldValue>04:30pm</controllingFieldValue>
+            <controllingFieldValue>05:00pm</controllingFieldValue>
+            <controllingFieldValue>05:30pm</controllingFieldValue>
+            <controllingFieldValue>06:00pm</controllingFieldValue>
+            <controllingFieldValue>9:00am</controllingFieldValue>
+            <controllingFieldValue>9:30am</controllingFieldValue>
+            <controllingFieldValue>10:00am</controllingFieldValue>
+            <controllingFieldValue>10:30am</controllingFieldValue>
+            <controllingFieldValue>11:00am</controllingFieldValue>
+            <controllingFieldValue>11:30am</controllingFieldValue>
+            <controllingFieldValue>12:00pm</controllingFieldValue>
+            <controllingFieldValue>12:30pm</controllingFieldValue>
+            <controllingFieldValue>01:00pm</controllingFieldValue>
+            <controllingFieldValue>06:30pm</controllingFieldValue>
+            <controllingFieldValue>01:30pm</controllingFieldValue>
+            <controllingFieldValue>07:00pm</controllingFieldValue>
+            <valueName>30 Minutes</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>02:00pm</controllingFieldValue>
+            <controllingFieldValue>07:30pm</controllingFieldValue>
+            <controllingFieldValue>02:30pm</controllingFieldValue>
+            <controllingFieldValue>08:00pm</controllingFieldValue>
+            <controllingFieldValue>03:00pm</controllingFieldValue>
+            <controllingFieldValue>03:30pm</controllingFieldValue>
+            <controllingFieldValue>04:00pm</controllingFieldValue>
+            <controllingFieldValue>04:30pm</controllingFieldValue>
+            <controllingFieldValue>05:00pm</controllingFieldValue>
+            <controllingFieldValue>05:30pm</controllingFieldValue>
+            <controllingFieldValue>06:00pm</controllingFieldValue>
+            <controllingFieldValue>9:00am</controllingFieldValue>
+            <controllingFieldValue>9:30am</controllingFieldValue>
+            <controllingFieldValue>10:00am</controllingFieldValue>
+            <controllingFieldValue>10:30am</controllingFieldValue>
+            <controllingFieldValue>11:00am</controllingFieldValue>
+            <controllingFieldValue>11:30am</controllingFieldValue>
+            <controllingFieldValue>12:00pm</controllingFieldValue>
+            <controllingFieldValue>12:30pm</controllingFieldValue>
+            <controllingFieldValue>01:00pm</controllingFieldValue>
+            <controllingFieldValue>06:30pm</controllingFieldValue>
+            <controllingFieldValue>01:30pm</controllingFieldValue>
+            <controllingFieldValue>07:00pm</controllingFieldValue>
+            <valueName>1 Hour</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>02:00pm</controllingFieldValue>
+            <controllingFieldValue>07:30pm</controllingFieldValue>
+            <controllingFieldValue>02:30pm</controllingFieldValue>
+            <controllingFieldValue>08:00pm</controllingFieldValue>
+            <controllingFieldValue>03:00pm</controllingFieldValue>
+            <controllingFieldValue>03:30pm</controllingFieldValue>
+            <controllingFieldValue>04:00pm</controllingFieldValue>
+            <controllingFieldValue>04:30pm</controllingFieldValue>
+            <controllingFieldValue>05:00pm</controllingFieldValue>
+            <controllingFieldValue>05:30pm</controllingFieldValue>
+            <controllingFieldValue>06:00pm</controllingFieldValue>
+            <controllingFieldValue>9:00am</controllingFieldValue>
+            <controllingFieldValue>9:30am</controllingFieldValue>
+            <controllingFieldValue>10:00am</controllingFieldValue>
+            <controllingFieldValue>10:30am</controllingFieldValue>
+            <controllingFieldValue>11:00am</controllingFieldValue>
+            <controllingFieldValue>11:30am</controllingFieldValue>
+            <controllingFieldValue>12:00pm</controllingFieldValue>
+            <controllingFieldValue>12:30pm</controllingFieldValue>
+            <controllingFieldValue>01:00pm</controllingFieldValue>
+            <controllingFieldValue>06:30pm</controllingFieldValue>
+            <controllingFieldValue>01:30pm</controllingFieldValue>
+            <controllingFieldValue>07:00pm</controllingFieldValue>
+            <valueName>2 Hours</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>02:00pm</controllingFieldValue>
+            <controllingFieldValue>07:30pm</controllingFieldValue>
+            <controllingFieldValue>02:30pm</controllingFieldValue>
+            <controllingFieldValue>08:00pm</controllingFieldValue>
+            <controllingFieldValue>03:00pm</controllingFieldValue>
+            <controllingFieldValue>03:30pm</controllingFieldValue>
+            <controllingFieldValue>04:00pm</controllingFieldValue>
+            <controllingFieldValue>04:30pm</controllingFieldValue>
+            <controllingFieldValue>05:00pm</controllingFieldValue>
+            <controllingFieldValue>05:30pm</controllingFieldValue>
+            <controllingFieldValue>06:00pm</controllingFieldValue>
+            <controllingFieldValue>9:00am</controllingFieldValue>
+            <controllingFieldValue>9:30am</controllingFieldValue>
+            <controllingFieldValue>10:00am</controllingFieldValue>
+            <controllingFieldValue>10:30am</controllingFieldValue>
+            <controllingFieldValue>11:00am</controllingFieldValue>
+            <controllingFieldValue>11:30am</controllingFieldValue>
+            <controllingFieldValue>12:00pm</controllingFieldValue>
+            <controllingFieldValue>12:30pm</controllingFieldValue>
+            <controllingFieldValue>01:00pm</controllingFieldValue>
+            <controllingFieldValue>06:30pm</controllingFieldValue>
+            <controllingFieldValue>01:30pm</controllingFieldValue>
+            <controllingFieldValue>07:00pm</controllingFieldValue>
+            <valueName>3 Hours</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>02:00pm</controllingFieldValue>
+            <controllingFieldValue>07:30pm</controllingFieldValue>
+            <controllingFieldValue>02:30pm</controllingFieldValue>
+            <controllingFieldValue>08:00pm</controllingFieldValue>
+            <controllingFieldValue>03:00pm</controllingFieldValue>
+            <controllingFieldValue>03:30pm</controllingFieldValue>
+            <controllingFieldValue>04:00pm</controllingFieldValue>
+            <controllingFieldValue>04:30pm</controllingFieldValue>
+            <controllingFieldValue>05:00pm</controllingFieldValue>
+            <controllingFieldValue>05:30pm</controllingFieldValue>
+            <controllingFieldValue>06:00pm</controllingFieldValue>
+            <controllingFieldValue>9:00am</controllingFieldValue>
+            <controllingFieldValue>9:30am</controllingFieldValue>
+            <controllingFieldValue>10:00am</controllingFieldValue>
+            <controllingFieldValue>10:30am</controllingFieldValue>
+            <controllingFieldValue>11:00am</controllingFieldValue>
+            <controllingFieldValue>11:30am</controllingFieldValue>
+            <controllingFieldValue>12:00pm</controllingFieldValue>
+            <controllingFieldValue>12:30pm</controllingFieldValue>
+            <controllingFieldValue>01:00pm</controllingFieldValue>
+            <controllingFieldValue>06:30pm</controllingFieldValue>
+            <controllingFieldValue>01:30pm</controllingFieldValue>
+            <controllingFieldValue>07:00pm</controllingFieldValue>
+            <valueName>4 Hours</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

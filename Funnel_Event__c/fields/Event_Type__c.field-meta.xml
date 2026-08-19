@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Type__c</fullName>
+    <label>Event Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>View</fullName>
+                <default>false</default>
+                <label>View</label>
+            </value>
+            <value>
+                <fullName>Add_to_Cart</fullName>
+                <default>false</default>
+                <label>Add_to_Cart</label>
+            </value>
+            <value>
+                <fullName>Remove_from_Cart</fullName>
+                <default>false</default>
+                <label>Remove_from_Cart</label>
+            </value>
+            <value>
+                <fullName>Checkout_Start</fullName>
+                <default>false</default>
+                <label>Checkout_Start</label>
+            </value>
+            <value>
+                <fullName>Purchase</fullName>
+                <default>false</default>
+                <label>Purchase</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

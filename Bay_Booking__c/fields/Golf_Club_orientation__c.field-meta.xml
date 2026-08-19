@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Golf_Club_orientation__c</fullName>
+    <label>Golf Club orientation</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Golf_Club_requirement__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Left Handed</fullName>
+                <default>false</default>
+                <label>Left Handed</label>
+            </value>
+            <value>
+                <fullName>Right Handed</fullName>
+                <default>false</default>
+                <label>Right Handed</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Left Handed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Right Handed</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

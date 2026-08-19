@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Barcode__c</fullName>
+    <externalId>false</externalId>
+    <formula>IMAGE(&quot;https://bwipjs-api.metafloor.com/?bcid=code128&amp;text=&quot; &amp; Name &amp; &quot;&amp;scale=2&quot;, &quot;Member Barcode&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Barcode</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
