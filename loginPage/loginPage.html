@@ -1,0 +1,118 @@
+<template>
+    <div class="auth-page">
+        <div class="auth-card">
+
+            <!-- Logo -->
+            <div class="auth-logo">
+                <img src={logoUrl} alt="Point &amp; Pour" class="logo-img" onerror={handleLogoError}/>
+                <h1 class="brand-name">POINT &amp; POUR</h1>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tab-bar">
+                <button class={loginTabClass} onclick={showLogin}>Sign In</button>
+                <button class={registerTabClass} onclick={showRegister}>Create Account</button>
+            </div>
+
+            <!-- Success / Error Messages -->
+            <template if:true={successMessage}>
+                <div class="message success-msg">{successMessage}</div>
+            </template>
+            <template if:true={errorMessage}>
+                <div class="message error-msg">{errorMessage}</div>
+            </template>
+
+            <!-- LOGIN FORM -->
+            <template if:true={isLoginTab}>
+                <div class="form">
+                    <div class="field">
+                        <label>Email Address</label>
+                        <input type="email"
+                               placeholder="you@example.com"
+                               value={loginEmail}
+                               onchange={handleLoginEmailChange}
+                               onkeyup={handleLoginKeyUp}/>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password"
+                               placeholder="Your password"
+                               value={loginPassword}
+                               onchange={handleLoginPasswordChange}
+                               onkeyup={handleLoginKeyUp}/>
+                    </div>
+                    <button class="submit-btn" onclick={handleLogin} disabled={isLoading}>
+                        <template if:true={isLoading}>Signing in...</template>
+                        <template if:false={isLoading}>Sign In</template>
+                    </button>
+                    <p class="switch-prompt">
+                        Don't have an account?
+                        <span class="link" onclick={showRegister}>Create one — it's free</span>
+                    </p>
+                </div>
+            </template>
+
+            <!-- REGISTER FORM -->
+            <template if:true={isRegisterTab}>
+                <div class="form">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>First Name</label>
+                            <input type="text"
+                                   placeholder="Jane"
+                                   value={regFirstName}
+                                   onchange={handleFirstNameChange}/>
+                        </div>
+                        <div class="field">
+                            <label>Last Name</label>
+                            <input type="text"
+                                   placeholder="Smith"
+                                   value={regLastName}
+                                   onchange={handleLastNameChange}/>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Email Address</label>
+                        <input type="email"
+                               placeholder="you@example.com"
+                               value={regEmail}
+                               onchange={handleRegEmailChange}/>
+                    </div>
+                    <div class="field">
+                        <label>Password <span class="hint">(min. 8 characters)</span></label>
+                        <input type="password"
+                               placeholder="Choose a strong password"
+                               value={regPassword}
+                               onchange={handleRegPasswordChange}/>
+                    </div>
+                    <div class="field">
+                        <label>Confirm Password</label>
+                        <input type="password"
+                               placeholder="Repeat your password"
+                               value={regConfirmPassword}
+                               onchange={handleConfirmPasswordChange}/>
+                    </div>
+
+                    <div class="membership-perks">
+                        <p class="perks-title">✨ What you get with a free account:</p>
+                        <ul>
+                            <li>🎫 Digital membership card with QR code</li>
+                            <li>💰 Exclusive member pricing on hundreds of products</li>
+                            <li>🛒 Saved cart and order history</li>
+                        </ul>
+                    </div>
+
+                    <button class="submit-btn" onclick={handleRegister} disabled={isLoading}>
+                        <template if:true={isLoading}>Creating account...</template>
+                        <template if:false={isLoading}>Create My Account</template>
+                    </button>
+                    <p class="switch-prompt">
+                        Already have an account?
+                        <span class="link" onclick={showLogin}>Sign in</span>
+                    </p>
+                </div>
+            </template>
+
+        </div>
+    </div>
+</template>

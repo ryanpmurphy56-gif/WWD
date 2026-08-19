@@ -1,0 +1,157 @@
+.panel-shell {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(25, 0, 35, 0.08);
+    overflow: hidden;
+}
+
+.panel-head {
+    padding: 18px 20px;
+    border-bottom: 1px solid #eee7f3;
+}
+
+.panel-head h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #4b1744;
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+.info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.info-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #7e7384;
+}
+
+.info-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2b1b31;
+}
+
+.logout-btn {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: #6f1d5b;
+    color: #ffffff;
+    padding: 14px 16px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.secondary-btn {
+    width: 100%;
+    border: 1px solid #6f1d5b;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #6f1d5b;
+    padding: 12px 16px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+
+.secondary-btn:hover { background: #faf5fb; }
+
+.ghost-btn {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #7e7384;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.password-form {
+    border: 1px solid #eee7f3;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.field-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+
+.field-block label {
+    font-size: 12px;
+    color: #7e7384;
+    font-weight: 600;
+}
+
+.field-block input {
+    border: 1px solid #ddd3e2;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.pw-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pw-message {
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.pw-error   { background: #fbe4e4; color: #a32020; }
+.pw-success { background: #e7f5e7; color: #006300; }
+
+.link-btn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #6f1d5b;
+    padding: 8px 4px 2px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.link-btn:disabled {
+    color: #b9a9bf;
+    cursor: default;
+    text-decoration: none;
+}
+
+.ghost-btn:disabled {
+    color: #b9a9bf;
+    cursor: default;
+}
+
+.reset-intro {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #6b5d71;
+}
+
+.code-input {
+    letter-spacing: 0.4em;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+}

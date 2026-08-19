@@ -1,0 +1,51 @@
+:host {
+    display: block;
+    background: #f4f2f6;
+    min-height: 100vh;
+}
+
+.dashboard-shell {
+    padding: 32px 20px 48px;
+}
+
+.dashboard-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, #2a012d 0%, #5a0a3d 100%);
+    color: #ffffff;
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 24px;
+}
+
+.welcome-card h1 {
+    margin: 0 0 8px;
+    font-size: 30px;
+}
+
+.welcome-card p {
+    margin: 0;
+    color: #eadff0;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 24px;
+}
+
+.left-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+@media (max-width: 960px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

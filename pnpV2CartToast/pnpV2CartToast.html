@@ -1,0 +1,19 @@
+<template>
+    <template if:true={item}>
+        <div class="cart-toast" role="status">
+            <div class="toast-accent"></div>
+            <div class="toast-img">
+                <img if:true={item.image} src={item.image} alt={item.name} onerror={handleImageError} />
+            </div>
+            <div class="toast-body">
+                <p class="toast-added">✓ Added to cart</p>
+                <p class="toast-name">{item.name} <span class="toast-qty">{qtyLabel}</span></p>
+                <template if:true={item.priceLabel}>
+                    <p class="toast-price">{item.priceLabel}</p>
+                </template>
+                <button class="toast-view" onclick={handleViewCart}>View cart →</button>
+            </div>
+            <button class="toast-close" onclick={handleClose}>✕</button>
+        </div>
+    </template>
+</template>

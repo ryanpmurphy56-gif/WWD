@@ -1,0 +1,32 @@
+<template>
+    <div class="page-shell">
+
+        
+
+        <section class="promo-section">
+            <div class="promo-inner">
+                <img
+                    src={promoImageUrl}
+                    alt="Point and Pour promotional banner"
+                    class="promo-image"
+                />
+            </div>
+        </section>
+
+        <c-pnp-v2-shop-grid
+            selected-family={selectedFamily}
+            selected-sub-family={selectedSubFamily}
+            search-key={searchKey}
+            oncartcountchange={handleCartCountChange}
+            onproductselect={handleProductSelect}>
+        </c-pnp-v2-shop-grid>
+
+        <template if:true={isCartOpen}>
+            <c-pnp-v2-cart-drawer
+                onclose={handleToggleCart}
+                oncartcountchange={handleCartCountChange}>
+            </c-pnp-v2-cart-drawer>
+        </template>
+
+    </div>
+</template>

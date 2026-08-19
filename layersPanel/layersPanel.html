@@ -1,0 +1,55 @@
+<template>
+  <div class="layers">
+    <template lwc:if={isEmpty}>
+      <p class="layers__empty">This page has no sections yet.</p>
+    </template>
+    <template lwc:else>
+      <ul class="layers__list">
+        <template for:each={rows} for:item="r">
+          <li key={r.sectionId} class={r.rowClass}>
+            <div
+              class="row__main"
+              style={r.indentStyle}
+              data-section-id={r.sectionId}
+              onclick={handleSelect}
+            >
+              <span class="row__label">{r.label}</span>
+            </div>
+            <div class="row__actions">
+              <button
+                type="button"
+                class={r.lockClass}
+                title={r.lockTitle}
+                data-section-id={r.sectionId}
+                onclick={handleToggleLocked}
+              >🔒</button>
+              <button
+                type="button"
+                class={r.hideClass}
+                title={r.hideTitle}
+                data-section-id={r.sectionId}
+                onclick={handleToggleHidden}
+              >👁</button>
+              <button
+                type="button"
+                class="act"
+                title="Move up"
+                data-section-id={r.sectionId}
+                disabled={r.isFirst}
+                onclick={handleMoveUp}
+              >↑</button>
+              <button
+                type="button"
+                class="act"
+                title="Move down"
+                data-section-id={r.sectionId}
+                disabled={r.isLast}
+                onclick={handleMoveDown}
+              >↓</button>
+            </div>
+          </li>
+        </template>
+      </ul>
+    </template>
+  </div>
+</template>

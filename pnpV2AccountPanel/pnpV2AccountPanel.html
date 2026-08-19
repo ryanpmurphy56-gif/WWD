@@ -1,0 +1,114 @@
+<template>
+    <div class="panel-shell">
+        <div class="panel-head"><h2>Account</h2></div>
+        <template if:true={profile}>
+            <div class="panel-body">
+                <div class="info-row">
+                    <span class="info-label">Name</span>
+                    <span class="info-value">{profile.fullName}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">{profile.email}</span>
+                </div>
+
+                <!-- Change password -->
+                <template if:true={pwSuccess}>
+                    <div class="pw-message pw-success">{pwSuccess}</div>
+                </template>
+                <template if:false={showPasswordForm}>
+                    <button class="secondary-btn" onclick={togglePasswordForm}>Change Password</button>
+                </template>
+                <template if:true={showPasswordForm}>
+                    <div class="password-form">
+
+                        <!-- Standard change (current password known) -->
+                        <template if:true={showChangeForm}>
+                            <template if:true={pwError}>
+                                <div class="pw-message pw-error">{pwError}</div>
+                            </template>
+                            <div class="field-block">
+                                <label>Current password</label>
+                                <input type="password" data-field="oldPassword" oninput={handlePwField} />
+                            </div>
+                            <div class="field-block">
+                                <label>New password (8+ characters)</label>
+                                <input type="password" data-field="newPassword" oninput={handlePwField} />
+                            </div>
+                            <div class="field-block">
+                                <label>Confirm new password</label>
+                                <input type="password" data-field="confirmPassword" oninput={handlePwField} />
+                            </div>
+                            <div class="pw-actions">
+                                <button class="secondary-btn" onclick={handleChangePassword} disabled={pwSaving}>
+                                    <template if:true={pwSaving}>Saving...</template>
+                                    <template if:false={pwSaving}>Save Password</template>
+                                </button>
+                                <button class="ghost-btn" onclick={togglePasswordForm}>Cancel</button>
+                            </div>
+                            <button class="link-btn" onclick={startReset}>Forgot your current password?</button>
+                        </template>
+
+                        <!-- Forgot password: verify by 6-digit code -->
+                        <template if:true={resetMode}>
+                            <template if:true={resetError}>
+                                <div class="pw-message pw-error">{resetError}</div>
+                            </template>
+                            <template if:true={resetSuccess}>
+                                <div class="pw-message pw-success">{resetSuccess}</div>
+                            </template>
+
+                            <!-- Step 1: choose delivery and send the code -->
+                            <template if:false={showVerifyStep}>
+                                <p class="reset-intro">
+                                    We'll send a 6-digit verification code to confirm it's you, so you can set a
+                                    new password without your current one.
+                                </p>
+                                <div class="pw-actions">
+                                    <button class="secondary-btn" onclick={requestCode} disabled={resetBusy}>
+                                        <template if:true={resetBusy}>Sending...</template>
+                                        <template if:false={resetBusy}>Email me a code</template>
+                                    </button>
+                                    <button class="ghost-btn" disabled title="Coming soon">
+                                        Text me a code (coming soon)
+                                    </button>
+                                    <button class="link-btn" onclick={cancelReset}>Back</button>
+                                </div>
+                            </template>
+
+                            <!-- Step 2: enter the code and the new password -->
+                            <template if:true={showVerifyStep}>
+                                <div class="field-block">
+                                    <label>6-digit code</label>
+                                    <input type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code"
+                                           class="code-input" data-field="resetCode" oninput={handleResetField} />
+                                </div>
+                                <div class="field-block">
+                                    <label>New password (8+ characters)</label>
+                                    <input type="password" data-field="resetNewPassword" oninput={handleResetField} />
+                                </div>
+                                <div class="field-block">
+                                    <label>Confirm new password</label>
+                                    <input type="password" data-field="resetConfirmPassword" oninput={handleResetField} />
+                                </div>
+                                <div class="pw-actions">
+                                    <button class="secondary-btn" onclick={submitReset} disabled={resetBusy}>
+                                        <template if:true={resetBusy}>Saving...</template>
+                                        <template if:false={resetBusy}>Verify &amp; set password</template>
+                                    </button>
+                                    <button class="ghost-btn" onclick={cancelReset}>Cancel</button>
+                                    <button class="link-btn" onclick={resendCode} disabled={resetBusy}>Resend code</button>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                </template>
+
+                <button class="logout-btn" onclick={handleLogout}>Log Out</button>
+            </div>
+        </template>
+        <template if:false={profile}>
+            <div class="panel-body"><p>Loading profile...</p></div>
+        </template>
+    </div>
+</template>

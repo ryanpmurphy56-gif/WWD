@@ -1,0 +1,804 @@
+<template>
+    <div class="dash-root">
+
+        <!-- ── Side nav ── -->
+        <aside class="side-nav">
+            <div class="brand">
+                <span class="brand-icon">🍷</span>
+                <div>
+                    <p class="brand-name">Point n Pour</p>
+                    <p class="brand-sub">Command Center</p>
+                </div>
+            </div>
+            <nav class="nav-list">
+                <template for:each={navItems} for:item="item">
+                    <button key={item.id} class={item.cls} data-tab={item.id} onclick={handleTabClick}>
+                        <span class="nav-icon">{item.icon}</span>
+                        <span>{item.label}</span>
+                    </button>
+                </template>
+            </nav>
+            <p class="side-foot">As at {todayLabel}</p>
+        </aside>
+
+        <!-- ── Content ── -->
+        <main class="content">
+
+            <!-- ═══════════ OVERVIEW ═══════════ -->
+            <template if:true={isOverview}>
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title">Overview</h1>
+                        <p class="page-sub">Store health at a glance — last 30 days</p>
+                    </div>
+                </header>
+
+                <div class="tile-row tiles-6">
+                    <div class="tile">
+                        <p class="tile-label">Revenue (30 days)</p>
+                        <p class="tile-value">{ovRevenue}</p>
+                        <p class="tile-sub">{ovOrdersSub}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Avg order value</p>
+                        <p class="tile-value">{ovAov}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Units on hand</p>
+                        <p class="tile-value">{stockUnitsLabel}</p>
+                        <p class="tile-sub">{stockSkusSub}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Stock alerts</p>
+                        <p class="tile-value">{stockAlertCount}</p>
+                        <p class="tile-sub">{stockAlertSub}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">View → purchase</p>
+                        <p class="tile-value">{ovConversion}</p>
+                        <p class="tile-sub">funnel conversion</p>
+                    </div>
+                    <div class="tile tile-live">
+                        <p class="tile-label"><span class="live-dot"></span> Sold today</p>
+                        <p class="tile-value">{liveSoldUnits}</p>
+                        <p class="tile-sub">{liveSoldSub}</p>
+                    </div>
+                </div>
+
+                <div class="two-col">
+                    <section class="card">
+                        <h3 class="card-title">Recent orders</h3>
+                        <template if:true={hasRecentOrders}>
+                            <table class="data-table">
+                                <thead>
+                                    <tr><th>Order</th><th>Account</th><th class="num">Total</th><th>Status</th></tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={recentOrderRows} for:item="row">
+                                        <tr key={row.key}>
+                                            <td>
+                                                <span class="cell-main">{row.orderNumber}</span>
+                                                <span class="cell-sub">{row.dateLabel}</span>
+                                            </td>
+                                            <td>{row.accountName}</td>
+                                            <td class="num">{row.totalLabel}</td>
+                                            <td><span class="pill pill-neutral">{row.status}</span></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                        <template if:false={hasRecentOrders}>
+                            <p class="empty-note">No orders yet.</p>
+                        </template>
+                    </section>
+
+                    <section class="card">
+                        <h3 class="card-title">Stock alerts</h3>
+                        <template if:true={hasStockAlerts}>
+                            <table class="data-table">
+                                <thead>
+                                    <tr><th>Product</th><th class="num">On hand</th><th class="num">Min</th><th>Status</th></tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={stockAlertRows} for:item="row">
+                                        <tr key={row.key}>
+                                            <td>{row.name}</td>
+                                            <td class="num">{row.qtyLabel}</td>
+                                            <td class="num">{row.minLabel}</td>
+                                            <td><span class={row.pillClass}>{row.statusLabel}</span></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                        <template if:false={hasStockAlerts}>
+                            <p class="empty-note">✅ All products are above their minimum levels.</p>
+                        </template>
+                    </section>
+                </div>
+            </template>
+
+            <!-- ═══════════ ORDERS (fulfilment) ═══════════ -->
+            <template if:true={isOrders}>
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title">Orders</h1>
+                        <p class="page-sub">Open orders awaiting action — {openOrderCount} in the queue</p>
+                    </div>
+                    <button class="pill-btn" onclick={handleOrdersRefresh}>↻ Refresh</button>
+                </header>
+
+                <template if:true={orderMsg}>
+                    <p class="reorder-msg">{orderMsg}</p>
+                </template>
+
+                <section class="card">
+                    <template if:true={hasOpenOrders}>
+                        <div class="table-scroll">
+                            <table class="data-table sticky-head">
+                                <thead>
+                                    <tr><th>Order</th><th>Customer</th><th>Placed</th><th>Fulfilment</th><th class="num">Total</th><th>Status</th><th>Next step</th></tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={openOrderRows} for:item="row">
+                                        <tr key={row.key}>
+                                            <td>{row.orderNumber}</td>
+                                            <td>{row.accountName}</td>
+                                            <td>{row.dateLabel}</td>
+                                            <td>
+                                                {row.fulfilment}
+                                                <template if:true={row.deliveryAddress}>
+                                                    <div class="order-address">{row.deliveryAddress}</div>
+                                                </template>
+                                                <template if:true={row.trackingNumber}>
+                                                    <div class="order-address">Tracking: {row.trackingNumber}</div>
+                                                </template>
+                                            </td>
+                                            <td class="num">{row.totalLabel}</td>
+                                            <td><span class={row.statusClass}>{row.status}</span></td>
+                                            <td>
+                                                <template if:true={row.needsTracking}>
+                                                    <input class="tracking-input" type="text" placeholder="Tracking # (optional)"
+                                                        data-id={row.orderId} oninput={handleTrackingInput} />
+                                                </template>
+                                                <template for:each={row.actions} for:item="action">
+                                                    <button key={action.key} class={action.cls}
+                                                        data-id={row.orderId} data-status={action.status}
+                                                        onclick={handleOrderStatusClick}>{action.label}</button>
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasOpenOrders}>
+                        <p class="empty-note">No open orders — everything has been fulfilled. 🎉</p>
+                    </template>
+                </section>
+            </template>
+
+            <!-- ═══════════ STOCK ═══════════ -->
+            <template if:true={isStock}>
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title">Stock</h1>
+                        <p class="page-sub">Inventory position across active products</p>
+                    </div>
+                </header>
+
+                <div class="tile-row">
+                    <div class="tile">
+                        <p class="tile-label">Active SKUs</p>
+                        <p class="tile-value">{stockSkus}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Units on hand</p>
+                        <p class="tile-value">{stockUnitsLabel}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Low stock</p>
+                        <p class="tile-value">{stockLowCount}</p>
+                        <p class="tile-sub">below minimum</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Out of stock</p>
+                        <p class="tile-value">{stockOutCount}</p>
+                    </div>
+                    <div class="tile tile-live">
+                        <p class="tile-label"><span class="live-dot"></span> Sold today</p>
+                        <p class="tile-value">{liveSoldUnits}</p>
+                        <p class="tile-sub">{liveSoldSub}</p>
+                    </div>
+                </div>
+
+                <section class="card">
+                    <h3 class="card-title">Top products by units on hand</h3>
+                    <template if:true={hasStockBars}>
+                        <div class="hbar-list">
+                            <template for:each={stockBars} for:item="bar">
+                                <div key={bar.key} class="hbar-row">
+                                    <span class="hbar-label" title={bar.name}>{bar.name}</span>
+                                    <div class="hbar-track">
+                                        <div class="hbar-fill" style={bar.style}></div>
+                                        <span class="hbar-value">{bar.qtyLabel}</span>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={hasStockBars}>
+                        <p class="empty-note">No stock quantities recorded yet.</p>
+                    </template>
+                </section>
+
+                <section class="card">
+                    <div class="card-head-row">
+                        <h3 class="card-title">Supplier reorders</h3>
+                        <span class="card-note">Order sheets auto-send every Monday 6:00 am</span>
+                    </div>
+                    <template if:true={orderSheetMsg}>
+                        <p class="reorder-msg">{orderSheetMsg}</p>
+                    </template>
+                    <template if:true={hasPendingReorders}>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Product</th><th>Supplier</th><th class="num">Qty</th><th>Queued</th><th>Status</th><th></th></tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={pendingReorderRows} for:item="row">
+                                    <tr key={row.key}>
+                                        <td>{row.productName}</td>
+                                        <td><span class={row.supplierClass}>{row.supplierLabel}</span></td>
+                                        <td class="num">{row.qtyLabel}</td>
+                                        <td>{row.queuedLabel}</td>
+                                        <td><span class={row.statusClass}>{row.statusLabel}</span></td>
+                                        <td class="num">
+                                            <template if:true={row.canReceive}>
+                                                <button class="pill-btn pill-active" data-id={row.reorderId} onclick={handleMarkReceived} title="Add this quantity to stock on hand">✓ Received</button>
+                                            </template>
+                                            <template if:true={row.canCancel}>
+                                                <button class="chip-remove" data-id={row.reorderId} onclick={handleCancelReorder} title="Remove from order sheet">✕</button>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <div class="form-actions reorder-actions">
+                            <button class="pill-btn pill-active" onclick={handleSendSheets} disabled={sheetSending}>
+                                <template if:true={sheetSending}>Sending…</template>
+                                <template if:false={sheetSending}>📧 Send order sheets now</template>
+                            </button>
+                        </div>
+                    </template>
+                    <template if:false={hasPendingReorders}>
+                        <p class="empty-note">Nothing queued — use the Order button on any product below.</p>
+                    </template>
+                </section>
+
+                <section class="card">
+                    <h3 class="card-title">All active products</h3>
+
+                    <template if:true={reorderTarget}>
+                        <div class="reorder-form">
+                            <span class="reorder-form-label">Order <strong>{reorderTarget.name}</strong></span>
+                            <input class="reorder-qty" type="number" min="1" value={reorderTarget.qty} oninput={handleReorderQtyChange} />
+                            <button class="pill-btn pill-active" onclick={handleReorderConfirm} disabled={reorderBusy}>
+                                <template if:true={reorderBusy}>Queuing…</template>
+                                <template if:false={reorderBusy}>Queue order</template>
+                            </button>
+                            <button class="pill-btn" onclick={handleReorderCancelForm}>Cancel</button>
+                        </div>
+                    </template>
+
+                    <div class="table-scroll">
+                        <table class="data-table sticky-head">
+                            <thead>
+                                <tr><th>Product</th><th>Supplier</th><th class="num">Price</th><th class="num">On hand</th><th class="num">Min</th><th>Status</th><th></th></tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={allStockRows} for:item="row">
+                                    <tr key={row.key}>
+                                        <td>{row.name}</td>
+                                        <td class="supplier-cell">{row.supplierLabel}</td>
+                                        <td class="num">{row.priceLabel}</td>
+                                        <td class="num">{row.qtyLabel}</td>
+                                        <td class="num">{row.minLabel}</td>
+                                        <td><span class={row.pillClass}>{row.statusLabel}</span></td>
+                                        <td class="num">
+                                            <button class="order-btn" data-id={row.key} onclick={handleOrderClick}>Order</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </template>
+
+            <!-- ═══════════ SALES ═══════════ -->
+            <template if:true={isSales}>
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title">Sales</h1>
+                        <p class="page-sub">Orders and revenue over time</p>
+                    </div>
+                    <div class="range-pills">
+                        <template for:each={salesRangeOptions} for:item="opt">
+                            <button key={opt.days} class={opt.cls} data-days={opt.days} data-scope="sales" onclick={handleRangeClick}>{opt.label}</button>
+                        </template>
+                    </div>
+                </header>
+
+                <div class="tile-row tiles-3">
+                    <div class="tile">
+                        <p class="tile-label">Orders</p>
+                        <p class="tile-value">{salesOrders}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Revenue</p>
+                        <p class="tile-value">{salesRevenue}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Avg order value</p>
+                        <p class="tile-value">{salesAov}</p>
+                    </div>
+                </div>
+
+                <section class="card">
+                    <h3 class="card-title">Revenue by day</h3>
+                    <template if:true={hasSalesBars}>
+                        <div class="col-plot" onmouseleave={handleTipLeave}>
+                            <div class="grid-line gl-100"><span class="grid-label">{yMaxLabel}</span></div>
+                            <div class="grid-line gl-50"><span class="grid-label">{yMidLabel}</span></div>
+                            <div class="grid-line gl-0"></div>
+                            <div class="col-bars">
+                                <template for:each={revenueBars} for:item="bar">
+                                    <div key={bar.key} class="col-slot" data-index={bar.index} onmouseenter={handleBarEnter}>
+                                        <div class="col-bar" style={bar.style}></div>
+                                    </div>
+                                </template>
+                            </div>
+                            <template if:true={tipVisible}>
+                                <div class="chart-tip" style={tipStyle}>
+                                    <p class="tip-title">{tipTitle}</p>
+                                    <p class="tip-line">{tipLine1}</p>
+                                    <p class="tip-line">{tipLine2}</p>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="x-labels">
+                            <span>{xFirstLabel}</span>
+                            <span>{xMidLabel}</span>
+                            <span>{xLastLabel}</span>
+                        </div>
+                    </template>
+                    <template if:false={hasSalesBars}>
+                        <p class="empty-note">No orders in this period.</p>
+                    </template>
+                </section>
+
+                <div class="two-col">
+                    <section class="card">
+                        <h3 class="card-title">Top products</h3>
+                        <template if:true={hasTopProducts}>
+                            <table class="data-table">
+                                <thead>
+                                    <tr><th>Product</th><th class="num">Units</th><th class="num">Revenue</th></tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={topProductRows} for:item="row">
+                                        <tr key={row.key}>
+                                            <td>{row.name}</td>
+                                            <td class="num">{row.unitsLabel}</td>
+                                            <td class="num">{row.revenueLabel}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                        <template if:false={hasTopProducts}>
+                            <p class="empty-note">No product sales in this period.</p>
+                        </template>
+                    </section>
+
+                    <section class="card">
+                        <h3 class="card-title">Recent orders</h3>
+                        <template if:true={hasRecentOrders}>
+                            <table class="data-table">
+                                <thead>
+                                    <tr><th>Order</th><th>Account</th><th class="num">Total</th><th>Type</th></tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={recentOrderRows} for:item="row">
+                                        <tr key={row.key}>
+                                            <td>
+                                                <span class="cell-main">{row.orderNumber}</span>
+                                                <span class="cell-sub">{row.dateLabel}</span>
+                                            </td>
+                                            <td>{row.accountName}</td>
+                                            <td class="num">{row.totalLabel}</td>
+                                            <td><span class="pill pill-neutral">{row.fulfilment}</span></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                        <template if:false={hasRecentOrders}>
+                            <p class="empty-note">No orders yet.</p>
+                        </template>
+                    </section>
+                </div>
+
+                <section class="card">
+                    <h3 class="card-title">Most wishlisted products</h3>
+                    <template if:true={hasWishlistRows}>
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Product</th><th>Family</th><th class="num">Price</th><th class="num">Saves</th></tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={wishlistRows} for:item="row">
+                                    <tr key={row.key}>
+                                        <td>{row.name}</td>
+                                        <td>{row.family}</td>
+                                        <td class="num">{row.priceLabel}</td>
+                                        <td class="num">{row.savesLabel}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                    <template if:false={hasWishlistRows}>
+                        <p class="empty-note">No wishlist saves yet.</p>
+                    </template>
+                </section>
+            </template>
+
+            <!-- ═══════════ FUNNEL ROLLUPS ═══════════ -->
+            <template if:true={isFunnel}>
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title">Funnel Rollups</h1>
+                        <p class="page-sub">{funnelSubtitle}</p>
+                    </div>
+                    <div class="range-pills">
+                        <template for:each={funnelRangeOptions} for:item="opt">
+                            <button key={opt.days} class={opt.cls} data-days={opt.days} data-scope="funnel" onclick={handleRangeClick}>{opt.label}</button>
+                        </template>
+                    </div>
+                </header>
+
+                <div class="tile-row tiles-4">
+                    <div class="tile">
+                        <p class="tile-label">Product views</p>
+                        <p class="tile-value">{fViews}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Adds to cart</p>
+                        <p class="tile-value">{fAdds}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Purchases</p>
+                        <p class="tile-value">{fPurchases}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Attributed revenue</p>
+                        <p class="tile-value">{fRevenue}</p>
+                    </div>
+                </div>
+
+                <section class="card">
+                    <h3 class="card-title">Conversion funnel</h3>
+                    <template if:true={hasFunnelData}>
+                        <div class="funnel-rows">
+                            <template for:each={funnelStages} for:item="st">
+                                <div key={st.label} class="funnel-row">
+                                    <span class="funnel-label">{st.label}</span>
+                                    <div class="funnel-track">
+                                        <div class={st.barClass} style={st.style}></div>
+                                    </div>
+                                    <span class="funnel-count">{st.countLabel}</span>
+                                    <span class="funnel-conv">{st.convLabel}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={hasFunnelData}>
+                        <p class="empty-note">No rollup data in this period. The daily aggregator runs overnight — or run it manually for a backfill.</p>
+                    </template>
+                </section>
+
+                <section class="card">
+                    <h3 class="card-title">By product</h3>
+                    <template if:true={hasFunnelProducts}>
+                        <div class="table-scroll">
+                            <table class="data-table sticky-head">
+                                <thead>
+                                    <tr><th>Product</th><th class="num">Views</th><th class="num">Adds</th><th class="num">Purchases</th><th class="num">Conv.</th><th class="num">Revenue</th></tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={funnelProductRows} for:item="row">
+                                        <tr key={row.key}>
+                                            <td>{row.name}</td>
+                                            <td class="num">{row.viewsLabel}</td>
+                                            <td class="num">{row.addsLabel}</td>
+                                            <td class="num">{row.purchasesLabel}</td>
+                                            <td class="num">{row.convLabel}</td>
+                                            <td class="num">{row.revenueLabel}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasFunnelProducts}>
+                        <p class="empty-note">No per-product rollups in this period.</p>
+                    </template>
+                </section>
+            </template>
+
+            <!-- ═══════════ LIVE CARTS ═══════════ -->
+            <template if:true={isCarts}>
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title"><span class="live-dot"></span> Live Carts</h1>
+                        <p class="page-sub">What shoppers have in their baskets right now · auto-refreshes every 30s</p>
+                    </div>
+                    <div class="range-pills">
+                        <button class="pill-btn" onclick={handleLiveRefresh}>↻ Refresh</button>
+                    </div>
+                </header>
+
+                <div class="tile-row tiles-3">
+                    <div class="tile">
+                        <p class="tile-label">Active carts</p>
+                        <p class="tile-value">{liveCartCount}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Units in carts</p>
+                        <p class="tile-value">{liveCartUnits}</p>
+                    </div>
+                    <div class="tile">
+                        <p class="tile-label">Potential value</p>
+                        <p class="tile-value">{liveCartValue}</p>
+                    </div>
+                </div>
+
+                <section class="card">
+                    <h3 class="card-title">Carts in progress</h3>
+                    <template if:true={hasCartRows}>
+                        <div class="table-scroll">
+                            <table class="data-table sticky-head">
+                                <thead>
+                                    <tr><th>Shopper</th><th>Items</th><th class="num">Units</th><th class="num">Value</th><th>Last activity</th></tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={cartRows} for:item="row">
+                                        <tr key={row.key}>
+                                            <td><span class={row.shopperClass}>{row.shopper}</span></td>
+                                            <td class="cart-items-cell">{row.itemsSummary}</td>
+                                            <td class="num">{row.unitsLabel}</td>
+                                            <td class="num">{row.valueLabel}</td>
+                                            <td>{row.ageLabel}</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={hasCartRows}>
+                        <p class="empty-note">No active carts with items right now.</p>
+                    </template>
+                </section>
+            </template>
+
+            <!-- ═══════════ PROMOTIONS ═══════════ -->
+            <template if:true={isPromos}>
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title">Promotions</h1>
+                        <p class="page-sub">Sitewide and product-level sales — live sales discount checkout pricing automatically</p>
+                    </div>
+                    <div class="range-pills">
+                        <button class="pill-btn pill-active" onclick={handleNewSale}>+ New Sale</button>
+                    </div>
+                </header>
+
+                <template if:true={showSaleForm}>
+                    <section class="card">
+                        <h3 class="card-title">{saleFormTitle}</h3>
+                        <template if:true={saleError}>
+                            <p class="error-note">⚠ {saleError}</p>
+                        </template>
+                        <div class="sale-form-grid">
+                            <div class="form-field">
+                                <label>Sale name</label>
+                                <input type="text" data-field="name" value={saleForm.name} oninput={handleSaleField} placeholder="e.g. EOFY Wine Blowout" />
+                            </div>
+                            <div class="form-field">
+                                <label>Discount %</label>
+                                <input type="number" min="1" max="99" step="0.5" data-field="discountPercent" value={saleForm.discountPercent} oninput={handleSaleField} />
+                            </div>
+                            <div class="form-field">
+                                <label>Scope</label>
+                                <select data-field="scope" onchange={handleSaleField}>
+                                    <template for:each={scopeOptions} for:item="opt">
+                                        <option key={opt.value} value={opt.value} selected={opt.selected}>{opt.label}</option>
+                                    </template>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label>Start date</label>
+                                <input type="date" data-field="startDate" value={saleForm.startDate} oninput={handleSaleField} />
+                            </div>
+                            <div class="form-field">
+                                <label>End date</label>
+                                <input type="date" data-field="endDate" value={saleForm.endDate} oninput={handleSaleField} />
+                            </div>
+                            <div class="form-field form-field-wide">
+                                <label>Image URL</label>
+                                <input type="url" data-field="imageUrl" value={saleForm.imageUrl} oninput={handleSaleField} placeholder="https://…/banner.jpg" />
+                            </div>
+                            <div class="form-field form-field-wide">
+                                <label>Description</label>
+                                <textarea data-field="description" class="sale-desc-input" rows="2" oninput={handleSaleField}></textarea>
+                            </div>
+                            <div class="form-field">
+                                <label class="check-label">
+                                    <input type="checkbox" data-field="active" checked={saleForm.active} onchange={handleSaleField} />
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+
+                        <template if:true={isScopedSale}>
+                            <div class="sale-products-block">
+                                <h4 class="block-title">Products on this sale</h4>
+                                <template if:false={canPickProducts}>
+                                    <p class="empty-note">Save the sale first, then add products to it.</p>
+                                </template>
+                                <template if:true={canPickProducts}>
+                                    <div class="chip-row">
+                                        <template for:each={editingSaleProducts} for:item="p">
+                                            <span key={p.key} class="product-chip">
+                                                {p.productName}
+                                                <button class="chip-remove" data-id={p.saleProductId} onclick={handleRemoveSaleProduct} title="Remove">✕</button>
+                                            </span>
+                                        </template>
+                                    </div>
+                                    <div class="product-search">
+                                        <input type="text" value={productSearchTerm} oninput={handleProductSearch} placeholder="Search products to add…" />
+                                        <template if:true={hasProductResults}>
+                                            <ul class="search-results">
+                                                <template for:each={productResults} for:item="r">
+                                                    <li key={r.key}>
+                                                        <button class="result-row" data-id={r.productId} onclick={handleAddSaleProduct}>
+                                                            <span>{r.name}</span>
+                                                            <span class="result-price">{r.priceLabel}</span>
+                                                        </button>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <div class="form-actions">
+                            <button class="pill-btn pill-active" onclick={handleSaveSale} disabled={saleSaving}>
+                                <template if:true={saleSaving}>Saving…</template>
+                                <template if:false={saleSaving}>Save Sale</template>
+                            </button>
+                            <button class="pill-btn" onclick={handleSaleFormCancel}>Close</button>
+                        </div>
+                    </section>
+                </template>
+
+                <template if:true={hasSales}>
+                    <div class="sale-list">
+                        <template for:each={saleRows} for:item="sale">
+                            <section key={sale.key} class="card sale-card">
+                                <template if:true={sale.hasImage}>
+                                    <img class="sale-image" src={sale.imageUrl} alt={sale.name} loading="lazy" />
+                                </template>
+                                <div class="sale-body">
+                                    <div class="sale-head-row">
+                                        <h3 class="card-title sale-name">{sale.name}</h3>
+                                        <span class={sale.statusClass}>{sale.statusLabel}</span>
+                                    </div>
+                                    <p class="sale-meta">
+                                        <strong>{sale.pctLabel}</strong> · {sale.scopeLabel} · {sale.dateLabel}
+                                    </p>
+                                    <template if:true={sale.description}>
+                                        <p class="sale-desc">{sale.description}</p>
+                                    </template>
+                                    <div class="sale-actions">
+                                        <button class="pill-btn" data-id={sale.saleId} onclick={handleEditSale}>Edit</button>
+                                        <button class="pill-btn pill-danger" data-id={sale.saleId} onclick={handleDeleteSale}>{sale.deleteLabel}</button>
+                                    </div>
+                                </div>
+                            </section>
+                        </template>
+                    </div>
+                </template>
+                <template if:false={hasSales}>
+                    <section class="card">
+                        <p class="empty-note">No sales yet — create your first one with “+ New Sale”.</p>
+                    </section>
+                </template>
+            </template>
+
+            <!-- ═══════════ REPORTS ═══════════ -->
+            <template if:true={isReports}>
+                <header class="page-head">
+                    <div>
+                        <h1 class="page-title">Reports</h1>
+                        <p class="page-sub">Jump into any report or dashboard</p>
+                    </div>
+                    <div class="range-pills">
+                        <button class="pill-btn" onclick={handleAllReports}>All reports ↗</button>
+                        <button class="pill-btn" onclick={handleAllDashboards}>All dashboards ↗</button>
+                    </div>
+                </header>
+
+                <div class="two-col">
+                    <section class="card">
+                        <h3 class="card-title">Reports</h3>
+                        <template if:true={hasReports}>
+                            <ul class="link-list">
+                                <template for:each={reportRows} for:item="row">
+                                    <li key={row.key}>
+                                        <button class="link-row" data-id={row.recordId} data-type="Report" onclick={handleLinkClick}>
+                                            <span class="link-icon">📄</span>
+                                            <span class="link-body">
+                                                <span class="cell-main">{row.name}</span>
+                                                <span class="cell-sub">{row.folder}</span>
+                                            </span>
+                                            <span class="link-go">→</span>
+                                        </button>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template if:false={hasReports}>
+                            <p class="empty-note">No reports found.</p>
+                        </template>
+                    </section>
+
+                    <section class="card">
+                        <h3 class="card-title">Dashboards</h3>
+                        <template if:true={hasDashboards}>
+                            <ul class="link-list">
+                                <template for:each={dashboardRows} for:item="row">
+                                    <li key={row.key}>
+                                        <button class="link-row" data-id={row.recordId} data-type="Dashboard" onclick={handleLinkClick}>
+                                            <span class="link-icon">📊</span>
+                                            <span class="link-body">
+                                                <span class="cell-main">{row.name}</span>
+                                                <span class="cell-sub">{row.folder}</span>
+                                            </span>
+                                            <span class="link-go">→</span>
+                                        </button>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template if:false={hasDashboards}>
+                            <p class="empty-note">No dashboards found.</p>
+                        </template>
+                    </section>
+                </div>
+            </template>
+
+            <template if:true={loadError}>
+                <p class="error-note">⚠ {loadError}</p>
+            </template>
+
+        </main>
+    </div>
+</template>

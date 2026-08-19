@@ -1,0 +1,112 @@
+<template>
+    <div class="site-shell">
+        <!-- 18+ entry gate — session-scoped, blocks the whole site until confirmed -->
+        <c-age-verification></c-age-verification>
+
+        <c-pnp-v2-announcement-bar></c-pnp-v2-announcement-bar>
+
+        <c-pnp-v2-header
+            cart-count={cartCount}
+            selected-family={selectedFamily}
+            ontogglecart={handleToggleCart}
+            onfamilychange={handleFamilyChange}
+            onsearchchange={handleSearchChange}
+            onviewchange={handleViewChange}
+            onproductselect={handleProductSelect}>
+        </c-pnp-v2-header>
+
+        <main class="main-content">
+
+            <!-- Home banner: hero + perks + new products + member offers + category tiles + CTA -->
+            <template if:true={showHomeBanner}>
+                <c-pnp-v2-home-banner
+                    onfamilychange={handleFamilyChange}
+                    onviewchange={handleViewChange}
+                    onproductselect={handleProductSelect}
+                    oncartcountchange={handleCartCountChange}>
+                </c-pnp-v2-home-banner>
+            </template>
+
+            <!-- Products grid — shown when browsing a category or searching -->
+            <template if:true={showProducts}>
+                <c-pnp-v2-product-grid
+                    selected-family={selectedFamily}
+                    selected-sub-family={selectedSubFamily}
+                    search-key={searchKey}
+                    oncartcountchange={handleCartCountChange}
+                    onproductselect={handleProductSelect}>
+                </c-pnp-v2-product-grid>
+            </template>
+
+            <!-- Product Detail -->
+            <template if:true={showProductDetail}>
+                <c-pnp-v2-product-detail
+                    product-id={selectedProductId}
+                    oncartcountchange={handleCartCountChange}
+                    onviewchange={handleViewChange}
+                    onproductselect={handleProductSelect}>
+                </c-pnp-v2-product-detail>
+            </template>
+
+            <!-- Cart page -->
+            <template if:true={showCart}>
+                <c-cart
+                    onviewchange={handleViewChange}
+                    oncartcleared={handleCartCleared}>
+                </c-cart>
+            </template>
+
+            <!-- Checkout -->
+            <template if:true={showCheckout}>
+                <c-checkout
+                    onviewchange={handleViewChange}
+                    oncartcleared={handleCartCleared}>
+                </c-checkout>
+            </template>
+
+            <!-- Login / Register -->
+            <template if:true={showLogin}>
+                <c-pnp-v2-member-auth onviewchange={handleViewChange}></c-pnp-v2-member-auth>
+            </template>
+
+            <!-- Membership Dashboard -->
+            <template if:true={showMemberCard}>
+                <c-pnp-v2-member-dashboard onviewchange={handleViewChange}></c-pnp-v2-member-dashboard>
+            </template>
+
+            <!-- About Us -->
+            <template if:true={showAboutUs}>
+                <c-about-us></c-about-us>
+            </template>
+
+            <!-- Terms of Use -->
+            <template if:true={showTerms}>
+                <c-terms-of-use></c-terms-of-use>
+            </template>
+
+            <!-- Privacy Policy -->
+            <template if:true={showPrivacy}>
+                <c-privacy-policy></c-privacy-policy>
+            </template>
+
+        </main>
+
+        <!-- Cart Drawer Popup -->
+        <template if:true={isCartOpen}>
+            <c-pnp-v2-cart-drawer
+                onclose={handleToggleCart}
+                onviewcart={handleViewCart}
+                oncartcountchange={handleCartCountChange}>
+            </c-pnp-v2-cart-drawer>
+        </template>
+
+        <!-- Mini "added to cart" toast (GSAP slide-in, auto-dismiss) -->
+        <c-pnp-v2-cart-toast onviewcart={handleToastViewCart}></c-pnp-v2-cart-toast>
+
+        <c-pnp-v2-footer
+            onviewchange={handleViewChange}
+            onfamilychange={handleFamilyChange}>
+        </c-pnp-v2-footer>
+
+    </div>
+</template>

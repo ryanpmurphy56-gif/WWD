@@ -1,0 +1,104 @@
+/* The canvas is the responsive container every section measures itself against.
+   It has to be a container query rather than a media query: in the editor the
+   canvas sits inside a max-width device frame in a normal desktop window, so
+   previewing mobile never narrows the viewport and @media would not fire. The
+   host's width IS the device width, in the editor and on a published page
+   alike, so sections stack off this. */
+:host {
+  display:block;
+  container: wscanvas / inline-size;
+}
+.canvas {
+  position:relative;
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+}
+
+.canvas__fab {
+  position:absolute;
+  top:0.75rem;
+  left:0.75rem;
+  z-index:56;
+  width:2.4rem;
+  height:2.4rem;
+  border-radius:999px;
+  border:none;
+  background:#0a0a0a;
+  color:#fff;
+  font-size:1.3rem;
+  line-height:1;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+.canvas__fab:hover { background:#1a1a1a; }
+
+/* drag mode: kill text selection so sweeping the pointer across content
+   doesn't paint selections through every section on the way */
+.canvas_dragging {
+  cursor:grabbing;
+  user-select:none;
+}
+
+/* multi-select action bar: sticky so it rides the bottom of the scrollport
+   while a multi-selection exists, whatever the page height */
+.multibar {
+  position:sticky;
+  bottom:1rem;
+  z-index:58;
+  display:flex;
+  align-items:center;
+  gap:0.35rem;
+  width:max-content;
+  max-width:calc(100% - 2rem);
+  flex-wrap:wrap;
+  margin:1rem auto 0;
+  padding:0.4rem 0.6rem;
+  background:rgba(10,10,10,0.92);
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
+  font:500 0.75rem/1 system-ui, sans-serif;
+}
+.multibar__count {
+  color:#fff;
+  font-weight:700;
+  padding:0 0.35rem;
+  white-space:nowrap;
+}
+.multibar__sep {
+  width:1px;
+  height:1.2rem;
+  background:rgba(255,255,255,0.2);
+}
+.multibar__btn {
+  display:inline-flex;
+  align-items:center;
+  gap:0.3rem;
+  padding:0.4rem 0.55rem;
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font:inherit;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.multibar__btn:hover:not(:disabled) { background:rgba(255,255,255,0.28); }
+.multibar__btn:disabled { opacity:0.35; cursor:default; }
+.multibar__btn_danger:hover:not(:disabled) { background:#c0392b; }
+.multibar__btn_quiet { background:transparent; opacity:0.75; }
+
+/* the label chip that rides alongside the pointer during a drag */
+.canvas__dragchip {
+  position:absolute;
+  z-index:60;
+  pointer-events:none;
+  padding:0.3rem 0.6rem;
+  background:rgba(10,10,10,0.88);
+  color:#fff;
+  font:600 0.72rem/1 system-ui, sans-serif;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  border-radius:5px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+}

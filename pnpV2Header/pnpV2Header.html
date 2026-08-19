@@ -1,0 +1,108 @@
+<template>
+    <header class="header-shell">
+
+        <!-- Utility row: login + cart -->
+        <div class="utility-row">
+            <div class="utility-inner">
+                <div class="utility-spacer"></div>
+                <div class="utility-actions">
+                    <!-- Guest: show Login button -->
+                    <template if:true={isGuestUser}>
+                        <button class="utility-btn login-btn" onclick={handleLoginOrMemberClick}>
+                            Sign In / Register
+                        </button>
+                    </template>
+                    <!-- Logged in: show Membership Card button -->
+                    <template if:false={isGuestUser}>
+                        <button class="utility-btn member-btn" onclick={handleLoginOrMemberClick}>
+                            My Membership Card
+                        </button>
+                    </template>
+                    <button class="utility-btn cart-btn" onclick={handleCartClick}>
+                        <span class="cart-icon">🛒</span>
+                        <span>{cartLabel}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main row: logo + search -->
+        <div class="main-row">
+            <div class="main-inner">
+                <button class="brand-wrap" onclick={handleHomeClick} title="Go to home">
+                    <img src={logoSrc} alt="Point &amp; Pour" class="brand-logo" />
+                </button>
+
+                <div class="search-wrap">
+                    <input class="search-input" type="text"
+                        placeholder="Search products, brands or phrases..."
+                        value={searchKey}
+                        oninput={handleSearchInput}
+                        onkeyup={handleSearchKeyUp}
+                        onblur={handleSearchBlur} />
+                    <button class="search-btn" onclick={handleSearchSubmit} title="Search">🔎</button>
+
+                    <!-- Search suggestions dropdown -->
+                    <template if:true={showDropdown}>
+                        <div class="search-dropdown">
+                            <template for:each={searchSuggestions} for:item="suggestion">
+                                <div key={suggestion.Id} class="suggestion-item"
+                                     data-id={suggestion.Id}
+                                     onmousedown={handleSuggestionClick}>
+                                    <template if:true={suggestion.image}>
+                                        <img class="suggestion-img" src={suggestion.image} alt="" />
+                                    </template>
+                                    <template if:false={suggestion.image}>
+                                        <div class="suggestion-img suggestion-img--placeholder">🍷</div>
+                                    </template>
+                                    <div class="suggestion-text">
+                                        <span class="suggestion-name">{suggestion.Name}</span>
+                                        <span class="suggestion-price">{suggestion.price}</span>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="main-right-spacer"></div>
+            </div>
+        </div>
+
+        <!-- Nav row: category links + full-width mega menu -->
+        <div class="nav-row" onmouseleave={handleNavLeave}>
+            <div class="nav-inner">
+                <template for:each={navItems} for:item="nav">
+                    <div key={nav.id} class="nav-item" data-nav={nav.id} onmouseenter={handleNavHover}>
+                        <button class={nav.btnClass} data-family={nav.family} onclick={handleNavClick}>
+                            {nav.label}
+                        </button>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Mega menu: full-width panel shared across all nav items -->
+            <template if:true={showMegaMenu}>
+                <div class="mega-menu" onmouseenter={handleMegaEnter} onmouseleave={handleNavLeave}>
+                    <div class="mega-inner">
+                        <div class="mega-category-col">
+                            <span class="mega-category-label">{activeMegaLabel}</span>
+                            <span class="mega-category-hint">Browse all ›</span>
+                        </div>
+                        <div class="mega-divider"></div>
+                        <div class="mega-subs">
+                            <template for:each={activeNavSubs} for:item="sub">
+                                <button key={sub.value} class="mega-item"
+                                        data-family={activeMegaFamily} data-sub={sub.value}
+                                        onclick={handleSubNavClick}>
+                                    {sub.label}
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+    </header>
+</template>

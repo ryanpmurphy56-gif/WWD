@@ -1,0 +1,78 @@
+<template>
+  <div
+    class={canvasClass}
+    onfocusin={handleCanvasFocusIn}
+    onfocusout={handleCanvasFocusOut}
+    onpaste={handleCanvasPaste}
+    onsectiondragstart={handleDragStart}
+    onsectiondragover={handleDragOver}
+  >
+    <template lwc:if={isEdit}>
+      <button type="button" class="canvas__fab" title="Add an element" onclick={toggleElementPanel}>+</button>
+      <template lwc:if={elementPanelOpen}>
+        <c-element-panel onpick={handleElementPick}></c-element-panel>
+      </template>
+    </template>
+
+    <template lwc:if={showEmptyState}>
+      <div class="canvas__empty">
+        <p>This page has no sections yet.</p>
+        <p class="canvas__empty-hint">Add one from the section library.</p>
+      </div>
+    </template>
+
+    <!-- The per-type switch and the edit frame both live in sectionSlot, so a
+         section nested inside a row's column renders exactly like a top-level
+         one — same chrome, same controls, no duplicated branch list. -->
+    <template for:each={sections} for:item="s">
+      <c-section-slot
+        key={s.key}
+        node={s.node}
+        page-id={pageId}
+        mode={mode}
+        selected-section-ids={selectedSectionIds}
+        dragging-section-ids={draggingSectionIds}
+        globals={globals}
+        nav-menu={navMenu}
+        site-id={siteId}
+        index={s.index}
+        is-first={s.isFirst}
+        is-last={s.isLast}
+      ></c-section-slot>
+    </template>
+
+    <template lwc:if={richToolbarVisible}>
+      <c-rich-text-toolbar top={richToolbarTop} left={richToolbarLeft} onformat={handleFormat}></c-rich-text-toolbar>
+    </template>
+
+    <template lwc:if={dragging}>
+      <div class="canvas__dragchip" style={dragChipStyle}>{dragLabel}</div>
+    </template>
+
+    <template lwc:if={isLive}>
+      <c-site-cart site-id={siteId} has-shop={hasShopSection}></c-site-cart>
+    </template>
+
+    <!-- Multi-select action bar: floats above the bottom of the viewport while
+         two or more sections are selected. Structural ops call the store
+         directly (the repo convention); Group/Clear also change the selection,
+         which belongs to the shell, so those emit sectionselect. -->
+    <template lwc:if={showMultiBar}>
+      <div class="multibar">
+        <span class="multibar__count">{multiCount} selected</span>
+        <span class="multibar__sep"></span>
+        <button type="button" class="multibar__btn" title="Align left on the grid" data-align="left" onclick={handleMultiAlign}>⇤ Left</button>
+        <button type="button" class="multibar__btn" title="Center on the grid" data-align="center" onclick={handleMultiAlign}>↔ Center</button>
+        <button type="button" class="multibar__btn" title="Align right on the grid" data-align="right" onclick={handleMultiAlign}>⇥ Right</button>
+        <button type="button" class="multibar__btn" title="Stretch to full width" data-align="full" onclick={handleMultiAlign}>⛶ Full</button>
+        <button type="button" class="multibar__btn" title="Distribute across the grid — equal widths, stepped left to right" onclick={handleMultiDistribute}>▤ Distribute</button>
+        <span class="multibar__sep"></span>
+        <button type="button" class="multibar__btn" title="Wrap the selection in a Columns container" disabled={cannotGroup} onclick={handleMultiGroup}>▥ Group</button>
+        <button type="button" class="multibar__btn" title="Duplicate all selected" onclick={handleMultiDuplicate}>⧉ Duplicate</button>
+        <button type="button" class="multibar__btn multibar__btn_danger" title="Delete all selected" onclick={handleMultiDelete}>✕ Delete</button>
+        <span class="multibar__sep"></span>
+        <button type="button" class="multibar__btn multibar__btn_quiet" title="Clear selection" onclick={handleMultiClear}>Clear</button>
+      </div>
+    </template>
+  </div>
+</template>

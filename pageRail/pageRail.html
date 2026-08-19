@@ -1,0 +1,123 @@
+<template>
+  <div class="rail">
+    <div class="rail__head">
+      <button type="button" class="rail__toggle" onclick={togglePages} aria-expanded={pagesOpen}>
+        <span class="rail__chevron">{pagesChevron}</span>
+        <span class="rail__title">Pages</span>
+      </button>
+      <button type="button" class="rail__add" title="Add page" onclick={handleAdd}>+ Page</button>
+    </div>
+
+    <template lwc:if={pagesOpen}>
+    <ul class="rail__list">
+      <template for:each={rows} for:item="p">
+        <li key={p.pageId} class={p.rowClass}>
+          <div class="row__main" data-page-id={p.pageId} onclick={handleSelect}>
+            <template lwc:if={p.editing}>
+              <input
+                class="row__input"
+                type="text"
+                value={p.title}
+                data-page-id={p.pageId}
+                onblur={handleRenameCommit}
+                onkeydown={handleRenameKey}
+              />
+            </template>
+            <template lwc:else>
+              <span class="row__title">{p.title}</span>
+              <template lwc:if={p.isHome}>
+                <span class="row__badge">Home</span>
+              </template>
+            </template>
+          </div>
+
+          <div class="row__actions">
+            <button
+              type="button"
+              class={p.homeClass}
+              title="Set as Home"
+              data-page-id={p.pageId}
+              onclick={handleSetHome}
+            >★</button>
+            <button
+              type="button"
+              class={p.navClass}
+              title={p.navTitle}
+              data-page-id={p.pageId}
+              onclick={handleToggleNav}
+            >☰</button>
+            <button
+              type="button"
+              class="act"
+              title="Rename"
+              data-page-id={p.pageId}
+              onclick={handleRenameStart}
+            >✎</button>
+            <button
+              type="button"
+              class="act"
+              title="Duplicate page"
+              data-page-id={p.pageId}
+              onclick={handleDuplicate}
+            >⎘</button>
+            <button
+              type="button"
+              class="act"
+              title="Move up"
+              data-page-id={p.pageId}
+              disabled={p.isFirst}
+              onclick={handleMoveUp}
+            >↑</button>
+            <button
+              type="button"
+              class="act"
+              title="Move down"
+              data-page-id={p.pageId}
+              disabled={p.isLast}
+              onclick={handleMoveDown}
+            >↓</button>
+            <button
+              type="button"
+              class="act act_danger"
+              title="Delete page"
+              data-page-id={p.pageId}
+              disabled={onlyOnePage}
+              onclick={handleDelete}
+            >✕</button>
+          </div>
+        </li>
+      </template>
+    </ul>
+    </template>
+
+    <template lwc:if={pickerOpen}>
+      <c-page-template-picker
+        onpick={handlePickTemplate}
+        onclose={handlePickerClose}
+      ></c-page-template-picker>
+    </template>
+
+    <div class="rail__head rail__head_sections">
+      <button type="button" class="rail__toggle" onclick={toggleSections} aria-expanded={sectionsOpen}>
+        <span class="rail__chevron">{sectionsChevron}</span>
+        <span class="rail__title">Sections</span>
+      </button>
+    </div>
+    <template lwc:if={sectionsOpen}>
+    <div class="rail__sections">
+      <template for:each={sectionTypes} for:item="t">
+        <button
+          key={t.type}
+          type="button"
+          class="stile"
+          data-type={t.type}
+          onclick={handleSectionPick}
+        >
+          <span class="stile__thumb">{t.thumb}</span>
+          <span class="stile__label">{t.label}</span>
+        </button>
+      </template>
+    </div>
+    </template>
+  </div>
+</template>

@@ -1,0 +1,19 @@
+:host {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    background: #ffffff;
+    min-height: 100vh;
+}
+
+.site-shell {
+    width: 100%;
+    max-width: 100%;
+    background: #ffffff;
+    min-height: 100vh;
+}
+
+.main-content {
+    width: 100%;
+    background: #ffffff;
+}

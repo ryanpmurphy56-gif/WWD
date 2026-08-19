@@ -1,0 +1,121 @@
+<template>
+    <div class="page-shell">
+        <div class="auth-card">
+            <div class="title-wrap">
+                <h1>POINT &amp; POUR</h1>
+                <p>Member Login &amp; Registration</p>
+            </div>
+
+            <div class="tab-row">
+                <button class={signInTabClass} onclick={showSignIn} type="button">Sign In</button>
+                <button class={createTabClass} onclick={showCreateAccount} type="button">Create Account</button>
+            </div>
+
+            <template if:true={errorMessage}>
+                <div class="message-box error-box">{errorMessage}</div>
+            </template>
+            <template if:true={successMessage}>
+                <div class="message-box success-box">{successMessage}</div>
+            </template>
+
+            <!-- SIGN IN -->
+            <template if:true={isSignInMode}>
+                <div class="form-section">
+                    <div class="field-block">
+                        <label>Email Address</label>
+                        <input type="email" value={loginEmail} oninput={handleLoginEmailChange} />
+                    </div>
+                    <div class="field-block">
+                        <label>Password</label>
+                        <input type="password" value={loginPassword} oninput={handleLoginPasswordChange} />
+                    </div>
+                    <button class="primary-btn" onclick={handleLogin} disabled={isLoading}>
+                        <template if:true={isLoading}>Signing In...</template>
+                        <template if:false={isLoading}>Sign In</template>
+                    </button>
+                    <div class="switch-text">
+                        <button type="button" class="inline-link" onclick={showForgotPassword}>Forgot your password?</button>
+                    </div>
+                    <div class="switch-text">
+                        Need an account?
+                        <button type="button" class="inline-link" onclick={showCreateAccount}>Create one here</button>
+                    </div>
+                </div>
+            </template>
+
+            <!-- FORGOT PASSWORD -->
+            <template if:true={isForgotMode}>
+                <div class="form-section">
+                    <p class="register-note">
+                        Enter your account email and we'll send you a link to reset your password.
+                    </p>
+                    <div class="field-block">
+                        <label>Email Address</label>
+                        <input type="email" value={forgotEmail} oninput={handleForgotEmailChange} />
+                    </div>
+                    <button class="primary-btn" onclick={handleForgotSubmit} disabled={isLoading}>
+                        <template if:true={isLoading}>Sending...</template>
+                        <template if:false={isLoading}>Send Reset Link</template>
+                    </button>
+                    <div class="switch-text">
+                        Remembered it?
+                        <button type="button" class="inline-link" onclick={showSignIn}>Back to sign in</button>
+                    </div>
+                </div>
+            </template>
+
+            <!-- CREATE ACCOUNT
+                 FIX: switched from SelfRegController to AuthControllerV2
+                 - Collects birthdate (age verification) and phone
+                 - No password fields — a setup email is sent instead
+                 - SelfRegController used wrong profile name and hardcoded birthdate/phone
+            -->
+            <template if:true={isRegisterMode}>
+                <div class="form-section">
+                    <p class="register-note">
+                        Create your free account — choose a password and you'll be signed in right away.
+                    </p>
+                    <div class="two-col">
+                        <div class="field-block">
+                            <label>First Name *</label>
+                            <input type="text" value={firstName} oninput={handleFirstNameChange} />
+                        </div>
+                        <div class="field-block">
+                            <label>Last Name *</label>
+                            <input type="text" value={lastName} oninput={handleLastNameChange} />
+                        </div>
+                    </div>
+                    <div class="field-block">
+                        <label>Email Address *</label>
+                        <input type="email" value={registerEmail} oninput={handleRegisterEmailChange} />
+                    </div>
+                    <div class="field-block">
+                        <label>Date of Birth * (must be 18+)</label>
+                        <input type="date" value={birthdate} oninput={handleBirthdateChange} />
+                    </div>
+                    <div class="field-block">
+                        <label>Phone Number *</label>
+                        <input type="tel" value={phoneNumber} placeholder="04XX XXX XXX" oninput={handlePhoneChange} />
+                    </div>
+                    <div class="field-block">
+                        <label>Password * (at least 8 characters)</label>
+                        <input type="password" value={registerPassword} oninput={handleRegisterPasswordChange} />
+                    </div>
+                    <div class="field-block">
+                        <label>Confirm Password *</label>
+                        <input type="password" value={registerPasswordConfirm} oninput={handleRegisterConfirmChange} />
+                    </div>
+                    <button class="primary-btn" onclick={handleRegister} disabled={isLoading}>
+                        <template if:true={isLoading}>Creating Account...</template>
+                        <template if:false={isLoading}>Create Account</template>
+                    </button>
+                    <div class="switch-text">
+                        Already have an account?
+                        <button type="button" class="inline-link" onclick={showSignIn}>Sign in</button>
+                    </div>
+                </div>
+            </template>
+
+        </div>
+    </div>
+</template>

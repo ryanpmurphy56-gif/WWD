@@ -1,0 +1,137 @@
+.card-shell {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(25, 0, 35, 0.08);
+    overflow: hidden;
+}
+
+.card-head {
+    padding: 18px 24px;
+    border-bottom: 1px solid #eee7f3;
+}
+
+.card-head h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #4b1744;
+}
+
+/* Larger wallet-style card, barcode-first (QR section removed) */
+.membership-card {
+    padding: 34px 32px 26px;
+    background: linear-gradient(135deg, #3e0f44 0%, #6f1d5b 100%);
+    color: #ffffff;
+    margin: 24px;
+    border-radius: 20px;
+    max-width: 620px;
+    box-shadow: 0 14px 30px rgba(62, 15, 68, 0.35);
+}
+
+.card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.brand {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+
+.member-tag {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    color: #ffffff;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.detail-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 18px;
+}
+
+.detail-row .detail-block { margin-bottom: 0; }
+
+.detail-right { text-align: right; }
+
+.label {
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    letter-spacing: 0.07em;
+}
+
+.value {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.value-name { font-size: 22px; letter-spacing: 0.02em; }
+.value-small { font-size: 18px; }
+
+.barcode-block {
+    margin-bottom: 18px;
+}
+
+.barcode {
+    width: 100%;
+    max-height: 110px;
+    object-fit: contain;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+}
+
+.scan-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    min-height: 60px;
+    text-align: center;
+}
+
+.card-footer-row {
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 14px;
+}
+
+.card-footer-text {
+    font-size: 12px;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.empty-state {
+    padding: 24px 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.empty-sub {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}

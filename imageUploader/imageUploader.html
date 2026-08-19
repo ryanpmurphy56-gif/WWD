@@ -1,0 +1,23 @@
+<template>
+    <div class="uploader">
+        <template lwc:if={hasImage}>
+            <img class="uploader__thumb" src={imageUrl} alt="Selected image" />
+        </template>
+        <div class="uploader__actions">
+            <button type="button" class="uploader__btn" onclick={openPicker} disabled={uploading}>{buttonLabel}</button>
+            <template lwc:if={canBrowse}>
+                <button type="button" class="uploader__btn" onclick={openLibrary} disabled={uploading}>Library</button>
+            </template>
+            <template lwc:if={hasImage}>
+                <button type="button" class="uploader__remove" onclick={handleRemove}>Remove</button>
+            </template>
+        </div>
+        <input type="file" accept="image/*" onchange={handleChange} />
+        <template lwc:if={error}>
+            <p class="uploader__error">{error}</p>
+        </template>
+        <template lwc:if={libraryOpen}>
+            <c-asset-library site-id={siteId} onselect={handleLibrarySelect} onclose={closeLibrary}></c-asset-library>
+        </template>
+    </div>
+</template>

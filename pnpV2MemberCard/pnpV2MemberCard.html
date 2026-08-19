@@ -1,0 +1,53 @@
+<template>
+    <div class="card-shell">
+        <div class="card-head"><h2>Membership Card</h2></div>
+        <template if:true={memberCard}>
+            <div class="membership-card">
+                <div class="card-top-row">
+                    <div class="brand">POINT &amp; POUR</div>
+                    <div class="member-tag">MEMBER</div>
+                </div>
+
+                <template if:true={memberName}>
+                    <div class="detail-block">
+                        <span class="label">Member</span>
+                        <span class="value value-name">{memberName}</span>
+                    </div>
+                </template>
+
+                <div class="detail-row">
+                    <div class="detail-block">
+                        <span class="label">Member Number</span>
+                        <span class="value">{memberNumber}</span>
+                    </div>
+                    <template if:true={expiryLabel}>
+                        <div class="detail-block detail-right">
+                            <span class="label">Valid until</span>
+                            <span class="value value-small">{expiryLabel}</span>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="barcode-block">
+                    <template if:true={barcodeUrl}>
+                        <img class="barcode" src={barcodeUrl} alt="Membership Barcode" onerror={handleBarcodeError} />
+                        <div class="scan-placeholder" style="display:none">Barcode unavailable — quote your member number in-store</div>
+                    </template>
+                    <template if:false={barcodeUrl}>
+                        <div class="scan-placeholder">Not available</div>
+                    </template>
+                </div>
+
+                <div class="card-footer-row">
+                    <span class="card-footer-text">Present this card in-store for member pricing</span>
+                </div>
+            </div>
+        </template>
+        <template if:false={memberCard}>
+            <div class="empty-state">
+                <p>No membership card found.</p>
+                <p class="empty-sub">Visit us in-store to sign up for a free membership.</p>
+            </div>
+        </template>
+    </div>
+</template>

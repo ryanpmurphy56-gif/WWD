@@ -1,0 +1,7 @@
+<template>
+    <button type="button" class={cssClass} onclick={handleClick} title={palette.id}>
+        <template for:each={bands} for:item="b">
+            <span key={b.key} class="band" style={b.style}></span>
+        </template>
+    </button>
+</template>

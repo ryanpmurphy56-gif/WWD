@@ -1,0 +1,152 @@
+<template>
+    <div class="home-banner-wrap">
+
+        <!-- ── Hero Banner ────────────────────────────────────────────── -->
+        <div class="hero-banner">
+            <div class="hero-deco hero-deco-1"></div>
+            <div class="hero-deco hero-deco-2"></div>
+            <div class="hero-inner">
+                <div class="hero-tag">Members Only</div>
+                <h1 class="hero-heading">Save 15% on your<br/>first order</h1>
+                <p class="hero-sub">Join Point &amp; Pour and unlock member pricing on hundreds of wines, spirits, beers and RTDs.</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" onclick={handleJoin}>Join for free</button>
+                    <button class="btn-outline" onclick={handleBrowse}>Browse all drinks</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Member Perks Strip ─────────────────────────────────────── -->
+        <div class="perks-strip">
+            <div class="perk">
+                <div class="perk-icon">★</div>
+                <span>Member pricing on 200+ products</span>
+            </div>
+            <div class="perk-divider"></div>
+            <div class="perk">
+                <div class="perk-icon">%</div>
+                <span>15% off your first order</span>
+            </div>
+            <div class="perk-divider"></div>
+            <div class="perk">
+                <div class="perk-icon">↻</div>
+                <span>Weekly rotating member offers</span>
+            </div>
+        </div>
+
+        <!-- ── New at Point & Pour ────────────────────────────────────── -->
+        <div class="section-wrap">
+            <div class="section-head">
+                <div class="section-title-row">
+                    <h2 class="section-title">New at Point &amp; Pour</h2>
+                    <div class="section-rule"></div>
+                </div>
+                <button class="see-all-btn" onclick={handleBrowse}>See all</button>
+            </div>
+            <div class="product-grid">
+                <template for:each={newProducts} for:item="product">
+                    <article key={product.Id} class="product-card" data-id={product.Id} onclick={handleCardClick}>
+                        <div class="badge badge-new">New</div>
+                        <div class="image-wrap">
+                            <img src={product.Product_Image_Field__c} alt={product.Name} class="product-image" />
+                        </div>
+                        <div class="card-body">
+                            <h3 class="product-name">{product.Name}</h3>
+                            <div class="price-block">
+                                <template if:true={product.showMemberPrice}>
+                                    <div class="price-line old-price-line">
+                                        <span class="price-label">Regular</span>
+                                        <span class="old-price">{product.formattedRegularPrice}</span>
+                                    </div>
+                                    <div class="price-line">
+                                        <span class="price-label member-label">Member</span>
+                                        <span class="member-price">{product.formattedMemberPrice}</span>
+                                    </div>
+                                </template>
+                                <template if:false={product.showMemberPrice}>
+                                    <div class="price-line">
+                                        <span class="single-price">{product.formattedRegularPrice}</span>
+                                    </div>
+                                </template>
+                            </div>
+                            <button class="add-btn" data-id={product.Id} onclick={handleAddToCart}>Add to Cart</button>
+                        </div>
+                    </article>
+                </template>
+            </div>
+        </div>
+
+        <!-- ── Member Offers ──────────────────────────────────────────── -->
+        <div class="section-wrap">
+            <div class="section-head">
+                <div class="section-title-row">
+                    <h2 class="section-title">Member Offers</h2>
+                    <div class="section-rule"></div>
+                </div>
+                <button class="see-all-btn" onclick={handleOffersClick}>See all</button>
+            </div>
+            <div class="product-grid">
+                <template for:each={memberOffers} for:item="product">
+                    <article key={product.Id} class="product-card" data-id={product.Id} onclick={handleCardClick}>
+                        <div class="badge badge-offer">Member</div>
+                        <div class="image-wrap">
+                            <img src={product.Product_Image_Field__c} alt={product.Name} class="product-image" />
+                        </div>
+                        <div class="card-body">
+                            <h3 class="product-name">{product.Name}</h3>
+                            <div class="price-block">
+                                <div class="price-line old-price-line">
+                                    <span class="price-label">Regular</span>
+                                    <span class="old-price">{product.formattedRegularPrice}</span>
+                                </div>
+                                <div class="price-line">
+                                    <span class="price-label member-label">Member</span>
+                                    <span class="member-price">{product.formattedMemberPrice}</span>
+                                </div>
+                            </div>
+                            <button class="add-btn" data-id={product.Id} onclick={handleAddToCart}>Add to Cart</button>
+                        </div>
+                    </article>
+                </template>
+            </div>
+        </div>
+
+        <!-- ── Category Tiles ─────────────────────────────────────────── -->
+        <div class="section-wrap">
+            <div class="section-head">
+                <div class="section-title-row">
+                    <h2 class="section-title">Shop by Category</h2>
+                    <div class="section-rule"></div>
+                </div>
+            </div>
+            <div class="cat-grid">
+                <button class="cat-tile cat-beer"    onclick={handleCatBeer}>
+                    <span class="cat-emoji">🍺</span>
+                    <span class="cat-name">Beer</span>
+                </button>
+                <button class="cat-tile cat-wine"    onclick={handleCatWine}>
+                    <span class="cat-emoji">🍷</span>
+                    <span class="cat-name">Wines</span>
+                </button>
+                <button class="cat-tile cat-spirits" onclick={handleCatSpirits}>
+                    <span class="cat-emoji">🥃</span>
+                    <span class="cat-name">Spirits</span>
+                </button>
+                <button class="cat-tile cat-rtd"     onclick={handleCatRtd}>
+                    <span class="cat-emoji">🥂</span>
+                    <span class="cat-name">RTD</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── CTA Banner ─────────────────────────────────────────────── -->
+        <div class="cta-banner">
+            <div class="cta-inner">
+                <h3 class="cta-heading">Unlock member pricing today</h3>
+                <p class="cta-sub">Join free and get 15% off your first order, plus access to weekly exclusive offers.</p>
+                <button class="cta-btn" onclick={handleJoin}>Create free account</button>
+            </div>
+        </div>
+
+    </div>
+</template>

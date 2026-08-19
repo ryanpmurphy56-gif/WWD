@@ -1,0 +1,20 @@
+<template>
+    <div class="dashboard-shell">
+        <div class="dashboard-inner">
+            <div class="welcome-card">
+                <h1>Member Dashboard</h1>
+                <p>Access your card, purchase history and account details.</p>
+            </div>
+            <div class="dashboard-grid">
+                <div class="left-column">
+                    <c-pnp-v2-member-card></c-pnp-v2-member-card>
+                    <c-pnp-v2-account-panel></c-pnp-v2-account-panel>
+                </div>
+                <div class="right-column">
+                    <c-pnp-v2-order-history></c-pnp-v2-order-history>
+                    <c-pnp-v2-wishlist></c-pnp-v2-wishlist>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,27 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Add a page">
+            <div class="dialog__head">
+                <span class="dialog__title">Add a page</span>
+                <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+            </div>
+
+            <p class="dialog__hint">Start from a template — you can change everything after.</p>
+            <div class="grid">
+                <template for:each={templates} for:item="t">
+                    <button
+                        key={t.id}
+                        type="button"
+                        class="tile"
+                        data-id={t.id}
+                        data-label={t.label}
+                        onclick={handlePick}
+                    >
+                        <span class="tile__thumb">{t.thumb}</span>
+                        <span class="tile__label">{t.label}</span>
+                    </button>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>
