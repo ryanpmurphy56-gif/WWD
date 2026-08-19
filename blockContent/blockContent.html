@@ -1,0 +1,280 @@
+<template>
+  <!-- ---- element primitives ---------------------------------------- -->
+  <template lwc:if={isText}>
+    <div
+      class="el el_text"
+      contenteditable={editableAttr}
+      onblur={handleTextBlur}
+    >
+      {textValue}
+    </div>
+  </template>
+
+  <template lwc:elseif={isButton}>
+    <a class="el el_button" href={buttonHref}>{buttonLabel}</a>
+  </template>
+
+  <template lwc:elseif={isImage}>
+    <template lwc:if={hasImage}>
+      <img class="el el_image" src={imageUrl} alt="" />
+    </template>
+    <template lwc:else>
+      <div class="el el_placeholder">Pick an image</div>
+    </template>
+  </template>
+
+  <template lwc:elseif={isVideo}>
+    <template lwc:if={hasVideoEmbed}>
+      <iframe
+        class="el el_video"
+        src={videoEmbedUrl}
+        title="Video"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </template>
+    <template lwc:elseif={hasVideoFile}>
+      <video class="el el_video" src={videoUrl} controls></video>
+    </template>
+    <template lwc:else>
+      <div class="el el_placeholder">Add a video</div>
+    </template>
+  </template>
+
+  <template lwc:elseif={isSpacer}>
+    <div class="el el_spacer"></div>
+  </template>
+
+  <!-- ---- section renderers (mirrors sectionSlot) -------------------- -->
+  <template lwc:elseif={isHero}>
+    <c-section-hero
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-hero>
+  </template>
+  <template lwc:elseif={isNavHeader}>
+    <c-section-nav-header
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      nav-menu={navMenu}
+      oncontentchange={handleContentChange}
+    ></c-section-nav-header>
+  </template>
+  <template lwc:elseif={isTextBlock}>
+    <c-section-text-block
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-text-block>
+  </template>
+  <template lwc:elseif={isImageText}>
+    <c-section-image-text
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-image-text>
+  </template>
+  <template lwc:elseif={isFeatures}>
+    <c-section-features
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-features>
+  </template>
+  <template lwc:elseif={isGallery}>
+    <c-section-gallery
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-gallery>
+  </template>
+  <template lwc:elseif={isTestimonials}>
+    <c-section-testimonials
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-testimonials>
+  </template>
+  <template lwc:elseif={isContact}>
+    <c-section-contact
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-contact>
+  </template>
+  <template lwc:elseif={isPricing}>
+    <c-section-pricing
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-pricing>
+  </template>
+  <template lwc:elseif={isFooter}>
+    <c-section-footer
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-footer>
+  </template>
+  <template lwc:elseif={isFaq}>
+    <c-section-faq
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-faq>
+  </template>
+  <template lwc:elseif={isCta}>
+    <c-section-cta
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-cta>
+  </template>
+  <template lwc:elseif={isStats}>
+    <c-section-stats
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-stats>
+  </template>
+  <template lwc:elseif={isTeam}>
+    <c-section-team
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-team>
+  </template>
+  <template lwc:elseif={isLogoStrip}>
+    <c-section-logo-strip
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-logo-strip>
+  </template>
+  <template lwc:elseif={isEmbed}>
+    <c-section-embed
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      oncontentchange={handleContentChange}
+    ></c-section-embed>
+  </template>
+  <template lwc:elseif={isBlogList}>
+    <c-section-blog-list
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      site-id={siteId}
+      oncontentchange={handleContentChange}
+    ></c-section-blog-list>
+  </template>
+  <template lwc:elseif={isShop}>
+    <c-section-shop
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      site-id={siteId}
+      oncontentchange={handleContentChange}
+    ></c-section-shop>
+  </template>
+  <template lwc:elseif={isTeamList}>
+    <c-section-team-list
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      site-id={siteId}
+      oncontentchange={handleContentChange}
+    ></c-section-team-list>
+  </template>
+  <template lwc:elseif={isPortfolioList}>
+    <c-section-portfolio-list
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      site-id={siteId}
+      oncontentchange={handleContentChange}
+    ></c-section-portfolio-list>
+  </template>
+  <template lwc:elseif={isTestimonialList}>
+    <c-section-testimonial-list
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      site-id={siteId}
+      oncontentchange={handleContentChange}
+    ></c-section-testimonial-list>
+  </template>
+  <template lwc:elseif={isEventList}>
+    <c-section-event-list
+      content={content}
+      section-style={blockStyle}
+      variant={variant}
+      layout={layout}
+      mode={childMode}
+      site-id={siteId}
+      oncontentchange={handleContentChange}
+    ></c-section-event-list>
+  </template>
+
+  <template lwc:else>
+    <div class="el el_placeholder">Unknown block: {type}</div>
+  </template>
+</template>

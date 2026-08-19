@@ -1,0 +1,16 @@
+<template>
+    <template if:true={showGate}>
+        <div class="overlay">
+            <div class="gate">
+                <img src={logoUrl} alt="Point and Pour" class="gate-logo"/>
+                <h1 class="gate-title">Welcome to Point & Pour</h1>
+                <p class="gate-text">You must be 18 or older to enter this site.</p>
+                <p class="gate-subtext">By clicking "I am 18 or older" you confirm you meet the legal drinking age in your state or territory.</p>
+                <div class="gate-buttons">
+                    <button class="confirm-btn" onclick={handleConfirm}>I am 18 or older</button>
+                    <button class="deny-btn" onclick={handleDeny}>I am under 18</button>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

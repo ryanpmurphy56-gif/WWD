@@ -1,0 +1,238 @@
+<template>
+    <div class="checkout-container">
+
+        <template if:true={isLoading}>
+            <div class="loading-state">
+                <lightning-spinner alternative-text="Loading checkout..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={orderPlaced}>
+            <div class="confirmation">
+                <div class="confirmation-icon">✅</div>
+                <h2 class="confirmation-title">Order Confirmed!</h2>
+                <p class="confirmation-sub">Thanks for your order — payment received. A confirmation email is on its way.</p>
+                <p class="confirmation-ref">Order number: <strong>{orderNumber}</strong></p>
+                <template if:true={isDelivery}>
+                    <p class="confirmation-sub">Delivering to <strong>{deliveryStreet}, {deliverySuburb}</strong>. Have your ID ready.</p>
+                </template>
+                <template if:false={isDelivery}>
+                    <p class="confirmation-sub">Ready for <strong>Click &amp; Collect</strong> within 2 hours. Bring your ID.</p>
+                </template>
+                <button class="primary-btn" onclick={handleContinueShopping}>Continue Shopping</button>
+            </div>
+        </template>
+
+        <template if:false={orderPlaced}>
+            <template if:false={isLoading}>
+
+                <!-- FIX: Guest gate — alcohol stores must verify identity before purchase -->
+                <template if:true={isGuest}>
+                    <div class="guest-gate">
+                        <div class="gate-icon">🔒</div>
+                        <h2 class="gate-title">Login Required to Checkout</h2>
+                        <p class="gate-body">
+                            As a licensed alcohol retailer, we require all customers to have
+                            a verified account before purchasing. It's free and only takes a minute.
+                        </p>
+                        <div class="gate-actions">
+                            <button class="primary-btn" onclick={handleGoToLogin}>
+                                Sign In or Create Account
+                            </button>
+                            <button class="secondary-btn" onclick={handleContinueShopping}>
+                                ← Continue Shopping
+                            </button>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Normal checkout for logged-in users -->
+                <template if:false={isGuest}>
+                    <h2 class="checkout-title">Checkout</h2>
+                    <div class="checkout-layout">
+
+                        <div class="checkout-form">
+
+                            <div class="form-section">
+                                <h3 class="section-title">1. How would you like to receive your order?</h3>
+                                <div class="fulfilment-options">
+                                    <button class={deliveryBtnClass} onclick={handleSelectDelivery}>🚚 Delivery</button>
+                                    <button class={collectBtnClass}  onclick={handleSelectCollect}>🏪 Click &amp; Collect</button>
+                                </div>
+                                <template if:true={isDelivery}>
+                                    <p class="fulfilment-note">Shipped via Australia Post. Postage is calculated from your postcode.</p>
+                                </template>
+                                <template if:false={isDelivery}>
+                                    <p class="fulfilment-note">Ready within 2 hours. Free. Bring your ID.</p>
+                                </template>
+                            </div>
+
+                            <template if:true={isDelivery}>
+                                <div class="form-section">
+                                    <h3 class="section-title">2. Delivery Address</h3>
+                                    <div class="form-group">
+                                        <label class="form-label">Street Address *</label>
+                                        <input type="text" class="form-input" placeholder="e.g. 12 Smith Street"
+                                            value={deliveryStreet} data-field="deliveryStreet" oninput={handleFieldChange} />
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label class="form-label">Suburb *</label>
+                                            <input type="text" class="form-input" placeholder="e.g. Fitzroy"
+                                                value={deliverySuburb} data-field="deliverySuburb" oninput={handleFieldChange} />
+                                        </div>
+                                        <div class="form-group form-group--small">
+                                            <label class="form-label">State</label>
+                                            <select class="form-input" data-field="deliveryState" onchange={handleFieldChange}>
+                                                <option value="VIC">VIC</option>
+                                                <option value="NSW">NSW</option>
+                                                <option value="QLD">QLD</option>
+                                                <option value="SA">SA</option>
+                                                <option value="WA">WA</option>
+                                                <option value="TAS">TAS</option>
+                                                <option value="NT">NT</option>
+                                                <option value="ACT">ACT</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group form-group--small">
+                                            <label class="form-label">Postcode *</label>
+                                            <input type="text" class="form-input" placeholder="3000" maxlength="4"
+                                                value={deliveryPostcode} data-field="deliveryPostcode" oninput={handleFieldChange} />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Delivery Notes (optional)</label>
+                                        <input type="text" class="form-input" placeholder="e.g. Leave at door"
+                                            value={deliveryNotes} data-field="deliveryNotes" oninput={handleFieldChange} />
+                                    </div>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" class="checkbox-input"
+                                            checked={saveAddress} onchange={handleSaveAddressToggle} />
+                                        <span>Save this as my default delivery address</span>
+                                    </label>
+                                </div>
+                            </template>
+
+                            <div class="form-section">
+                                <h3 class="section-title">{paymentStepLabel}. Payment</h3>
+                                <template if:false={stripeReady}>
+                                    <div class="stripe-loading">
+                                        <lightning-spinner size="small" alternative-text="Loading payment..."></lightning-spinner>
+                                        <span>Loading secure payment form...</span>
+                                    </div>
+                                </template>
+                                <div class="stripe-card-wrapper" lwc:ref="stripeCardWrapper">
+                                    <div class="stripe-card-input" lwc:ref="stripeCardElement"></div>
+                                    <div class="stripe-card-errors" lwc:ref="stripeCardErrors"></div>
+                                </div>
+                                <div class="stripe-badge">🔒 Payments secured by <strong>Stripe</strong></div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="section-title">Discount code</h3>
+                                <template if:false={hasAppliedCode}>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <input type="text" class="form-input" placeholder="e.g. WELCOME10"
+                                                value={codeInput} oninput={handleCodeInput} />
+                                        </div>
+                                        <button class="secondary-btn" onclick={handleApplyCode} disabled={codeChecking}>{applyCodeLabel}</button>
+                                    </div>
+                                </template>
+                                <template if:true={hasAppliedCode}>
+                                    <div class="form-row">
+                                        <span class="applied-code">✓ {appliedCode}</span>
+                                        <button class="secondary-btn" onclick={handleRemoveCode}>Remove</button>
+                                    </div>
+                                </template>
+                                <template if:true={codeMessage}>
+                                    <p class={codeMessageClass}>{codeMessage}</p>
+                                </template>
+                            </div>
+
+                            <div class="form-section">
+                                <h3 class="section-title">{ageStepLabel}. Age Verification</h3>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" class="checkbox-input"
+                                        checked={ageVerified} onchange={handleAgeVerify} />
+                                    <span>I confirm I am 18 years or older and will present valid photo ID on delivery or collection.</span>
+                                </label>
+                            </div>
+
+                            <template if:true={errorMessage}>
+                                <p class="validation-error">⚠️ {errorMessage}</p>
+                            </template>
+
+                            <button class="place-order-btn" onclick={handlePlaceOrder} disabled={isPlaceOrderDisabled}>
+                                <!-- FIX: placingLabel getter was missing — template would crash -->
+                                <template if:true={isPlacing}>{placingLabel}</template>
+                                <template if:false={isPlacing}>Pay &amp; Place Order — {formattedTotal}</template>
+                            </button>
+
+                            <p class="secure-note">Your card is charged now. No order is created unless payment succeeds.</p>
+                        </div>
+
+                        <div class="order-summary">
+                            <h3 class="summary-title">Order Summary</h3>
+                            <template if:true={hasItems}>
+                                <div class="summary-items">
+                                    <template for:each={cartItems} for:item="item">
+                                        <div key={item.cartItemId} class="summary-item">
+                                            <div class="summary-item-info">
+                                                <span class="summary-item-name">{item.productName}</span>
+                                                <span class="summary-item-qty">× {item.quantity}</span>
+                                            </div>
+                                            <span class="summary-item-total">{item.formattedLineTotal}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="summary-totals">
+                                    <div class="summary-row"><span>Subtotal</span><span>{formattedSubtotal}</span></div>
+                                    <template if:true={hasMemberSavings}>
+                                        <div class="summary-row savings-row">
+                                            <span>Member Savings</span><span>−{formattedMemberSavings}</span>
+                                        </div>
+                                    </template>
+                                    <template if:true={hasSaleSavings}>
+                                        <div class="summary-row savings-row">
+                                            <span>Sale Savings</span><span>−{formattedSaleSavings}</span>
+                                        </div>
+                                    </template>
+                                    <template if:true={hasFirstOrderDiscount}>
+                                        <div class="summary-row savings-row">
+                                            <span>New Member — 15% First Order</span><span>−{formattedFirstOrderDiscount}</span>
+                                        </div>
+                                    </template>
+                                    <template if:true={hasCodeDiscount}>
+                                        <div class="summary-row savings-row">
+                                            <span>Code {appliedCode}</span><span>−{formattedCodeDiscount}</span>
+                                        </div>
+                                    </template>
+                                    <template if:true={isDelivery}>
+                                        <div class="summary-row">
+                                            <span>{deliveryFeeLabel}</span>
+                                            <template if:true={quoteLoading}><span class="quote-loading">Calculating…</span></template>
+                                            <template if:false={quoteLoading}><span>{formattedDeliveryFee}</span></template>
+                                        </div>
+                                    </template>
+                                    <template if:false={isDelivery}>
+                                        <div class="summary-row"><span>Click &amp; Collect</span><span class="free-label">FREE</span></div>
+                                    </template>
+                                    <div class="summary-row total-row">
+                                        <span>Total</span><span class="total-amount">{formattedTotal}</span>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:false={hasItems}>
+                                <p class="empty-note">Your cart is empty.</p>
+                            </template>
+                        </div>
+
+                    </div>
+                </template>
+
+            </template>
+        </template>
+
+    </div>
+</template>

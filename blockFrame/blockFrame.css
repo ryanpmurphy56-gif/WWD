@@ -1,0 +1,109 @@
+.blk {
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.blk__body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Edit chrome ---------------------------------------------------------- */
+.blk_edit {
+  cursor: move;
+}
+.blk_edit:hover {
+  outline: 1px solid rgba(255, 91, 4, 0.45);
+}
+.blk_selected {
+  outline: 2px solid #ff5b04;
+}
+.blk_locked {
+  cursor: default;
+}
+.blk_locked.blk_selected {
+  outline-color: #8b93a0;
+}
+.blk_hidden {
+  opacity: 0.35;
+}
+
+/* Resize handles ------------------------------------------------------- */
+.h {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 1.5px solid #ff5b04;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+.h_nw {
+  left: -5px;
+  top: -5px;
+  cursor: nwse-resize;
+}
+.h_n {
+  left: 50%;
+  top: -5px;
+  margin-left: -5px;
+  cursor: ns-resize;
+}
+.h_ne {
+  right: -5px;
+  top: -5px;
+  cursor: nesw-resize;
+}
+.h_e {
+  right: -5px;
+  top: 50%;
+  margin-top: -5px;
+  cursor: ew-resize;
+}
+.h_se {
+  right: -5px;
+  bottom: -5px;
+  cursor: nwse-resize;
+}
+.h_s {
+  left: 50%;
+  bottom: -5px;
+  margin-left: -5px;
+  cursor: ns-resize;
+}
+.h_sw {
+  left: -5px;
+  bottom: -5px;
+  cursor: nesw-resize;
+}
+.h_w {
+  left: -5px;
+  top: 50%;
+  margin-top: -5px;
+  cursor: ew-resize;
+}
+
+.blk__rotate {
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  margin-left: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid #ff5b04;
+  cursor: grab;
+  box-sizing: border-box;
+}
+.blk__rotate::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 16px;
+  margin-left: -0.5px;
+  background: #ff5b04;
+}

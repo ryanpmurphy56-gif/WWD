@@ -1,0 +1,263 @@
+.cart-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+.cart-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 16px;
+}
+.loading-state {
+    display: flex;
+    justify-content: center;
+    padding: 80px 0;
+}
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+.item-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+.item-details { flex: 1; }
+.item-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 8px;
+}
+.item-pricing {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.regular-price { font-size: 16px; font-weight: 700; color: #333; }
+.member-price { font-size: 16px; font-weight: 700; color: #1b5e20; }
+.savings {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2e7d32;
+    background: #e8f5e9;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+.pack-note { font-size: 12px; color: #2e7d32; margin: 6px 0 0; font-weight: 600; }
+.stock-warning { font-size: 12px; color: #e65100; margin: 6px 0 0; font-weight: 600; }
+.stock-warning.out { color: #c62828; }
+.item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+.qty-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    color: #581d43;
+    cursor: pointer;
+    padding: 0 4px;
+    width: auto;
+}
+.qty-btn:hover { color: #9d164d; background: none; }
+.qty-input {
+    font-size: 16px;
+    font-weight: 700;
+    width: 52px;
+    text-align: center;
+    border: none;
+    background: transparent;
+    padding: 2px 0;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.qty-input:focus { outline: 2px solid #9d164d; border-radius: 3px; }
+.qty-btn:disabled { color: #ccc; cursor: not-allowed; }
+.qty-message {
+    background: #fff4e5;
+    border: 1px solid #f0c184;
+    color: #7a4a00;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.item-total { font-size: 16px; font-weight: 800; color: #333; min-width: 80px; text-align: right; }
+.remove-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+    width: auto;
+}
+.remove-btn:hover { color: #c62828; background: none; }
+
+/* SUMMARY */
+.cart-summary {
+    margin-top: 30px;
+    padding: 24px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    max-width: 400px;
+    margin-left: auto;
+}
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 15px;
+    color: #333;
+}
+.savings-row { color: #2e7d32; }
+.total-row {
+    border-top: 2px solid #ddd;
+    margin-top: 8px;
+    padding-top: 12px;
+    font-weight: 800;
+    font-size: 18px;
+}
+.total { color: #581d43; }
+
+/* CHECKOUT BUTTON - FIX: Added */
+.checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    margin-top: 20px;
+    background: #581d43;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.checkout-btn:hover { background: #7a285d; }
+
+/* CONTINUE SHOPPING - FIX: Styled as a subtle link-button */
+.continue-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: none;
+    color: #581d43;
+    border: 1px solid #581d43;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+}
+.continue-btn:hover { background: #f5eef8; }
+
+/* EMPTY STATE */
+.empty-cart {
+    text-align: center;
+    padding: 80px 20px;
+    color: #666;
+}
+.empty-icon { font-size: 64px; margin-bottom: 16px; }
+.empty-title { font-size: 22px; font-weight: 700; color: #333; margin-bottom: 8px; }
+.empty-sub { font-size: 15px; color: #888; margin-bottom: 28px; }
+.empty-cart button {
+    display: inline-block;
+    width: auto;
+    padding: 14px 36px;
+    background: #581d43;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.empty-cart button:hover { background: #7a285d; }
+
+@media (max-width: 640px) {
+    .cart-item { flex-wrap: wrap; }
+    .item-image img { width: 70px; height: 70px; }
+    .cart-summary { max-width: 100%; }
+}
+
+/* Clear cart — ghost danger button with inline two-step confirm */
+.clear-cart-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    background: transparent;
+    color: #9b3535;
+    border: 1px dashed #d9b8b8;
+    border-radius: 8px;
+    padding: 9px 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+.clear-cart-btn:hover { background: #fdf3f3; border-color: #c98f8f; }
+.clear-cart-icon { font-size: 14px; }
+
+.clear-confirm {
+    margin-top: 10px;
+    background: #fdf3f3;
+    border: 1px solid #e8c9c9;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+}
+.clear-confirm-text {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #7a2525;
+    margin-bottom: 10px;
+}
+.clear-confirm-actions { display: flex; gap: 8px; }
+.clear-confirm-yes {
+    flex: 1;
+    background: #b03030;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 0;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.clear-confirm-yes:hover { background: #962525; }
+.clear-confirm-no {
+    flex: 1;
+    background: #fff;
+    color: #444;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 9px 0;
+    font-size: 13px;
+    cursor: pointer;
+}
+.clear-confirm-no:hover { background: #f4f4f4; }

@@ -1,0 +1,36 @@
+<template>
+  <template lwc:if={isRendered}>
+    <div class={rootClass} style={rootStyle} onpointerdown={handleBodyDown}>
+      <div class="blk__body">
+        <c-block-content
+          kind={blockKind}
+          type={blockType}
+          content={blockContentData}
+          block-style={blockStyleData}
+          variant={blockVariant}
+          layout={blockLayout}
+          mode={mode}
+          globals={globals}
+          nav-menu={navMenu}
+          site-id={siteId}
+        ></c-block-content>
+      </div>
+
+      <template lwc:if={showHandles}>
+        <div
+          class="blk__rotate"
+          onpointerdown={handleRotateDown}
+          title="Rotate"
+        ></div>
+        <template for:each={handles} for:item="h">
+          <div
+            key={h.id}
+            class={h.cls}
+            data-handle={h.id}
+            onpointerdown={handleHandleDown}
+          ></div>
+        </template>
+      </template>
+    </div>
+  </template>
+</template>

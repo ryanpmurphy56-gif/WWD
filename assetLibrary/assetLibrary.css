@@ -1,0 +1,220 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 10, 0.55);
+    padding: 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+.dialog {
+    width: 100%;
+    max-width: 560px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+.dialog__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid #eef0f2;
+}
+.dialog__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #111827;
+}
+.dialog__close {
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 6px;
+}
+.dialog__close:hover {
+    background: #f3f4f6;
+}
+.note {
+    padding: 1.5rem 1.2rem;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+.note_error {
+    color: #b91c1c;
+}
+/* search box */
+.search {
+    padding: 0.9rem 1.2rem 0;
+}
+.search__input {
+    width: 100%;
+    box-sizing: border-box;
+    font: inherit;
+    font-size: 0.82rem;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+.search__input:focus {
+    outline: none;
+    border-color: #ff5b04;
+}
+
+/* folder filter bar */
+.folders {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.9rem 1.2rem 0;
+}
+.folders_tags {
+    padding-top: 0.6rem;
+}
+.fchip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 0.28rem 0.6rem;
+    border-radius: 999px;
+    cursor: pointer;
+}
+.fchip_on {
+    border-color: #ff5b04;
+    background: #ff5b04;
+    color: #fff;
+}
+.fchip__count {
+    font-size: 0.68rem;
+    opacity: 0.75;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    padding: 0 0.35rem;
+}
+.fchip_on .fchip__count {
+    background: rgba(255, 255, 255, 0.25);
+}
+.folders__new {
+    border: 1px dashed #cbd5e1;
+    background: #fff;
+    color: #6b7280;
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 0.28rem 0.6rem;
+    border-radius: 999px;
+    cursor: pointer;
+}
+.folders__new:hover {
+    border-color: #ff5b04;
+    color: #ff5b04;
+}
+.folders__manage {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.6rem 1.2rem 0;
+}
+.folders__mbtn {
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0;
+}
+.folders__mbtn:hover {
+    color: #111827;
+}
+.folders__mbtn_danger:hover {
+    color: #b91c1c;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.7rem;
+    padding: 1.2rem;
+}
+.tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.4rem;
+    background: #fafafa;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    transition: border-color 0.12s ease;
+}
+.tile:hover {
+    border-color: #ff5b04;
+}
+.tile__pick {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    line-height: 0;
+}
+.tile__img {
+    width: 100%;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #eee;
+}
+.tile__playbadge {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+.tile__name {
+    font-size: 0.72rem;
+    color: #374151;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tile__folder,
+.tile__tags {
+    width: 100%;
+    box-sizing: border-box;
+    font: inherit;
+    font-size: 0.68rem;
+    color: #6b7280;
+    padding: 0.15rem 0.2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+}
+.tile__tags {
+    cursor: text;
+}
+.tile__tags::placeholder {
+    color: #9ca3af;
+}

@@ -1,0 +1,102 @@
+<template>
+    <div class="backdrop" onclick={handleBackdrop}>
+        <div class="dialog" onclick={stop} role="dialog" aria-label="Choose a file">
+            <div class="dialog__head">
+                <span class="dialog__title">Your files</span>
+                <button type="button" class="dialog__close" title="Close" onclick={close}>✕</button>
+            </div>
+
+            <template lwc:if={loading}>
+                <p class="note">Loading…</p>
+            </template>
+            <template lwc:elseif={error}>
+                <p class="note note_error">{error}</p>
+            </template>
+            <template lwc:elseif={isEmpty}>
+                <p class="note">Nothing here yet — files you upload anywhere in the editor land in this library.</p>
+            </template>
+            <template lwc:else>
+                <div class="search">
+                    <input
+                        type="text"
+                        class="search__input"
+                        placeholder="Search by filename…"
+                        value={searchTerm}
+                        oninput={handleSearch}
+                    />
+                </div>
+                <div class="folders">
+                    <template for:each={folderChips} for:item="c">
+                        <button key={c.id} type="button" class={c.cssClass} data-folder={c.id} onclick={handleFolderSelect}>
+                            {c.label}<span class="fchip__count">{c.count}</span>
+                        </button>
+                    </template>
+                    <button type="button" class="folders__new" onclick={handleNewFolder}>＋ New folder</button>
+                </div>
+                <template lwc:if={activeFolderIsReal}>
+                    <div class="folders__manage">
+                        <button type="button" class="folders__mbtn" onclick={handleRenameFolder}>Rename</button>
+                        <button type="button" class="folders__mbtn folders__mbtn_danger" onclick={handleDeleteFolder}>Delete folder</button>
+                    </div>
+                </template>
+                <template lwc:if={hasTags}>
+                    <div class="folders folders_tags">
+                        <template for:each={tagChips} for:item="t">
+                            <button key={t.tag} type="button" class={t.cssClass} data-tag={t.tag} onclick={handleTagSelect}>
+                                #{t.tag}<span class="fchip__count">{t.count}</span>
+                            </button>
+                        </template>
+                    </div>
+                </template>
+
+                <template lwc:if={folderEmpty}>
+                    <p class="note">Nothing matches here. Try a different folder, tag, or search.</p>
+                </template>
+                <template lwc:else>
+                    <div class="grid">
+                        <template for:each={visibleAssets} for:item="a">
+                            <div key={a.assetId} class="tile">
+                                <button
+                                    type="button"
+                                    class="tile__pick"
+                                    title={a.title}
+                                    data-asset-id={a.assetId}
+                                    data-url={a.url}
+                                    onclick={handlePick}
+                                >
+                                    <template lwc:if={a.isVideo}>
+                                        <video class="tile__img" src={a.url} muted preload="metadata"></video>
+                                        <span class="tile__playbadge">▶</span>
+                                    </template>
+                                    <template lwc:else>
+                                        <img class="tile__img" src={a.url} alt={a.title} loading="lazy" />
+                                    </template>
+                                </button>
+                                <span class="tile__name">{a.title}</span>
+                                <select
+                                    class="tile__folder"
+                                    data-asset-id={a.assetId}
+                                    onchange={handleAssign}
+                                    onclick={stop}
+                                >
+                                    <template for:each={a.folderOptions} for:item="o">
+                                        <option key={o.value} value={o.value} selected={o.selected}>{o.label}</option>
+                                    </template>
+                                </select>
+                                <input
+                                    type="text"
+                                    class="tile__tags"
+                                    placeholder="Tags, comma separated"
+                                    value={a.tagText}
+                                    data-asset-id={a.assetId}
+                                    onclick={stop}
+                                    onchange={handleTagChange}
+                                />
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div>
+</template>

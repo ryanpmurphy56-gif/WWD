@@ -1,0 +1,109 @@
+<template>
+    <div class="cart-container">
+        <h2 class="cart-title">Your Cart</h2>
+
+        <template if:true={isLoading}>
+            <div class="loading-state">
+                <lightning-spinner alternative-text="Loading cart..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:false={isLoading}>
+            <template if:true={qtyMessage}>
+                <p class="qty-message">⚠️ {qtyMessage}</p>
+            </template>
+            <template if:true={hasItems}>
+                <div class="cart-items">
+                    <template for:each={cartItems} for:item="item">
+                        <div key={item.Id} class="cart-item">
+
+                            <div class="item-image">
+                                <img if:true={item.ProductImage} src={item.ProductImage} alt={item.ProductName} />
+                                <img if:false={item.ProductImage}
+                                     src="https://via.placeholder.com/100x100?text=No+Image" alt="Placeholder" />
+                            </div>
+
+                            <div class="item-details">
+                                <h3 class="item-name">{item.ProductName}</h3>
+                                <div class="item-pricing">
+                                    <!-- FIX: formattedRegular, formattedMember, _showMemberPrice
+                                         were all referenced in template but never computed in JS -->
+                                    <template if:true={item._showMemberPrice}>
+                                        <span class="old-price">{item.formattedRegular}</span>
+                                        <span class="member-price">{item.formattedMember}</span>
+                                        <span class="savings">You save {item.formattedSavings}</span>
+                                    </template>
+                                    <template if:false={item._showMemberPrice}>
+                                        <span class="regular-price">{item.formattedActivePrice}</span>
+                                    </template>
+                                </div>
+                                <template if:true={item._packNote}>
+                                    <p class="pack-note">🍺 {item._packNote}</p>
+                                </template>
+                                <template if:true={item._isLowStock}>
+                                    <p class="stock-warning">⚠️ Only {item.QuantityOnHand} left in stock</p>
+                                </template>
+                                <template if:true={item._isOutOfStock}>
+                                    <p class="stock-warning out">❌ Out of stock</p>
+                                </template>
+                            </div>
+
+                            <div class="item-quantity">
+                                <button class="qty-btn" data-id={item.Id} onclick={handleDecrease} aria-label="Decrease quantity">−</button>
+                                <input type="number" class="qty-input" data-id={item.Id}
+                                       value={item._qty} min="1" max={item._maxQty}
+                                       onchange={handleQtyChange} aria-label="Quantity" />
+                                <button class="qty-btn" data-id={item.Id} onclick={handleIncrease}
+                                        disabled={item._atMaxQty} aria-label="Increase quantity">+</button>
+                            </div>
+
+                            <div class="item-total"><span>{item.formattedLineTotal}</span></div>
+
+                            <button class="remove-btn" data-id={item.Id} onclick={handleRemove}>✕</button>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal</span><span>{formattedSubtotal}</span>
+                    </div>
+                    <template if:true={hasMemberSavings}>
+                        <div class="summary-row savings-row">
+                            <span>Member Savings</span><span class="savings">−{formattedTotalSavings}</span>
+                        </div>
+                    </template>
+                    <div class="summary-row total-row">
+                        <span>Total</span><span class="total">{formattedTotal}</span>
+                    </div>
+                    <button class="checkout-btn" onclick={handleCheckout}>Proceed to Checkout</button>
+                    <button class="continue-btn" onclick={handleContinueShopping}>← Continue Shopping</button>
+
+                    <template if:false={confirmingClear}>
+                        <button class="clear-cart-btn" onclick={handleClearCartClick}>
+                            <span class="clear-cart-icon">🗑</span> Clear cart
+                        </button>
+                    </template>
+                    <template if:true={confirmingClear}>
+                        <div class="clear-confirm">
+                            <span class="clear-confirm-text">{clearCartLabel}</span>
+                            <div class="clear-confirm-actions">
+                                <button class="clear-confirm-yes" onclick={handleClearCartConfirm}>Yes, remove all</button>
+                                <button class="clear-confirm-no" onclick={handleClearCartKeep}>Keep items</button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template if:false={hasItems}>
+                <div class="empty-cart">
+                    <div class="empty-icon">🛒</div>
+                    <p class="empty-title">Your cart is empty</p>
+                    <p class="empty-sub">Add some drinks to get started!</p>
+                    <button onclick={handleContinueShopping}>Browse Products</button>
+                </div>
+            </template>
+        </template>
+    </div>
+</template>
