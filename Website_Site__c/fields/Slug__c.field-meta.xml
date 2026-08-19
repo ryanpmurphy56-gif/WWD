@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Slug__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>The site&apos;s readable address name, unique across the org — the part of a public URL that replaces the 18-character record Id. Generated from the business name on first save and renameable from the hub&apos;s Domain card. Uniqueness is enforced by the platform here rather than by Apex, so two sites can never race into the same address. Not required: sites created before G1a have none, and resolution still accepts the record Id. See docs/url-contract.md.</description>
+    <externalId>true</externalId>
+    <inlineHelpText>The readable name used in this site&apos;s public web address. Lowercase letters, numbers and hyphens.</inlineHelpText>
+    <label>Slug</label>
+    <length>60</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

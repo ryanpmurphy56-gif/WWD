@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Websuite_Account__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The WebSuite platform account that owns this site (set when the site is created while that account is logged in). Distinct from the unused legacy Contact__c field — see WebsiteSiteController.createSite.</description>
+    <label>Websuite Account</label>
+    <referenceTo>Websuite_Account__c</referenceTo>
+    <relationshipLabel>Sites</relationshipLabel>
+    <relationshipName>Sites</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

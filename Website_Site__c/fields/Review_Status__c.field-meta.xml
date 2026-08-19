@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Review_Status__c</fullName>
+    <defaultValue>&quot;Not Submitted&quot;</defaultValue>
+    <description>Manual review gate state. A site only reaches Is_Published__c=true through WebsuiteReviewController.approveSite — this field tracks where a draft sits in that process. Not Submitted is the default/reset state after every approval, since a further edit needs its own review.</description>
+    <inlineHelpText>Where this site sits in the manual publish review process.</inlineHelpText>
+    <label>Review Status</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not Submitted</fullName>
+                <default>true</default>
+                <label>Not Submitted</label>
+            </value>
+            <value>
+                <fullName>Pending Review</fullName>
+                <default>false</default>
+                <label>Pending Review</label>
+            </value>
+            <value>
+                <fullName>Changes Requested</fullName>
+                <default>false</default>
+                <label>Changes Requested</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

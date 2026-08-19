@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Public_Site_Path__c</fullName>
+    <description>The classic Site's path prefix on Public_Site_Host__c (docs/url-contract.md §1) — e.g. "testWebsuitevforcesite". Combined with the host to build the live origin ({host}/{path}) that WebsitePublicSite.page hangs off of. Update this record after an org migration instead of touching code, same as Public_Site_Host__c.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Public Site Path</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

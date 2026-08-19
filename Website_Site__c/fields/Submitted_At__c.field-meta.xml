@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Submitted_At__c</fullName>
+    <description>Timestamp of the most recent Submit for Review action. Drives the review queue's ordering (oldest submission first).</description>
+    <inlineHelpText>When this site was last submitted for review.</inlineHelpText>
+    <label>Submitted At</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Session__c</fullName>
+    <deleteConstraint>Cascade</deleteConstraint>
+    <description>The session this revocation applies to. Its existence is what makes the session invalid.</description>
+    <label>Session</label>
+    <referenceTo>Websuite_Account_Session__c</referenceTo>
+    <relationshipLabel>Revocations</relationshipLabel>
+    <relationshipName>Revocations</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

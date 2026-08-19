@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Published_At__c</fullName>
+    <description>When this version was published — mirrors the parent Website_Site__c&apos;s Published_At__c at the moment this snapshot was taken.</description>
+    <inlineHelpText>When this version was published.</inlineHelpText>
+    <label>Published At</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

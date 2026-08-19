@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account__c</fullName>
+    <deleteConstraint>Cascade</deleteConstraint>
+    <description>The account this code was issued to.</description>
+    <label>Account</label>
+    <referenceTo>Websuite_Account__c</referenceTo>
+    <relationshipLabel>Login Codes</relationshipLabel>
+    <relationshipName>Login_Codes</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

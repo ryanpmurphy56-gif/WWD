@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Hero__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When ticked, this company is featured as a hero on the marketing site.</description>
+    <inlineHelpText>Feature this company as a hero on the site.</inlineHelpText>
+    <label>Hero</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

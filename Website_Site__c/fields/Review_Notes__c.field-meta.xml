@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Review_Notes__c</fullName>
+    <description>The reviewer's most recent note — either why changes were requested, or any approval note. Overwritten on each review action; not a history log.</description>
+    <inlineHelpText>Notes from the last review action.</inlineHelpText>
+    <label>Review Notes</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

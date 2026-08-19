@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Config__c</fullName>
+    <description>The full SiteConfig JSON document for this site: meta, theme, pages and sections. The editor is the only writer; treat as opaque JSON, not queryable structured data.</description>
+    <inlineHelpText>Serialized SiteConfig JSON. Edited by the Websuite editor — do not hand-edit.</inlineHelpText>
+    <label>Config</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>30</visibleLines>
+</CustomField>

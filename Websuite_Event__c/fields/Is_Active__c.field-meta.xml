@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Active__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Inactive events stay visible in the editor&apos;s manager but are never returned by getActiveEvents (the guest-facing read). Past events are not auto-hidden — the author toggles this manually, same predictable pattern as every other F8b collection.</description>
+    <label>Is Active</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

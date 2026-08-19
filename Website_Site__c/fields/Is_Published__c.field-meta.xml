@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Published__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>True once this site has been published at least once. Guards the public renderer — an unpublished site (or one that has never been published) must never expose Published_Config__c content or draft content.</description>
+    <inlineHelpText>Whether this site currently has a live published version.</inlineHelpText>
+    <label>Is Published</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
